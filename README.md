@@ -1,1 +1,0 @@
-# OSSP1-TeamkerBell-3
