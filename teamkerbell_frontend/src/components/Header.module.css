@@ -1,0 +1,64 @@
+
+@font-face {
+  font-family: "Free Hand"; /* 수정된 부분 */
+  src: url("../../public/fonts/Freehand-Regular.ttf") format("truetype");
+  /* 폰트 파일의 경로에 주의하세요. */
+  font-weight: 10;
+  font-style: normal;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #8abc9b;
+  border-bottom: 1px solid #ffffff;
+}
+
+.headerQuote {
+  color: #ffffff;
+  font-family: "Free Hand", sans-serif; /* 수정된 부분 */
+  font-size: 32px;
+}
+.logo {
+  font-size: 24px;
+  margin-bottom: 10px; /* 로고와 버튼 사이의 간격 추가 */
+}
+.headerLogo {
+  padding: 20px;
+  width: 280px;
+}
+
+.welcomeNLogout {
+  display: flex;
+  flex-flow: row;
+}
+
+.welcomeMessage {
+  margin-left: 20px;
+  margin: 10px 10px; /* 로그아웃 버튼과의 간격 추가 */
+}
+
+.logoutButton {
+  text-decoration: underline;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: red;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #ffffff;
+  background-color: #8abc9b;
+}
+
+.headerButton {
+  padding: 10px;
+  font-size: 15px;
+  border: none;
+  background-color: #8abc9b;
+  cursor: pointer;
+  margin-bottom: 10px; /* 버튼과 버튼 사이의 간격 추가 */
+}

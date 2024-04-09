@@ -1,0 +1,83 @@
+@font-face {
+  font-family: "Paytone One"; /* 수정된 부분 */
+  src: url("../../public/fonts/PaytoneOne-Regular.ttf") format("truetype");
+  /* 폰트 파일의 경로에 주의하세요. */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Free Hand"; /* 수정된 부분 */
+  src: url("../../public/fonts/Freehand-Regular.ttf") format("truetype");
+  /* 폰트 파일의 경로에 주의하세요. */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gochi Hand"; /* 수정된 부분 */
+  src: url("../../public/fonts/GochiHand-Regular.ttf") format("truetype");
+  /* 폰트 파일의 경로에 주의하세요. */
+  font-weight: normal;
+  font-style: normal;
+}
+
+.container {
+  color: #ffffff;
+  background-color: #8abc9b;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  height: 130vh;
+}
+
+.title {
+  margin: 20px 30px;
+  font-family: "Paytone One", sans-serif; /* 수정된 부분 */
+  font-size: 80px;
+}
+
+.quotes {
+  margin-top: 60px;
+  color: #ffffff;
+  font-family: "Gochi Hand", sans-serif; /* 수정된 부분 */
+  font-size: 32px;
+}
+
+.subtitle {
+  margin-top: 30px;
+  font-family: "Paytone One", sans-serif; /* 수정된 부분 */
+  font-size: 25px;
+  color: #026423;
+}
+
+.form {
+  margin-top: 20px;
+}
+
+.input {
+  width: 40%;
+  padding: 15px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.button {
+  width: 40%;
+  padding: 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  background-color: #026423;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #45a049;
+  box-shadow: inset 0px 0px 0px 1px;
+}
