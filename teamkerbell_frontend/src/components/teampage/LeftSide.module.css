@@ -1,0 +1,60 @@
+@font-face {
+  font-family: "SecularOne";
+  src: url("../../../public/fonts/SecularOne-Regular.ttf") format("truetype");
+  font-weight: 10;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+    format("woff");
+  /*웹폰트 사용*/
+  font-weight: normal;
+  font-style: normal;
+}
+.LeftSide {
+  display: flex;
+  flex-flow: row;
+  flex-basis: 100%;
+  list-style: none;
+  margin: auto;
+  display: block; /* 버튼 가운데 정렬*/
+}
+
+.category {
+  padding: 30px;
+  font-size: 30px;
+  background-color: white;
+  border: none; /* 테두리 삭제 */
+  margin-left: 0px;
+  font-family: NanumSquareRound;
+}
+
+.teampage {
+  padding: 20px;
+  display: flex;
+  margin: 0px;
+  margin: auto;
+  display: block; /* 버튼 가운데 정렬*/
+  border: 10px;
+
+  font-size: 40px;
+  color: #006322;
+  background-color: #ffffff;
+  text-align: center;
+  font-family: "SecularOne";
+}
+.menu {
+  background-color: #ffffff;
+}
+.icon {
+  block-size: 50px;
+  padding: 20px;
+  margin-left: 150px;
+  text-align: center;
+}
+
+.categoryContainer {
+  display: flex;
+  align-items: center; /* 이미지와 버튼 높이 맞춤 */
+}

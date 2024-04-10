@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+}
+
+.left {
+  display: flex;
+  flex-flow: row;
+  flex-basis: 25%;
+}
+
+.main {
+  display: flex;
+  flex-flow: row;
+  flex-basis: 75%;
+  border-left: 3px solid #858585;
+}

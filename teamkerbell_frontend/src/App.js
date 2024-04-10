@@ -5,15 +5,17 @@ import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
 import MainPage from "./pages/main";
 import Header from "./components/Header";
+import TeamTool from "./pages/teamtool"
 
 function App() {
   return (
     <BrowserRouter>
-    <Header/>
+      <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/teamtool" element={<TeamTool />} />
       </Routes>
     </BrowserRouter>
   );
