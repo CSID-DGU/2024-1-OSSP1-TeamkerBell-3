@@ -16,7 +16,9 @@ const Header = () => {
 
         <div className={styles.welcomeNLogout}>
           <p className={styles.welcomeMessage}>홍규진님 반갑습니다! </p>
-          <button className={styles.logoutButton}>로그아웃</button>
+          <Link to="/login" className={styles.logoutLink}>
+            <button className={styles.logoutButton}>로그아웃</button>
+          </Link>
         </div>
       </div>
 

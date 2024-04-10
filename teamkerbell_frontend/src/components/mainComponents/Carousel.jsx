@@ -31,10 +31,10 @@ const Carousel = ({ images }) => {
         ))}
       </div>
       <button className={styles.prevButton} onClick={goToPrevSlide}>
-        Prev
+        {"<"}
       </button>
       <button className={styles.nextButton} onClick={goToNextSlide}>
-        Next
+      {">"}
       </button>
       <div className={styles.dots}>
         {images.map((_, index) => (
