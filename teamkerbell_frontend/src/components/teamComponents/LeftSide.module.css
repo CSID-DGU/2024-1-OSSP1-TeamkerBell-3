@@ -27,7 +27,7 @@
   background-color: white;
   border: none; /* 테두리 삭제 */
   margin-left: 0px;
-  font-family: NanumSquareRound;
+  font-family: "NanumSquareRound", sans-serif;
 }
 
 .teampage {

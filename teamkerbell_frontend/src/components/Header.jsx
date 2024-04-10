@@ -13,7 +13,7 @@ const Header = () => {
             className={styles.headerLogo}
           />
         </Link>
-        <p className={styles.headerQuote}>All it takes is faith and trust.</p>
+
         <div className={styles.welcomeNLogout}>
           <p className={styles.welcomeMessage}>홍규진님 반갑습니다! </p>
           <button className={styles.logoutButton}>로그아웃</button>

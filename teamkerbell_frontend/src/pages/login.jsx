@@ -20,7 +20,9 @@ const MainPage = () => {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>TeamkerBell</h2>
-      <h3 className={styles.quotes}>You still have enough time to make your dream come true.</h3>
+      <h3 className={styles.quotes}>
+        You still have enough time to make your dream come true.
+      </h3>
       <h3 className={styles.subtitle}>로그인</h3>
       <form className={styles.form}>
         <input

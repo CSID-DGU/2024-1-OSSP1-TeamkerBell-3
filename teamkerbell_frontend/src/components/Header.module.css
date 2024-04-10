@@ -6,18 +6,26 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Gochi Hand"; /* 수정된 부분 */
+  src: url("../../public/fonts/GochiHand-Regular.ttf") format("truetype");
+  /* 폰트 파일의 경로에 주의하세요. */
+  font-weight: 10;
+  font-style: normal;
+}
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #8abc9b;
-  border-bottom: 1px solid #ffffff;
+  background-color: #ffffff;
+  border-bottom: 1px solid #000000;
 }
 
 .headerQuote {
-  color: #ffffff;
-  font-family: "Free Hand", sans-serif; /* 수정된 부분 */
-  font-size: 32px;
+  color: #000000;
+  font-family: "Gochi Hand", sans-serif; /* 수정된 부분 */
+  font-size: 52px;
 }
 .logo {
   font-size: 24px;
