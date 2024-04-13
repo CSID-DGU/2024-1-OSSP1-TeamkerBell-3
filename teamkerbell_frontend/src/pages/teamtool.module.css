@@ -7,12 +7,12 @@
 .left {
   display: flex;
   flex-flow: row;
-  flex-basis: 25%;
+  flex-basis: 15%;
 }
 
 .main {
   display: flex;
   flex-flow: row;
-  flex-basis: 75%;
+  flex-basis: 85%;
   border-left: 3px solid #858585;
 }
