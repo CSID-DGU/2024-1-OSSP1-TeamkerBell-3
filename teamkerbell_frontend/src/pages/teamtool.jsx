@@ -8,16 +8,14 @@ const TeamTool = () => {
     <div className={styles.container}>
       <div className={styles.left}>
         <LeftSide />
-        <Left />
       </div>
       <div className={styles.main}>
-        <Main />
+        <div className={styles.title}>
+          <h1>TEAM PAGE base</h1>
+        </div>
       </div>
     </div>
   );
 };
-
-const Left = () => {};
-const Main = () => {};
 
 export default TeamTool;

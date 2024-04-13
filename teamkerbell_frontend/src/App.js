@@ -6,6 +6,7 @@ import RegisterPage from "./pages/register";
 import MainPage from "./pages/main";
 import Header from "./components/Header";
 import TeamTool from "./pages/teamtool";
+import Teampage_Tool from "./pages/teampage_tool";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/teamtool" element={<TeamTool />} />
+        <Route path="/teamtool/option1" element={<Teampage_Tool />} />
       </Routes>
     </BrowserRouter>
   );

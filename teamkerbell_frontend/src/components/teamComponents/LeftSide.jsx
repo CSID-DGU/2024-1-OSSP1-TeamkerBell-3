@@ -1,6 +1,8 @@
 import styles from "./LeftSide.module.css";
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { switchedState } from "../../atoms";
 
 import { ReactComponent as Tool } from "./team_icon/tool.svg";
 import { ReactComponent as ContestInfo } from "./team_icon/contestInfo.svg";
@@ -30,9 +32,8 @@ const LeftSide = ({}) => {
     Report,
     End,
   ];
-  const [switched, setSwitched] = useState(
-    Array(categories.length).fill(false)
-  );
+  const [switched, setSwitched] = useRecoilState(switchedState);
+
   const onClick = (index) => {
     const updateButton = switched.map((value, num) =>
       num === index ? !value : value
@@ -40,7 +41,7 @@ const LeftSide = ({}) => {
     /*번호가 일치하면 반전, 나머지 버튼은 유지*/
 
     setSwitched(updateButton);
-    /* 누른 버튼 활성화 */
+    /*누른 버튼 활성화*/
   };
 
   return (

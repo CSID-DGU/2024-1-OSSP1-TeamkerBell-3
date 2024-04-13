@@ -25,12 +25,12 @@
   display: flex;
   flex-flow: column;
   padding: 30px;
-  font-size: 28px;
   background-color: white;
   color: #999999;
   border: none; /* 테두리 삭제 */
   margin-right: auto;
   font-family: "NanumSquareRound", sans-serif;
+  font-size: 15px;
   cursor: pointer; /* 버튼 커서 활성화 */
 }
 
@@ -39,7 +39,7 @@
   margin: auto;
   display: block; /* 버튼 가운데 정렬*/
   border: 10px;
-  font-size: 45px;
+  font-size: 30px;
   color: #006322;
   background-color: #ffffff;
   text-align: center;
@@ -69,7 +69,7 @@
   display: flex;
   flex-flow: column;
   padding: 30px;
-  font-size: 28px;
+  font-size: 17px;
   background-color: white;
   color: black;
   border: none; /* 테두리 삭제 */
