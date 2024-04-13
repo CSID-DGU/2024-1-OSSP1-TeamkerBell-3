@@ -1,0 +1,36 @@
+.compDetail {
+
+    padding-top: 100px;
+    padding-left: 100px;
+    padding-right: 20px;
+    margin: 10px;
+    width: 90%;
+    text-align: center; 
+}
+
+
+  
+.image {
+  float:left;
+  padding-left: 100px;
+  width: 500px;
+  height: 500px;
+  vertical-align: middle;
+}
+
+.title {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 2rem;
+  margin-top: 20px;
+  color: #044018;
+}
+
+.description {
+  float:right;
+  margin-top: 10px;
+  font-size:1rem;
+}
+
+
+ 
