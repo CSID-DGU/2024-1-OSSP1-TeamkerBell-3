@@ -6,7 +6,7 @@ import RegisterPage from "./pages/register";
 import MainPage from "./pages/main";
 import Header from "./components/Header";
 import TeamTool from "./pages/teamtool";
-import Matching from "./pages/matching"
+import CompMatching from "./pages/compmatching"
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/matching" element={<Matching />} />
+        <Route path="/compmatching" element={<CompMatching />} />
         <Route path="/teamtool" element={<TeamTool />} />
       </Routes>
     </BrowserRouter>
