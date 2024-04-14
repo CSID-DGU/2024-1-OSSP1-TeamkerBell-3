@@ -1,0 +1,52 @@
+@font-face {
+    font-family: "NanumSquareRoundB"; /* Bold */
+    font-weight: normal;
+    src: url("../../../public/fonts/NanumSquareRoundB.ttf") format("truetype");
+  }
+  
+
+@font-face {
+    font-family: "NanumSquareRoundR"; /* Regular */
+    font-weight: normal;
+    src: url("../../../public/fonts/NanumSquareRoundR.ttf") format("truetype");
+  }
+
+.askMatchingContainer{
+    margin-top:100px;
+}
+
+.line{
+    color: #858585;
+    width:1500px;
+}
+
+.matchingContent{
+    text-align: center;
+}
+
+.matchingQuestion{
+    font-family: "NanumSquareRoundB";
+    font-size:3rem;
+}
+
+.nowMatching{
+    font-family: "NanumSquareRoundR";
+    font-size:2rem;
+}
+
+.matchingButtons{
+    margin-top: 50px;
+    width:100%;
+    display:flex;
+    justify-content: space-evenly;
+}
+
+.matchingButton{
+    border: solid 2px #026423;
+    color: #026423;
+    font-family: "NanumSquareRoundB";
+    font-size:2rem;
+    width: 650px;
+    height: 70px;
+    background-color: #FFFFFF;
+}
