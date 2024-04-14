@@ -7,6 +7,7 @@ import MainPage from "./pages/main";
 import Header from "./components/Header";
 import TeamTool from "./pages/teamtool";
 import CompMatching from "./pages/compmatching"
+import CompReviews from "./pages/reviews"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/compmatching" element={<CompMatching />} />
+        <Route path="/compmatching/reviews" element={<CompReviews />} />
         <Route path="/teamtool" element={<TeamTool />} />
       </Routes>
     </BrowserRouter>

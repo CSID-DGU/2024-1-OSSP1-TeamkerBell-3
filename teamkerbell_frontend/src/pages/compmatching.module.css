@@ -1,0 +1,66 @@
+@font-face {
+  font-family: "NanumSquareRoundEB"; /* Extra Bold */
+  font-weight: normal;
+  src: url("../../public/fonts/NanumSquareRoundEB.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "NanumGothic"; /* Regular */
+  font-weight: normal;
+  src: url("../../public/fonts/NanumGothic.ttf") format("truetype");
+}
+
+.compDetailContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* 화면의 100%를 차지하도록 설정 */
+  justify-content: space-between; /* 각 카테고리를 좌우로 균등하게 배치 */
+  height: auto;
+}
+
+.reviewContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 20px; 
+  margin-left: 80px;
+  
+}
+
+.reviewHeader{
+  display:flex;
+  width: 95%; 
+  justify-content: space-between; 
+  align-items: baseline;
+}
+
+.reviewTitle {
+  display:flex;
+  font-size: 3rem;
+  font-family: "NanumSquareRoundEB";
+  margin-top: 15px;
+  margin-left:50px;
+  color: #044018;
+  
+  
+}
+
+.moreReviews{
+  display:flex;
+  font-size:1rem;
+  font-family: "NanumGothic";
+  margin-right: 150px; 
+  text-decoration-color: none;
+  
+}
+
+.reviews{
+  justify-content: center;
+}
+
+
+
+
+
+

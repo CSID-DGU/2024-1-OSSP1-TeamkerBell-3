@@ -21,7 +21,6 @@ const CompDetail = ({ image, title, period, daycount, organization, theme, quali
                 </div>
             </div>
           </li>
-          
           <li>기관: {organization}</li>
           <li>공모 주제: {theme}</li>
           <li>지원 자격: {qualification}</li>
@@ -32,14 +31,14 @@ const CompDetail = ({ image, title, period, daycount, organization, theme, quali
                     <div key={index}>{award}</div>
                 ))}
             </div>
-            </li>
+          </li>
           <li>문의 사항: {inquiry}</li>
           <li>
             자세히 보기
             <div>
                 <a href = {link}>{link}</a>
             </div>
-          </li>
+           </li>
 
         </ul>
       </div>
