@@ -1,0 +1,25 @@
+.oneReviewContainer{
+    display:flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 100px;
+    margin-right: 100px;
+    padding: 1rem;
+    width:75%;
+    background-color: #f4f4f4; 
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+    
+
+}
+
+.profile{
+    margin: 10px;
+    flex-grow: 0;
+}
+
+.content{
+    margin:10px;
+    flex-grow: 1;
+    padding: 0 1rem;
+}

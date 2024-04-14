@@ -1,0 +1,57 @@
+@font-face {
+  font-family: "NanumSquareRoundB"; /* Bold */
+  font-weight: normal;
+  src: url("../../public/fonts/NanumSquareRoundB.ttf") format("truetype");
+}
+
+.line{
+  margin: 0 auto 50px;
+  color: #858585;
+  width:1500px;
+
+}
+
+.reviewContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 20px; 
+    margin-left: 80px;
+    
+  }
+  
+  .reviewHeader{
+    display:flex;
+    width: 95%; 
+    justify-content: space-between; 
+    align-items: baseline;
+  }
+  
+  .reviewTitle {
+    display:flex;
+    font-size: 3rem;
+    font-family: "NanumSquareRoundEB";
+    margin-top: 15px;
+    margin-left:50px;
+    color: #044018;
+    
+    
+  }
+  
+  .backBtn{
+    display:flex;
+    align-items: center;
+  }
+
+  .backwords{
+    text-decoration: none;
+    font-family: "NanumSquareRoundB";
+    font-size:2rem;
+    margin-right: 150px; 
+    color: #044018;
+  }
+  
+  .reviews{
+    justify-content: center;
+  }
+  
