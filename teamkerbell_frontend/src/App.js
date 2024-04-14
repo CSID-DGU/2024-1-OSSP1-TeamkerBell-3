@@ -5,8 +5,9 @@ import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
 import MainPage from "./pages/main";
 import Header from "./components/Header";
-import TeamTool from "./pages/teamtool";
-import Teampage_Tool from "./pages/teampage_tool";
+import Team from "./pages/team";
+import Team_Tool from "./pages/team_tool";
+import Teampage_Tool_detail1 from "./pages/team_tool_op1"
 
 function App() {
   return (
@@ -18,8 +19,9 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/teamtool" element={<TeamTool />} />
-        <Route path="/teamtool/option1" element={<Teampage_Tool />} />
+        <Route path="/team" element={<Team />} />
+        <Route path="/team/option1" element={<Team_Tool />} />
+        <Route path="/team/option1/detail1" element={<Teampage_Tool_detail1 />} />
       </Routes>
     </BrowserRouter>
   );

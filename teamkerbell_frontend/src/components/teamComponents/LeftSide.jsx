@@ -46,7 +46,7 @@ const LeftSide = ({}) => {
 
   return (
     <container className={styles.LeftSide}>
-      <div className={styles.left}>
+      <div>
         <p className={styles.teampage}> TeamPage </p>
 
         {categoryComponents.map((Category, index) => (
@@ -56,7 +56,7 @@ const LeftSide = ({}) => {
             />
             {/* react 컴포넌트 svg 매핑 */}
 
-            <Link to={`/teamtool/option${index + 1}`} className={styles.link}>
+            <Link to={`/team/option${index + 1}`} className={styles.link}>
               {/*클릭시 해당 옵션 링크로 이동,
               <Link> 태그 제거시 클릭시 색 바뀌는 것 확인 가능*/}
 

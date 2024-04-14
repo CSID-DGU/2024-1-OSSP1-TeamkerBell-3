@@ -1,9 +1,8 @@
-// src/teamtool.js
+// src/team/option1.js
 import React from "react";
-import styles from "./teampage_tool.module.css";
+import styles from "./team_tool.module.css";
 import LeftSide from "../components/teamComponents/LeftSide";
-
-const DUMMY_IMAGES = ["../../comp_exxample.jpeg", "../../comp_exxample.jpeg"];
+import { Link } from "react-router-dom";
 
 //가이드라인 데이터
 const GuideDummy = [
@@ -44,11 +43,19 @@ const TeamTool = () => {
             <div className={styles.box}>
               <img className={styles.img} src={guide.image} alt={guide.title} />
               <div className={styles.text}>
-                <h2 className={styles.boxtitle}>{guide.title}</h2>
+                <div className={styles.boxtop}>
+                  <h2 className={styles.boxtitle}>{guide.title}</h2>
+                  <Link
+                    to={`/team/option${index + 1}/detail${index + 1}`}
+                    className={styles.link}
+                  >
+                    <button className={styles.detailbutton}>자세히보기</button>
+                  </Link>
+                </div>
                 <hr className={styles.boxline} />
 
-                <ul>
-                  {guide.description.map((desc, descIndex) => (
+                <ul className={styles.boxdescrip}>
+                  {guide.description.map((desc) => (
                     <li className={styles.boxdescrip}>{desc}</li>
                   ))}
                 </ul>

@@ -1,6 +1,6 @@
-// src/teamtool.js
+// src/team.js
 import React from "react";
-import styles from "./teamtool.module.css";
+import styles from "./team.module.css";
 import LeftSide from "../components/teamComponents/LeftSide";
 
 const TeamTool = () => {
