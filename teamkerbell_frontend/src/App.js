@@ -8,26 +8,29 @@ import Header from "./components/Header";
 
 import Team from "./pages/team";
 import Team_Tool from "./pages/team_tool";
-import Teampage_Tool_detail1 from "./pages/team_tool_op1"
-import CompMatching from "./pages/compmatching"
-import CompReviews from "./pages/reviews"
+import Teampage_Tool_detail1 from "./pages/team_tool_op1";
+import CompMatching from "./pages/compmatching";
+import CompReviews from "./pages/reviews";
 
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
-      <Header />
+
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/team" element={<Team />} />
         <Route path="/team/option1" element={<Team_Tool />} />
-        <Route path="/team/option1/detail1" element={<Teampage_Tool_detail1 />} />
+        <Route
+          path="/team/option1/detail1"
+          element={<Teampage_Tool_detail1 />}
+        />
         <Route path="/compmatching" element={<CompMatching />} />
         <Route path="/compmatching/reviews" element={<CompReviews />} />
-        <Route path="/teamtool" element={<TeamTool />} />
       </Routes>
     </BrowserRouter>
   );
