@@ -2,10 +2,10 @@
 from django.contrib import admin
 from django.urls import path
 
-from .views import getUser, getUserForId
+from .views import createUser, getUserForId
 
 urlpatterns = [
-    path('', getUser),
+    path('register', createUser),
     path('<int:id>/', getUserForId)
 ]
     

@@ -4,14 +4,14 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .serializers import userSerializer
-from .models import User
+from .models import BasicUser
 
 
 
 @api_view(['GET','POST'])
-def getUser(request):
+def createUser(request):
     if request.method == 'GET':
-        query = User.objects.all()
+        query = BasicUser.objects.all()
         serializer = userSerializer(query,many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
@@ -25,8 +25,8 @@ def getUser(request):
 @api_view(['GET','PUT','DELETE'])
 def getUserForId(request,id):
     try:
-        query = User.objects.get(id=id)
-    except User.DoesNotExist:
+        query = BasicUser.objects.get(id=id)
+    except BasicUser.DoesNotExist:
         return Response({'error' : {
         'code' : 404,
         'message' : "Article not found!"
