@@ -1,12 +1,14 @@
 import React from "react";
-import styles from "./compmatching.module.css";
+import styles from "./comp.module.css";
 import CompDetail from "../components/matchingComponents/CompDetail"; // CompDetail 컴포넌트 import
 import ReviewCard from "../components/matchingComponents/ReviewCard"; // ReviwCard 컴포넌트 import
 import AskMatching from "../components/matchingComponents/AskMatchingComponent"; //AskMatching 컴포넌트 import
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const CompMatching = () => {
   //공모전 상세 내용
+  const { compId } = useParams();
+
   const DUMMY_COMP_DETAIL = {
     image: "../../comp_example.jpeg",
     title: "생성형 AI 이미지 활용 공모전",
@@ -50,7 +52,7 @@ const CompMatching = () => {
       <div className={styles.reviewContainer}>
         <div className={styles.reviewHeader}>
           <h2 className={styles.reviewTitle}>공모전 후기</h2>
-          <Link to="/compmatching/reviews" className={styles.moreReviews}>
+          <Link to={`/comp/${compId}/reviews`} className={styles.moreReviews}>
             더보기
           </Link>
         </div>

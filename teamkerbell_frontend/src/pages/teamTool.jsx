@@ -1,6 +1,6 @@
 // src/team/option1.js
 import React from "react";
-import styles from "./team_tool.module.css";
+import styles from "./teamTool.module.css";
 import LeftSide from "../components/teamComponents/LeftSide";
 import { Link } from "react-router-dom";
 

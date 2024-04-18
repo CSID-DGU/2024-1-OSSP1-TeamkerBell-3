@@ -2,9 +2,10 @@ import React from "react";
 import styles from "./main.module.css";
 import Carousel from "../components/mainComponents/Carousel";
 import CompCard from "../components/mainComponents/CompCard"; // CompCard 컴포넌트 import
+import { Link } from "react-router-dom";
 
 const MainPage = () => {
-  const DUMMY_IMAGES = [
+  const DUMMY_CAROUSEL_IMAGES = [
     "../../comp_example.jpeg",
     "../../comp_example.jpeg",
     "../../comp_example.jpeg",
@@ -13,6 +14,7 @@ const MainPage = () => {
   // 공모전 목록 데이터
   const DUMMY_COMP = [
     {
+      id: 0,
       image: "../../comp_example.jpeg",
       title: "생성형 AI 이미지 활용 공모전",
       description:
@@ -20,6 +22,7 @@ const MainPage = () => {
       jobs: ["프론트엔드", "백엔드", "기획", "디자인"],
     },
     {
+      id: 1,
       image: "../../comp_example.jpeg",
       title: "생성형 AI 이미지 활용 공모전",
       description:
@@ -27,6 +30,7 @@ const MainPage = () => {
       jobs: ["프론트엔드", "백엔드", "기획", "디자인"],
     },
     {
+      id: 2,
       image: "../../comp_example.jpeg",
       title: "생성형 AI 이미지 활용 공모전",
       description:
@@ -34,6 +38,7 @@ const MainPage = () => {
       jobs: ["프론트엔드", "백엔드", "기획", "디자인"],
     },
     {
+      id: 3,
       image: "../../comp_example.jpeg",
       title: "생성형 AI 이미지 활용 공모전",
       description:
@@ -49,7 +54,7 @@ const MainPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.carouselContainer}>
-        <Carousel images={DUMMY_IMAGES} />
+        <Carousel images={DUMMY_CAROUSEL_IMAGES} />
       </div>
 
       <h2>공모전 목록</h2>
@@ -63,13 +68,15 @@ const MainPage = () => {
 
       <div className={styles.competitionsContainer}>
         {DUMMY_COMP.map((competition, index) => (
-          <CompCard
-            key={index}
-            image={competition.image}
-            title={competition.title}
-            description={competition.description}
-            jobs={competition.jobs}
-          />
+          <Link to={`/comp/${competition.id}`} className={styles.comp}>
+            <CompCard
+              key={index}
+              image={competition.image}
+              title={competition.title}
+              description={competition.description}
+              jobs={competition.jobs}
+            />
+          </Link>
         ))}
       </div>
     </div>
