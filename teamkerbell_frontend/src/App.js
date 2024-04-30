@@ -11,18 +11,16 @@ import TeamTool from "./pages/teamTool";
 import Teampage_Tool_detail1 from "./pages/team_tool_op1";
 import CompMatching from "./pages/comp";
 import CompReviews from "./pages/reviews";
-
+import Mypage from "./pages/mypage";
 function App() {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
+        <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-      </Routes>
-
-      <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/mypage" element={<Mypage />} />
         <Route path="/team" element={<Team />} />
         <Route path="/team/option1" element={<TeamTool />} />
         <Route

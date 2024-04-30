@@ -25,9 +25,15 @@ const Header = () => {
       <div className={styles.buttonContainer}>
         <p></p>
         <p></p>
-        <button className={styles.headerButton}>공모전</button>
+        <Link to="/">
+          <button className={styles.headerButton}>공모전</button>
+        </Link>
+
         <button className={styles.headerButton}>팀찾기</button>
-        <button className={styles.headerButton}>마이페이지</button>
+        <Link to="/mypage">
+          <button className={styles.headerButton}>마이페이지</button>
+        </Link>
+
         <button className={styles.headerButton}>팀커벨 소개</button>
         <p></p>
         <p></p>
