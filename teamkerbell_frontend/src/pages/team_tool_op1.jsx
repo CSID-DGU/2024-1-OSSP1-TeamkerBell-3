@@ -2,6 +2,7 @@
 import React from "react";
 import styles from "./team_tool_op1.module.css";
 import LeftSide from "../components/teamComponents/LeftSide";
+import { Link } from "react-router-dom";
 
 const TeamTool = () => {
   return (
@@ -28,6 +29,12 @@ const TeamTool = () => {
             <Content />
           </div>
         </div>
+        <div>
+          <Link to={`/team/option1/`} className={styles.link}>
+            <button className={styles.backbutton}>목록</button>
+          </Link>
+          {/*목록으로 돌아가는 버튼*/}
+        </div>
       </div>
     </div>
   );
@@ -46,7 +53,7 @@ const Content = () => {
           <ul>
             {Descrip[Tindex].map((Dcontent, Dindex) => (
               <li key={Dindex}>
-                {Dcontent} {/* 해당하는 Descrip의 요소를 출력합니다. */}
+                {Dcontent} {/* 해당하는 Descrip의 요소를 출력 */}
               </li>
             ))}
           </ul>
