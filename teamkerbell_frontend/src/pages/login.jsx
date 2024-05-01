@@ -1,12 +1,13 @@
 // src/Login.js
 import React, { useState } from "react";
 import styles from "./login.module.css";
+import { Link } from "react-router-dom";
 
 const MainPage = () => {
   const [registerId, setRegisterId] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
 
-  const handleRegisterButton = (e) => {
+  const handleLoginButton = (e) => {
     e.preventDefault();
     if (!registerId || !registerPassword) {
       alert("모든 필드를 입력해주세요.");
@@ -16,6 +17,11 @@ const MainPage = () => {
     console.log("로그인 중....");
     console.log("아이디: ", registerId);
     console.log("비밀번호: ", registerPassword);
+  };
+
+  const handleRegisterButton = (e) => {
+    e.preventDefault();
+    console.log("회원가입 페이지로 이동");
   };
 
   return (
@@ -49,10 +55,16 @@ const MainPage = () => {
         <button
           type="submit"
           className={styles.button}
-          onClick={handleRegisterButton}
+          onClick={handleLoginButton}
         >
           로그인
         </button>
+        <br />
+        <Link to={`/register`}>
+          <button type="submit" className={styles.button}>
+            회원가입 창으로 이동
+          </button>
+        </Link>
       </form>
     </div>
   );

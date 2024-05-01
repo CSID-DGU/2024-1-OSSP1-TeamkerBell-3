@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { switchedState } from "../../atoms";
 
-import { ReactComponent as Tool } from "./team_icon/tool.svg";
-import { ReactComponent as ContestInfo } from "./team_icon/contestInfo.svg";
-import { ReactComponent as End } from "./team_icon/end.svg";
-import { ReactComponent as Finish } from "./team_icon/finish.svg";
-import { ReactComponent as MemberInfo } from "./team_icon/memberInfo.svg";
-import { ReactComponent as Progress } from "./team_icon/progress.svg";
-import { ReactComponent as Report } from "./team_icon/report.svg";
+import { ReactComponent as Tool } from "../../stores/team_icon/tool.svg";
+import { ReactComponent as ContestInfo } from "../../stores/team_icon/contestInfo.svg";
+import { ReactComponent as End } from "../../stores/team_icon/end.svg";
+import { ReactComponent as Finish } from "../../stores/team_icon/finish.svg";
+import { ReactComponent as MemberInfo } from "../../stores/team_icon/memberInfo.svg";
+import { ReactComponent as Progress } from "../../stores/team_icon/progress.svg";
+import { ReactComponent as Report } from "../../stores/team_icon/report.svg";
 
 const LeftSide = ({}) => {
   const categories = [

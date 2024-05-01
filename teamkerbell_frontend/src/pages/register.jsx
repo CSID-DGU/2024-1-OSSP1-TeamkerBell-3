@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import styles from "./register.module.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const RegisterPage = () => {
   const [registerId, setRegisterId] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
@@ -85,6 +86,12 @@ const RegisterPage = () => {
         >
           회원가입
         </button>
+        <br />
+        <Link to={`/login`}>
+          <button type="submit" className={styles.button}>
+            로그인 창으로 이동
+          </button>
+        </Link>
       </form>
     </div>
   );
