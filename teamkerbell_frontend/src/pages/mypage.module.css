@@ -17,3 +17,8 @@
   padding-left: 40px;
   border-left: 3px solid #858585;
 }
+
+.resumeContainer {
+  display: flex;
+  flex-wrap: wrap;
+}

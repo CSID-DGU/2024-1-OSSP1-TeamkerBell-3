@@ -1,0 +1,125 @@
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+    format("woff");
+  /*웹폰트 사용*/
+  font-weight: normal;
+  font-style: normal;
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.redColor {
+  color: red;
+  margin-top: 18px;
+}
+.redColorNoMargin {
+  color: red;
+}
+.basicInfo {
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+}
+.infoName {
+  display: flex;
+}
+.noMargin {
+  margin-top: 0px;
+}
+.redColorNoMargin {
+  margin-top: 0px;
+}
+.basicInfo img {
+  width: 250px;
+  height: 400px;
+  display: flex;
+  flex-direction: row;
+}
+.nameToPhoneNumber {
+  width: 100%;
+  margin-left: 40px;
+}
+.infoItem form input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid black;
+}
+
+.backjoonItem form input {
+  width: 60%;
+  height: 40px;
+  border: 1px solid black;
+}
+
+.backjoonItem button {
+  width: 35%;
+  height: 45px;
+  border: 1px solid black;
+  background-color: rgb(2, 100, 35);
+  color: white;
+}
+
+.introduceMyself form input {
+  width: 95%;
+  height: 200px;
+  text-align: left; /* 텍스트를 왼쪽으로 정렬 */
+  vertical-align: top; /* 텍스트를 상단에 정렬 */
+}
+
+.github form input {
+  width: 95%;
+  height: 45px;
+}
+
+.editprofilebuttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+/* Existing CSS */
+
+.profileButton {
+  width: 96%;
+  font-family: "NanumSquareRound", sans-serif;
+  font-size: 45px;
+  margin-top: 20px;
+  border: none;
+  background-color: #8abc9b;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 10px; /* 버튼과 버튼 사이의 간격 추가 */
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
+}
+
+.editprofileCancleButton {
+  margin-top: 100px;
+  background-color: #ffffff;
+  color: #026423;
+  font-size: 30px;
+  padding: 10px 100px;
+  border: 2px solid #026423;
+  border-radius: 10px;
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
+}
+
+.editprofileSaveButton {
+  margin-top: 100px;
+  background-color: #026423;
+  color: white;
+  font-size: 30px;
+  padding: 10px 110px;
+  border: 0px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
+}
+
+/* Hover effects */
+
+.profileButton:hover,
+.editprofileCancleButton:hover,
+.editprofileSaveButton:hover {
+  background-color: #6faa86; /* Change background color on hover */
+}

@@ -17,7 +17,6 @@
   flex-flow: row;
   flex-basis: 100%;
   list-style: none;
-  margin: auto;
   display: block; /* 버튼 가운데 정렬*/
 }
 
