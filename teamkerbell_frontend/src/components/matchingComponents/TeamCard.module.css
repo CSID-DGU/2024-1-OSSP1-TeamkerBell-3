@@ -1,0 +1,90 @@
+@font-face {
+    font-family: "NanumSquareNeo-cBd"; /* Bold */
+    font-weight: normal;
+    src: url("../../../public/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
+  }
+
+@font-face {
+    font-family: "NanumSquareRoundR"; /* Regular */
+    font-weight: normal;
+    src: url("../../../public/fonts/NanumSquareRoundR.ttf") format("truetype");
+}
+
+.teamCard {
+    display:grid;
+    grid-template-columns: 1fr 2fr;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top:20px;
+    margin-left:140px;
+    margin-right:150px;
+    width: 83%;
+    text-decoration: none;
+    text-align: left;
+
+}
+
+.profile {
+    margin:10px;
+    justify-content: center;
+    text-align: center;
+    font-size:1.5rem;
+}
+
+.image{
+    margin:0px;
+}
+
+.writer {
+    margin:0px;
+}
+
+.dday {
+    font-weight: 700;
+    font-size:3.3rem;
+    color: #CE0C0C;
+    margin:0px;
+}
+
+.title {
+    margin-top:50px;
+    justify-content: left;
+    font-size: 1.8rem;
+    font-family: "NanumSquareNeo-cBd";
+    text-decoration: underline #858585;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 20px;
+}
+
+.subdescription{
+    font-size:1.2rem;
+    margin-top:30px;
+    margin-left:5px;
+
+}
+
+.content{
+    font-weight: bold;
+    margin:10px;
+}
+
+.membernum{
+    display:inline;
+    margin-top:15px;
+
+}
+
+.startdate{
+    display:block;
+    margin-top:15px;
+
+}
+
+.jobs {
+    margin-top:15px;
+}
+
+.languages{
+    margin-top:15px;
+
+}

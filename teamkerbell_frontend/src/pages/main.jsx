@@ -55,6 +55,8 @@ const MainPage = () => {
     <div className={styles.container}>
       <div className={styles.carouselContainer}>
         <Carousel images={DUMMY_CAROUSEL_IMAGES} />
+        100
+        ?
       </div>
 
       <h2>공모전 목록</h2>

@@ -1,11 +1,13 @@
 import React from "react";
 import styles from "./reviews.module.css";
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import CompDetail from "../components/matchingComponents/CompDetail"; // CompDetail 컴포넌트 import
 import ReviewCard from "../components/matchingComponents/ReviewCard"; // ReviewCard 컴포넌트 import
 
 
 const CompReviews = () => {
+
+    const { compId } = useParams();
 
     //공모전 상세 내용
     const DUMMY_COMP_DETAIL = {
@@ -62,7 +64,8 @@ const CompReviews = () => {
                     <h2 className = {styles.reviewTitle}>공모전 후기</h2>
                     <div className={styles.backBtn}>
                         <img  src={"../../backarrow.svg"} alt="back" className={styles.back}/>
-                        <Link to="/compmatching" className = {styles.backwords}>뒤로 가기</Link>  
+                        {/* 링크 수정 */}
+                        <Link to = {`/comp/${compId}`} className = {styles.backwords}>뒤로 가기</Link> 
                     </div>
                     
                 </div>
