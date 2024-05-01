@@ -11,6 +11,8 @@ import TeamTool from "./pages/teamTool";
 import Teampage_Tool_detail1 from "./pages/team_tool_op1";
 import Teampage_Tool_detail2 from "./pages/team_tool_op2";
 import Teampage_Tool_detail3 from "./pages/team_tool_op3";
+import ContestInfo from "./pages/contestInfo";
+
 
 import CompMatching from "./pages/comp";
 import CompReviews from "./pages/reviews";
@@ -37,6 +39,10 @@ function App() {
         <Route
           path="/team/option1/detail3"
           element={<Teampage_Tool_detail3 />}
+        />
+        <Route
+          path="/team/option2"
+          element={<ContestInfo />}
         />
 
         <Route path="/comp/:compId" element={<CompMatching />} />
