@@ -1,0 +1,51 @@
+@font-face {
+    font-family: "NanumSquareRoundEB"; /* Extra Bold */
+    font-weight: normal;
+    src: url("../../../public/fonts/NanumSquareRoundEB.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "NanumSquareRoundB"; /* Bold */
+    font-weight: normal;
+    src: url("../../../public/fonts/NanumSquareRoundB.ttf") format("truetype");
+}
+
+
+
+
+.SelectMatchingTeamListContainer {
+    text-align: center;
+}
+
+.teamlistTitle {
+    display:block;
+    text-align:left;
+    font-size: 2rem;
+    font-family: "NanumSquareRoundEB";
+    margin-top: 15px;
+    margin-left: 150px;
+    color: #044018;
+  }
+  
+.createTeam {
+    display:block;
+    margin-left: auto;
+    margin-right: 150px; 
+    color: white;
+    border: 1px solid #026423;
+    opacity: 0.8;
+    border-radius: 10px;
+    font-family: "NanumSquareRoundB";
+    font-size: 1.5rem;
+    width: 10%;
+    padding: 15px;
+    background-color: #026423;
+    text-decoration: none;
+    
+}
+
+
+.teamlist {
+    text-decoration: none;
+    color:black;
+}

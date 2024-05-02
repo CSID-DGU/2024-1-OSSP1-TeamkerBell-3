@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import styles from "./AskMatchingComponent.module.css";
+import SelectMatchingTeamList from "./SelectMatchingTeamList"; // SelectMatchingTeamList 컴포넌트 import
+
+
 
 const AskMatching = () => {
   const [isRandomMatching, setIsRandomMatching] = useState(false); // 초기값 설정
+
+
   const handleRandomMatching = () => {
     // 랜덤 매칭 처리
     setIsRandomMatching(false);
@@ -45,7 +50,11 @@ const AskMatching = () => {
       </div>
       <div className={styles.matchingMethodDescription}>
         {isRandomMatching ? (
-          <img src="../../../selectMatchingMethod.png" />
+          <div className = {styles.SelectMatchingDescription}>
+            <img src="../../../selectMatchingMethod.png"  />
+            <SelectMatchingTeamList></SelectMatchingTeamList>
+          </div>
+          
         ) : (
           <img src="../../../randomMatchingMethod.png" />
         )}
