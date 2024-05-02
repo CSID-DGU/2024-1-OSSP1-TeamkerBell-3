@@ -1,0 +1,34 @@
+.competitionsContainer {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(800px, 1fr));
+  /* 2xN 형태의 그리드 */
+  gap: 20px; /* 그리드 간격 설정 */
+  width: 100%; /* 화면의 70%를 차지하도록 설정 */
+}
+.projcets {
+  width: 100%; /* 화면의 70%를 차지하도록 설정 */
+}
+
+.colorGreenH3 {
+  color: #006322;
+  margin-left: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #006322;
+}
+.comp {
+  width: 60%;
+  text-decoration: none;
+  color: black;
+}
+.redColor {
+  color: red;
+}
+.buttons button {
+  width: 40%;
+  justify-content: space-evenly;
+  border: 1px solid #006322;
+  background-color: white;
+  color: #006322;
+}

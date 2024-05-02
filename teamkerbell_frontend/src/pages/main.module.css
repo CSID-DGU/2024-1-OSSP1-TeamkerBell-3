@@ -26,7 +26,7 @@
   text-align: center; /* 텍스트 가운데 정렬 */
 }
 .category:hover {
-  background-color: #afafaf; /* 배경색 추가 */
+  background-color: hsl(0, 0%, 69%); /* 배경색 추가 */
 }
 
 .competitionsContainer {

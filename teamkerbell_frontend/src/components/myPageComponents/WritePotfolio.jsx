@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "./WritePotfolio.module.css";
 
-const WritePotfolio = () => {
+const WritePortfolio = () => {
   return (
     <div className={styles.title}>
       <h1>이력서 작성하기</h1>
@@ -120,4 +120,4 @@ const WritePotfolio = () => {
   );
 };
 
-export default WritePotfolio;
+export default WritePortfolio;

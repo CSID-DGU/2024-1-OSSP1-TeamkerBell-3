@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./CompCard.module.css"; // CompCard 컴포넌트의 스타일 파일
+import styles from "./BigCompCard.module.css"; // CompCard 컴포넌트의 스타일 파일
 
 const CompCard = ({ image, title, description, jobs }) => {
   return (
@@ -14,7 +14,6 @@ const CompCard = ({ image, title, description, jobs }) => {
           </p>
         ))}
       </div>
-      <button>찜하기</button>
     </div>
   );
 };
