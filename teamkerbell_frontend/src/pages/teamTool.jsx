@@ -18,7 +18,7 @@ const GuideDummy = [
   },
   {
     image: "../../comp_example.jpeg",
-    title: "slack",
+    title: "Slack",
     description: ["슬랙 설명", "용도 사용법"],
   },
   //가이드 추가 가능
@@ -46,7 +46,7 @@ const TeamTool = () => {
                 <div className={styles.boxtop}>
                   <h2 className={styles.boxtitle}>{guide.title}</h2>
                   <Link
-                    to={`/team/option${index + 1}/detail${index + 1}`}
+                    to={`/team/option1/detail${index + 1}`}
                     className={styles.link}
                   >
                     <button className={styles.detailbutton}>자세히보기</button>
