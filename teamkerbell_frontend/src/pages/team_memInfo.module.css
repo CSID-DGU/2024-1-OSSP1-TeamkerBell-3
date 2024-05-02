@@ -1,0 +1,121 @@
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+    format("woff");
+  /*웹폰트 사용*/
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NanumSquareNeo-cBd"; /* Bold */
+  font-weight: normal;
+  src: url("../../public/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  height: 100%;
+}
+
+.left {
+  flex-basis: 20%;
+  margin-top: 20px;
+}
+
+.main {
+  display: flex;
+  flex-flow: column;
+  flex-basis: 80%;
+  border-left: 1px solid #858585;
+}
+
+.title {
+  margin-left: 10%;
+  margin-top: 3%;
+  margin-right: auto;
+  margin-bottom: 1px;
+  font-family: "NanumSquareRound";
+  font-size: 25px;
+  display: flex;
+}
+
+.line {
+  width: 80%;
+}
+
+.box {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 70%;
+  margin: auto;
+  margin-top: 2%;
+  margin-bottom: 1%;
+  border-style: solid;
+  border-color: #8abc9b;
+  border-radius: 10px; /*둥글게*/
+  border-width: 1px;
+}
+
+.boxleft {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 50%;
+  line-height: 2;
+  list-style: none;
+  border-right: 1px solid #dbdbdbf6;
+  margin: 4%;
+}
+
+.memImg {
+  margin: auto;
+  width: 80px;
+  height: 80px;
+  margin-left: 10%;
+  margin-right: 3%;
+}
+
+.baseInfo {
+  flex-direction: column;
+  margin: auto;
+  margin-left: 3%;
+  font-family: NanumSquareNeo-cBd;
+  line-height: 1;
+}
+.crown {
+  width: 30px;
+  height: 25px;
+}
+/*왕관작업하다가 끔*/
+.name {
+  margin-top: 1%;
+  margin-bottom: 10%;
+}
+.info {
+  font-size: 12px;
+  color: #858585;
+}
+
+.boxright {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 50%;
+  line-height: 2;
+  margin: auto;
+  margin-left: 3%;
+}
+.specify {
+  flex-basis: 30%;
+  font-family: NanumSquareNeo-cBd;
+  list-style: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+.boxdescrip {
+  font-family: NanumSquareNeo-cBd;
+  list-style: none;
+  font-size: 12px;
+}
