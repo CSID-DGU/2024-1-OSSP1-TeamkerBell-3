@@ -1,6 +1,6 @@
 // src/team/option1.js
 import React from "react";
-import styles from "./contestInfo.module.css";
+import styles from "./team_contestInfo.module.css";
 import LeftSide from "../components/teamComponents/LeftSide";
 import CompDetail from "../components/matchingComponents/CompDetail"; // CompDetail 컴포넌트 import
 
