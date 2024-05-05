@@ -1,40 +1,59 @@
 // src/team/option1/detail1.js
 import React from "react";
-import styles from "./team_tool_op1.module.css";
+import styles from "./teamToolW2M.module.css";
 import LeftSide from "../components/teamComponents/LeftSide";
+import { useRecoilValue } from "recoil";
+import { listState } from "../atoms"; // recoil의 전역상태 listState 가져옴
 import { Link } from "react-router-dom";
 
+import CntstInfo from "../components/teamComponents/CntstInfo";
+import MemInfo from "../components/teamComponents/MemInfo";
+
 const TeamTool = () => {
+  const listStateValue = useRecoilValue(listState); // Recoil 훅을 사용하여 상태 값 가져오기
+
   return (
     <div className={styles.container}>
       {/*row로 정렬*/}
       <div className={styles.left}>
-        <LeftSide />
+        <Link to={`/team/tid`} className={styles.link}>
+          <LeftSide />
+        </Link>
       </div>
       <div className={styles.main}>
-        <div className={styles.title}>
-          <p>협업 툴 가이드라인</p>
-        </div>
+        {listStateValue === 0 ? <W2M /> : null}
+        {listStateValue === 1 ? <CntstInfo /> : null}
+        {listStateValue === 2 ? <MemInfo /> : null}
+      </div>
+    </div>
+  );
+};
 
-        <hr className={styles.line} />
-        {/*title 정의*/}
+const W2M = () => {
+  return (
+    <div className={styles.main2}>
+      <div className={styles.title}>
+        <h2>협업 툴 가이드라인</h2>
+      </div>
 
-        <div className={styles.box}>
-          <div className={styles.text}>
-            <h1 className={styles.boxtitle}>When2Meet</h1>
-            <p> : 회의 일정 조율 웹사이트</p>
-            <a className={styles.hrefbutton} href="https://www.when2meet.com/">
-              클릭 시 연결
-            </a>
-            <Content />
-          </div>
+      <hr className={styles.line} />
+      {/*title 정의*/}
+
+      <div className={styles.box}>
+        <div className={styles.text}>
+          <h1 className={styles.boxtitle}>When2Meet</h1>
+          <p> : 회의 일정 조율 웹사이트</p>
+          <a className={styles.hrefbutton} href="https://www.when2meet.com/">
+            클릭 시 연결
+          </a>
+          <Content />
         </div>
-        <div>
-          <Link to={`/team/option1/`} className={styles.link}>
-            <button className={styles.backbutton}>목록</button>
-          </Link>
-          {/*목록으로 돌아가는 버튼*/}
-        </div>
+      </div>
+      <div>
+        <Link to={`/team/tid`} className={styles.link}>
+          <button className={styles.backbutton}>목록</button>
+        </Link>
+        {/*목록으로 돌아가는 버튼*/}
       </div>
     </div>
   );
