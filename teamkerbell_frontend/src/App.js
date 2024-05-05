@@ -11,7 +11,8 @@ import TeamTool from "./pages/teamTool";
 import Teampage_Tool_detail1 from "./pages/team_tool_op1";
 import Teampage_Tool_detail2 from "./pages/team_tool_op2";
 import Teampage_Tool_detail3 from "./pages/team_tool_op3";
-import ContestInfo from "./pages/contestInfo";
+import ContestInfo from "./pages/team_contestInfo";
+import MemInfo from "./pages/team_memInfo";
 
 
 import CompMatching from "./pages/comp";
@@ -47,6 +48,11 @@ function App() {
           path="/team/option2"
           element={<ContestInfo />}
         />
+        <Route
+          path="/team/option3"
+          element={<MemInfo />}
+        />
+
 
         <Route path="/comp/:compId" element={<CompMatching />} />
         <Route path="/comp/:compId/reviews" element={<CompReviews />} />

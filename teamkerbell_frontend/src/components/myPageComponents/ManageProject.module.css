@@ -8,27 +8,61 @@
   width: 100%; /* 화면의 70%를 차지하도록 설정 */
 }
 .projcets {
+  margin-left: 100px;
+  align-items: center;
+  justify-items: center;
   width: 100%; /* 화면의 70%를 차지하도록 설정 */
 }
-
+.projcets h3 {
+  font-size: 20px;
+}
+.resumeContainer {
+  display: flex;
+  flex-wrap: wrap; /* 아이템이 넘칠 경우 다음 줄로 넘어감 */
+}
 .colorGreenH3 {
   color: #006322;
+  margin-top: 45px;
   margin-left: 15px;
+  font-size: 25px;
   padding-bottom: 15px;
+  margin-bottom: 0px;
   border-bottom: 1px solid #006322;
 }
 .comp {
   width: 60%;
   text-decoration: none;
   color: black;
+  text-align: center;
 }
-.redColor {
-  color: red;
+.projcets {
+  padding: 30px;
 }
+.projcets li {
+  font-size: 15px;
+}
+
 .buttons button {
   width: 40%;
+  font-size: 17px;
+  padding: 7px 0px;
+  font: bold;
   justify-content: space-evenly;
-  border: 1px solid #006322;
+  border: 2px solid #006322;
+  border-radius: 6px;
   background-color: white;
   color: #006322;
+  margin-left: 10px;
+}
+
+.buttons button:hover {
+  width: 40%;
+  font-size: 17px;
+  font: bold;
+  justify-content: space-evenly;
+  border: 2px solid white;
+  border-radius: 6px;
+  background-color: #006322;
+  color: white;
+  margin-left: 10px;
 }

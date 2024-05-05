@@ -14,7 +14,6 @@ const CompCard = ({ image, title, description, jobs }) => {
           </p>
         ))}
       </div>
-      <button>찜하기</button>
     </div>
   );
 };
