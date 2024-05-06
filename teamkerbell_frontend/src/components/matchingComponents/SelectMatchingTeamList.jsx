@@ -5,7 +5,7 @@ import {Link, useParams} from 'react-router-dom';
 
 const SelectMatchingTeamList = () => {
     
-    const { compId } = useParams();
+    const { compId, teamId } = useParams();
 
     // 팀 목록 데이터
     const DUMMY_TEAMLIST = [

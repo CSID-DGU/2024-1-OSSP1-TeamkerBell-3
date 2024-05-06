@@ -11,14 +11,13 @@ import TeamTool from "./pages/teamTool";
 import Teampage_Tool_detail1 from "./pages/team_tool_op1";
 import Teampage_Tool_detail2 from "./pages/team_tool_op2";
 import Teampage_Tool_detail3 from "./pages/team_tool_op3";
-import ContestInfo from "./pages/team_contestInfo";
-import MemInfo from "./pages/team_memInfo";
+import ContestInfo from "./pages/team_contestInfo"; //실행을 위해 contestInfo에서 수정
 
 
 import CompMatching from "./pages/comp";
 import CompReviews from "./pages/reviews";
 import Mypage from "./pages/mypage";
-import TeamDetail from "./pages/teamDetail";
+import TeamDetail from "./pages/teamdetail";
 
 
 function App() {
@@ -48,15 +47,10 @@ function App() {
           path="/team/option2"
           element={<ContestInfo />}
         />
-        <Route
-          path="/team/option3"
-          element={<MemInfo />}
-        />
-
 
         <Route path="/comp/:compId" element={<CompMatching />} />
         <Route path="/comp/:compId/reviews" element={<CompReviews />} />
-        <Route path="/comp/:compId/teamList/:teamId/detail" element={<TeamDetail/>} />
+        <Route path="/comp/:compId/teamList/:teamId/detail" element = {<TeamDetail/>} />
         
       </Routes>
     </BrowserRouter>
