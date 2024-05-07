@@ -10,7 +10,7 @@ import ManageProject from "../components/myPageComponents/ManageProject";
 import { useRecoilValue } from "recoil";
 import { categoryState } from "../atoms"; // Recoil에서 정의한 상태
 import LookingUpResume from "../components/myPageComponents/LookingUpResume";
-
+import MyAchievements from "../components/myPageComponents/MyAchievements";
 const DUMMY_Portfolio = [
   {
     temperature: 42.5,
@@ -151,6 +151,7 @@ const Mypage = () => {
             applyingProjects={DUMMY_APPLYING_PROJECTS}
           />
         )}
+        {categoryStateValue === 4 && <MyAchievements />}
         {categoryStateValue === 5 && <WritePortfolio />}
         {categoryStateValue === 6 && (
           <LookingUpResume
