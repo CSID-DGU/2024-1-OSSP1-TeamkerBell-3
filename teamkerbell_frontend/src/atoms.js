@@ -1,9 +1,9 @@
 // atoms.js
 import { atom } from "recoil";
 
-export const switchedState = atom({
-  key: "switchedState",
-  default: Array(7).fill(false),
+export const listState = atom({
+  key: "listState",
+  default: 0,
   /* categories 배열을 불러올 수 없어 배열 길이 지정*/
 });
 
