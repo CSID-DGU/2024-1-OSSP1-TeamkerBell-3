@@ -1,0 +1,47 @@
+
+@font-face {
+    font-family: "NanumSquareRoundB"; /* Bold */
+    font-weight: normal;
+    src: url("../../public/fonts/NanumSquareRoundB.ttf") format("truetype");
+}
+
+
+
+.button{
+    display:flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    
+}
+
+.leaderresumebtn{
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-family: "NanumSquareRoundB";
+    font-size: 1.5rem;
+    border: 1px solid #026423;
+    opacity: 0.8;
+    border-radius: 10px;
+    width: 10%;
+    padding: 15px;
+    background-color: #026423;
+    margin:10px;
+
+}
+
+.applybtn{
+    color: white;
+    text-decoration: none;
+    font-family: "NanumSquareRoundB";
+    font-size: 1.5rem;
+    text-align: center;
+    border: 1px solid #026423;
+    opacity: 0.8;
+    border-radius: 10px;
+    width: 10%;
+    padding: 15px;
+    background-color: #026423;
+    margin:10px;
+
+}

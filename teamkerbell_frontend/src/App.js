@@ -15,6 +15,9 @@ import TeamToolSlack from "./pages/teamToolSlack";
 import CompMatching from "./pages/comp";
 import CompReviews from "./pages/reviews";
 import Mypage from "./pages/mypage";
+import TeamDetail from "./pages/teamdetail";
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -34,6 +37,7 @@ function App() {
           element={<TeamToolGit />}
         />
         <Route
+
           path="/team/tid/guideline3"
           element={<TeamToolSlack />}
         />
@@ -41,6 +45,8 @@ function App() {
 
         <Route path="/comp/:compId" element={<CompMatching />} />
         <Route path="/comp/:compId/reviews" element={<CompReviews />} />
+        <Route path="/comp/:compId/teamList/:teamId/detail" element = {<TeamDetail/>} />
+        
       </Routes>
     </BrowserRouter>
   );
