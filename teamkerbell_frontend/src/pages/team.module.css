@@ -8,16 +8,12 @@
   display: flex;
   flex-flow: row;
   flex-basis: 20%;
-  margin-top: 20px;
 }
 
 .main {
   display: flex;
   flex-flow: row;
   flex-basis: 80%;
+  padding-left: 40px;
   border-left: 3px solid #858585;
-}
-
-.title {
-  margin: auto;
 }

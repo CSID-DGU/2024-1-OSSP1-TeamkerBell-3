@@ -12,26 +12,37 @@
   font-weight: normal;
   font-style: normal;
 }
-.LeftSide {
+.leftSide {
   display: flex;
   flex-flow: row;
   flex-basis: 100%;
   list-style: none;
-  margin: auto;
   display: block; /* 버튼 가운데 정렬*/
 }
 
-.category {
+.unclicked {
   display: flex;
   flex-flow: column;
   padding: 30px;
-  background-color: white;
-  color: #999999;
-  border: none; /* 테두리 삭제 */
+  width: 100%;
+  margin-left: 10px;
+  border: none;
   margin-right: auto;
-  font-family: "NanumSquareRound", sans-serif;
-  font-size: 15px;
   cursor: pointer; /* 버튼 커서 활성화 */
+  filter: invert(88%) sepia(0%) saturate(5080%) hue-rotate(103deg)
+    brightness(93%) contrast(95%); /*#ccc로 색 변경*/
+}
+
+.clicked {
+  display: flex;
+  flex-flow: column;
+  padding: 30px;
+  width: 100%;
+  margin-right: auto;
+  border: none;
+  cursor: pointer; /* 버튼 커서 활성화 */
+  filter: invert(0%) sepia(7%) saturate(0%) hue-rotate(121deg) brightness(88%)
+    contrast(107%); /*클릭시 아이콘 검은색으로*/
 }
 
 .teampage {
@@ -48,46 +59,9 @@
 .menu {
   background-color: #ffffff;
 }
-.icon {
-  width: 40px;
-  height: 40px;
-  margin-left: auto;
-  filter: invert(99%) sepia(0%) saturate(7461%) hue-rotate(64deg)
-    brightness(135%) contrast(77%);
-  /*아이콘 회색 변경*/
-}
-
-.iconClicked {
-  width: 40px;
-  height: 40px;
-  margin-left: auto;
-  filter: invert(0%) sepia(7%) saturate(0%) hue-rotate(121deg) brightness(88%)
-    contrast(107%);
-  /*클릭시 아이콘 검은색으로*/
-}
-.categoryClicked {
-  display: flex;
-  flex-flow: column;
-  padding: 30px;
-  font-size: 15px;
-  background-color: white;
-  color: black;
-  border: none; /* 테두리 삭제 */
-  margin-right: auto;
-  font-family: "NanumSquareRound", sans-serif;
-  cursor: pointer; /* 버튼 커서 활성화 */
-  /*클릭시 글자 검은색으로*/
-}
 
 .categoryContainer {
   display: flex;
-  align-items: center; /* 이미지와 버튼 높이 맞춤 */
   margin-left: 10%;
   margin-right: 10%;
-}
-
-.link {
-  text-decoration: none; /*밑줄 제거*/
-  margin: 0;
-  margin-right: auto;
 }

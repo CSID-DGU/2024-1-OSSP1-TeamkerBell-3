@@ -7,11 +7,9 @@ import MainPage from "./pages/main";
 import Header from "./components/Header";
 
 import Team from "./pages/team";
-import TeamTool from "./pages/teamTool";
-import Teampage_Tool_detail1 from "./pages/team_tool_op1";
-import Teampage_Tool_detail2 from "./pages/team_tool_op2";
-import Teampage_Tool_detail3 from "./pages/team_tool_op3";
-import ContestInfo from "./pages/team_contestInfo"; //실행을 위해 contestInfo에서 수정
+import TeamToolW2M from "./pages/teamToolW2M";
+import TeamToolGit from "./pages/teamToolGit";
+import TeamToolSlack from "./pages/teamToolSlack";
 
 
 import CompMatching from "./pages/comp";
@@ -29,24 +27,21 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/mypage" element={<Mypage />} />
-        <Route path="/team" element={<Team />} />
-        <Route path="/team/option1" element={<TeamTool />} />
+        <Route path="/team/tid" element={<Team />} />
         <Route
-          path="/team/option1/detail1"
-          element={<Teampage_Tool_detail1 />}
+          path="/team/tid/guideline1"
+          element={<TeamToolW2M />}
         />
         <Route
-          path="/team/option1/detail2"
-          element={<Teampage_Tool_detail2 />}
+          path="/team/tid/guideline2"
+          element={<TeamToolGit />}
         />
         <Route
-          path="/team/option1/detail3"
-          element={<Teampage_Tool_detail3 />}
+
+          path="/team/tid/guideline3"
+          element={<TeamToolSlack />}
         />
-        <Route
-          path="/team/option2"
-          element={<ContestInfo />}
-        />
+
 
         <Route path="/comp/:compId" element={<CompMatching />} />
         <Route path="/comp/:compId/reviews" element={<CompReviews />} />
