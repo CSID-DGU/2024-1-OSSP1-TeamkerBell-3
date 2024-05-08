@@ -7,6 +7,7 @@ import { listState } from "../atoms"; // recoil의 전역상태 listState 가져
 import CoopTool from "../components/teamComponents/CoopTool";
 import CntstInfo from "../components/teamComponents/CntstInfo";
 import MemInfo from "../components/teamComponents/MemInfo";
+import ProjectProgressing from "../components/teamComponents/ProjectProgressing";
 
 const Team = () => {
   const listStateValue = useRecoilValue(listState); // Recoil 훅을 사용하여 상태 값 가져오기
@@ -21,6 +22,7 @@ const Team = () => {
         {listStateValue === 0 && <CoopTool />}
         {listStateValue === 1 && <CntstInfo />}
         {listStateValue === 2 && <MemInfo />}
+        {listStateValue === 3 && <ProjectProgressing />}
       </div>
     </div>
   );
