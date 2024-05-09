@@ -1,0 +1,84 @@
+@font-face {
+    font-family: "NanumSquareRound";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+      format("woff");
+    /*웹폰트 사용*/
+    font-weight: normal;
+    font-style: normal;
+  }
+  .resumeItem {
+    width: calc(
+      50% - 20px
+    ); /* 2xN 그리드 형식으로 표현하기 위해 50%의 너비 지정 */
+    margin: 10px;
+    padding: 20px 40px;
+    border: 1px solid #66a97c; /* 테두리 스타일 및 색상 지정 */
+    border-radius: 15px;
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 전체 너비로 계산 */
+  }
+  
+  .profileImgNName {
+    display: flex;
+  }
+  .profileImgNName img {
+    width: 100px;
+    height: 100px;
+    margin-top: 20px;
+    border-radius: 50px;
+  }
+  .nameNTemp {
+    margin-left: 50px;
+  }
+  .nameNTemp p {
+    font-size: 20px;
+    color: rgb(111, 111, 111);
+  }
+  .greenColor {
+    font-size: 30px;
+    color: #66a97c;
+  }
+  .label {
+    flex: 0 0 120px; /* 레이블의 너비를 고정으로 지정 */
+  }
+  .resumeItem h2 {
+    margin-top: 0;
+  }
+  
+  .resumeItem ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .resumeItem ul li {
+    margin-bottom: 5px;
+  }
+  
+  .tagContainer {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .selectedResume {
+    background-color: #f0f0f0; /* 선택됐을 때의 배경색 */
+    width: calc(
+      50% - 20px
+    ); /* 2xN 그리드 형식으로 표현하기 위해 50%의 너비 지정 */
+    margin: 10px;
+    padding: 20px 40px;
+    border: 1px solid #66a97c; /* 테두리 스타일 및 색상 지정 */
+    border-radius: 15px;
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 전체 너비로 계산 */
+}
+
+.selectedResume h2 {
+    margin-top: 0;
+  }
+  
+.selectedResume ul {
+    list-style: none;
+    padding: 0;
+}
+  
+.selectedResume ul li {
+    margin-bottom: 5px;
+}
