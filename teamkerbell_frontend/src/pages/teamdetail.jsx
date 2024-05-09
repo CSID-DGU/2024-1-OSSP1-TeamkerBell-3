@@ -9,7 +9,7 @@ const TeamDetail = () => {
 
   const DUMMY_TEAM_OUTLINE = {
     title: "교보생명 대학생 디자인 공모전 팀원 구합니다!",
-    profileimg: "/leadercrown.png",
+    profileimg: "/Male User.png",
     writer: "Danny",
     uploaddate: "2024.04.07",
     category: "공모전",
