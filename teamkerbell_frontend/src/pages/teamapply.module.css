@@ -1,0 +1,86 @@
+
+
+.container{
+    padding: 50px; 
+    margin: 0px 50px; 
+}
+
+
+.line{
+   margin:0px 150px;
+}
+
+.apply{
+    margin:30px 150px;
+}
+
+.applyfield{
+    margin:30px 0px;
+    text-align: right;
+}
+
+.applyfieldtext{
+    font-weight:bold;
+    font-size:1.8rem;
+    text-align:left;
+}
+
+.selectapplyfield{
+    margin-top: 20px;
+    
+}
+
+select{
+    height: 50px;
+    width: 300px;
+    padding-left: 10px;
+}
+
+select option[value=""][disabled] {
+	display: none;
+}
+
+.selectresumefield{
+    margin-top: 20px;
+
+}
+
+.selectresume{
+    font-weight:bold;
+    font-size:1.8rem;
+    margin: 20px 0px;
+}
+
+.resumeContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* 컨테이너 내에서 아이템 간 간격을 균등하게 설정 */
+}
+
+.resumeItem {
+    width: 40%; 
+    margin-bottom: 30px;
+}
+
+
+.submit{
+    display: flex;
+    justify-content: center;
+
+}
+
+.submitbtn{
+    color: white;
+    text-decoration: none;
+    font-family: "NanumSquareRoundB";
+    font-size: 1.5rem;
+    text-align: center;
+    border: 1px solid #026423;
+    opacity: 0.8;
+    border-radius: 10px;
+    width: 40%;
+    padding: 15px;
+    background-color: #026423;
+    margin:20px;
+
+}
