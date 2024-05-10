@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import BasicUser, Resume, Tag
+from .models import BasicUser, Resume, Tag, Rude, Bookmark
+from comp.models import Comp
 
 
 class ResumeSerializer(serializers.ModelSerializer):
@@ -19,4 +20,18 @@ class TagSerializer(serializers.ModelSerializer):
         model= Tag
         fields='__all__'
 
+class RudeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Rude
+        fields='__all__'
+
+class BookmarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Bookmark
+        fields='__all__'
+
+class CompListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Comp
+        fields=['id','name','img','endDate','context']
 
