@@ -11,7 +11,6 @@ import TeamToolW2M from "./pages/teamToolW2M";
 import TeamToolGit from "./pages/teamToolGit";
 import TeamToolSlack from "./pages/teamToolSlack";
 
-
 import CompMatching from "./pages/comp";
 import CompReviews from "./pages/reviews";
 import Mypage from "./pages/mypage";

@@ -17,6 +17,7 @@
   display: flex;
   flex-flow: row;
   flex-basis: 20%;
+  display: block; /* 가운데 정렬*/
 }
 .link {
   text-decoration: none;

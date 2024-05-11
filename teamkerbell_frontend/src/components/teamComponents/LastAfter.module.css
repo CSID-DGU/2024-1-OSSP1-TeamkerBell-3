@@ -1,0 +1,214 @@
+@font-face {
+  font-family: "NanumSquareNeo-cBd"; /* Bold */
+  font-weight: normal;
+  src: url("../../../public/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
+}
+
+.main {
+  width: 100%;
+  font-size: 15px;
+  display: flex;
+  flex-flow: column;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 3%;
+  margin-bottom: 1px;
+}
+
+.title {
+  font-family: "NanumSquareNeo-cBd";
+}
+
+.title2 {
+  font-family: "NanumSquareNeo-cBd";
+  margin-left: 5%;
+  margin-top: 3%;
+  margin-bottom: 0%;
+}
+
+.line {
+  width: 100%;
+}
+
+.line2 {
+  width: 95%;
+  background: #cacaca;
+  height: 1px;
+  border: 0;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 40%;
+  background-color: #f4f4f4;
+  margin: auto;
+  margin-top: 2%;
+  margin-bottom: 4%;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.box2 {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  background-color: #d9d9d9;
+  width: 80%;
+  height: 10%;
+  margin: auto;
+  margin-top: 3%;
+  margin-bottom: 0%;
+  align-items: center;
+  border-radius: 0%;
+}
+
+.unclicked {
+  background-color: #ffffff;
+  color: #000000;
+  margin: 3%;
+  border-radius: 10px;
+  border-color: #ffffff;
+  border-width: 1px;
+  cursor: pointer;
+  padding: 7px 10px;
+}
+.clicked {
+  border-color: #006322;
+  color: #006322;
+  background-color: #ffffff;
+  margin: 3%;
+  border-radius: 10px;
+  border-width: 1px;
+  cursor: pointer;
+  padding: 7px 10px;
+}
+
+.nameRadio {
+  margin: 15px;
+}
+
+.nameRadio [type="radio"] {
+  appearance: none;
+}
+
+.nameRadio [type="radio"] + span {
+  border: 1px solid #ffffff;
+  color: #000000;
+  margin: auto;
+  border-radius: 10px;
+  border-width: 1px;
+  cursor: pointer;
+  padding: 7px 10px;
+}
+/*이름 미클릭시*/
+
+.nameRadio input[type="radio"]:checked + span {
+  border: 1px solid #006322;
+  color: #006322;
+  margin: auto;
+  border-radius: 10px;
+  border-width: 1px;
+  cursor: pointer;
+  padding: 7px 10px;
+}
+/*이름 클릭시*/
+
+.name {
+  display: flex;
+  flex-direction: row;
+  size: flex;
+}
+
+.radioStyle {
+  margin: 15px;
+}
+
+.radioStyle [type="radio"] {
+  appearance: none;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  border: 7px solid #ffffff;
+  border-radius: 200px;
+  width: 15px;
+  height: 15px;
+}
+
+.radioStyle [type="radio"]:checked {
+  box-sizing: border-box;
+  border: 7px solid #000000;
+}
+
+.evaTitle {
+  margin: 10%;
+  flex-basis: 25%;
+  text-align: center;
+}
+.num {
+  text-align: center;
+}
+.tagArray {
+  display: flex;
+  justify-content: center;
+}
+
+.tag {
+  margin: 1%;
+  border: none;
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
+.tags {
+  margin-bottom: 30px;
+}
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.select {
+  margin: auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.select:hover {
+  background-color: #e0e0e0;
+}
+
+li {
+  padding: 10px;
+}
+
+li:hover {
+  background-color: #f5f5f5;
+}
+
+.boxInput {
+  position: relative;
+  width: 100%;
+  height: 30%;
+  background-color: #f4f4f4;
+  border: none;
+  margin: auto;
+  margin-top: 2%;
+  margin-bottom: 4%;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+.submitsBtn {
+  background-color: #006322;
+  color: #ffffff;
+  border: none;
+  width: auto;
+  height: 100px;
+  border-radius: 4px; /*둥글게*/
+  margin-left: 80%;
+  cursor: pointer;
+  margin-bottom: 5%;
+}

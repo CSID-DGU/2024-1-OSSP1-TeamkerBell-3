@@ -1,5 +1,5 @@
 import styles from "./tags.module.css";
-const GoodListenerManTag = ({ isBorderBlack }) => {
+const LeadershipManTag = ({ isBorderBlack }) => {
   return (
     <div
       style={{
@@ -8,9 +8,9 @@ const GoodListenerManTag = ({ isBorderBlack }) => {
       }}
       className={styles.tags}
     >
-      <p># 말을 잘 들어줘요 🔊</p>
+      <p># 리더십이 장난아니에요 🚩</p>
     </div>
   );
 };
 
-export default GoodListenerManTag;
+export default LeadershipManTag;
