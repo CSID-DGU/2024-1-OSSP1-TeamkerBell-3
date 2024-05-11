@@ -1,0 +1,39 @@
+.container{
+    margin: 50px 100px;
+}
+
+
+.backBtn{
+    display:flex;
+    align-items: center;
+  }
+
+.backwords{
+    text-decoration: none;
+    font-family: "NanumSquareRoundB";
+    font-size:1.5rem;
+    margin-right: 150px; 
+    color: #044018;
+}
+
+.title{
+    font-weight: bold;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.box{
+    margin: 50px 20px;
+}
+.text{
+    font-weight: bold;
+    font-size:1.4rem;
+    margin-bottom: 10px;
+    
+}
+
+.content{
+    color: #858585;
+    font-size:1rem;
+    margin-bottom: 20px;
+}
