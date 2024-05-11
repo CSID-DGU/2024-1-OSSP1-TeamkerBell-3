@@ -1,0 +1,160 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.leader, .question {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.leaderquestion{
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.locationquestion, .rolequestion, .recruitnumquestion {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    text-align: left;
+    margin-left: 320px;
+    margin-bottom:20px;
+    margin-top:30px;
+}
+
+
+
+.selectbtn {
+    display: flex;
+    justify-content:center;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.leaderbtn, .supporterbtn{
+    width : 30%;
+    padding: 10px 20px;
+    border: 1px solid #ccc; 
+    background-color: #f0f0f0; 
+    color: black;
+    border-radius: 5px;
+    outline: none;
+    margin-right: 5px; /* Spacing between buttons */
+}
+
+.leaderbtn.active, .supporterbtn.active {
+    background-color: #434343;
+    opacity: 50%;
+    border: solid #434343;
+    color:white;
+}
+
+.applybtn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.leaderimg img {
+    width:65rem;
+    display: block;
+    margin: 0 auto;
+}
+
+.rolebtn {
+    gap:10px;
+    width : 15%;
+    padding: 10px 20px;
+    border: 1px solid #ccc; 
+    background-color: #f0f0f0; 
+    color: black;
+    border-radius: 5px;
+    outline: none;
+    margin-right: 5px; 
+}
+
+.rolebtn.active {
+    background-color: #434343;
+    opacity: 50%;
+    border: solid #434343;
+    color:white;
+}
+
+
+.recruitnum {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-top: 10px;
+
+}
+
+.recruitnuminput {
+    width: 300px;
+    height:50px;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: 330px;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-top: 50px;
+    margin-left:320px;
+    position: relative;
+
+}
+
+.checkbtn {
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.checktext {
+    margin-left: 300px;
+    font-size: 1.3em;
+}
+
+
+
+.checkbtn {
+    accent-color: green;
+    justify-content: center;
+    width: 30px;
+    height:30px;
+}
+
+
+
+
+.applybtn {
+    text-align: center;
+    border: solid 2px #026423;
+    color: #026423;
+    font-family: "NanumSquareRoundB";
+    font-size: 1.5rem;
+    width: 25%;
+    height: 50px;
+    background-color: #ffffff;  
+    display: block;
+    margin-top: 50px;
+    margin-left: auto; 
+    margin-right: auto; 
+    margin-bottom: 50px; 
+}
+
+.applybtn:hover {
+    background-color: #026423;
+    color:white;
+}

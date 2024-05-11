@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./AskMatchingComponent.module.css";
 import SelectMatchingTeamList from "./SelectMatchingTeamList"; // SelectMatchingTeamList 컴포넌트 import
-
+import RandomMatchingQuestion from "./RandomMatchingQuestion"; // RandomMatchingQuestion 컴포넌트 import
 
 
 const AskMatching = () => {
@@ -56,7 +56,10 @@ const AskMatching = () => {
           </div>
           
         ) : (
-          <img src="../../../randomMatchingMethod.png" />
+          <div className = {styles. RandomMatchingDescription}>
+            <img src="../../../randomMatchingMethod.png" />
+            <RandomMatchingQuestion></RandomMatchingQuestion>
+          </div>
         )}
       </div>
     </div>

@@ -1,0 +1,6 @@
+.container{
+    display:flex;
+    justify-content:right;
+    margin-right:330px;
+    gap: 10px;
+}
