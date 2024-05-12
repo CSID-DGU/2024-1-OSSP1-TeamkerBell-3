@@ -18,6 +18,7 @@ import Mypage from "./pages/mypage";
 import TeamDetail from "./pages/teamdetail";
 import TeamApply from "./pages/teamapply";
 import EditProfile from "./components/myPageComponents/EditProfile";
+import LeaderResume from "./pages/leaderresume";
 
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
         <Route path="/comp/:compId/reviews" element={<CompReviews />} />
         <Route path="/comp/:compId/teamList/:teamId/detail" element = {<TeamDetail/>} />
         <Route path="/comp/:compId/teamList/:teamId/apply" element = {<TeamApply/>}/>
+        <Route path="/comp/:compId/teamList/:teamId/leaderResume" element = {<LeaderResume/>}/>
         
       </Routes>
     </BrowserRouter>
