@@ -24,6 +24,7 @@ const MyCntstInfo = () => {
   return (
     <div>
       <h2 className={styles.title2}>{DUMMY_CNTST_INFO.title}</h2>
+
       <ul className={styles.infoList}>
         <li>접수 기간: {DUMMY_CNTST_INFO.period}</li>
         <li>기관: {DUMMY_CNTST_INFO.organization}</li>
@@ -37,7 +38,13 @@ const MyCntstInfo = () => {
           <div> 3등 - {DUMMY_CNTST_INFO.awards.third}</div>
         </li>
         <li>문의 사항: {DUMMY_CNTST_INFO.inquiry}</li>
-        <li>자세히보기 {DUMMY_CNTST_INFO.link}</li>
+        <li>
+          자세히보기
+          <div>
+            <a href={DUMMY_CNTST_INFO.link}>{DUMMY_CNTST_INFO.link}</a>
+          </div>
+          {/*자세히보기 링크 연결*/}
+        </li>
       </ul>
     </div>
   );
