@@ -11,12 +11,12 @@ const tagComponents = {
   3: PlannerManTag,
   // 이런 식으로 필요한 만큼 추가할 수 있습니다.
 };
-
+  
 const Resume = ({ resume }) => {
   return (
     <div className={styles.resumeItem}>
       <div className={styles.profileImgNName}>
-        <img src="dummy_profile.png" alt="유저 이미지" />
+        <img src="/dummy_profile.png" alt="유저 이미지" />
         <div className={styles.nameNTemp}>
           <h1>{resume.name}</h1>
           <p>온도 : {resume.temperature}</p>

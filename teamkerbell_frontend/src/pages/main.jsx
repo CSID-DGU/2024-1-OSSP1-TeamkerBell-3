@@ -2,9 +2,10 @@ import React from "react";
 import styles from "./main.module.css";
 import Carousel from "../components/mainComponents/Carousel";
 import CompCard from "../components/mainComponents/CompCard"; // CompCard 컴포넌트 import
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const MainPage = () => {
+  const navigate = useNavigate();
   const DUMMY_CAROUSEL_IMAGES = [
     "../../comp_example.jpeg",
     "../../comp_example.jpeg",
@@ -49,25 +50,27 @@ const MainPage = () => {
   ];
 
   // 공모전 카테고리 목록
-  const categories = ["IT 멘토링", "디자인", "아이디어", "마케팅"];
+  const compMakingButtonHandler = () => {
+    navigate("/compregister");
+  };
 
   return (
     <div className={styles.container}>
       <div className={styles.carouselContainer}>
         <Carousel images={DUMMY_CAROUSEL_IMAGES} />
-        100
-        ?
       </div>
 
-      <h2>공모전 목록</h2>
-      <div className={styles.categoriesContainer}>
-        {categories.map((category, index) => (
-          <button key={index} className={styles.category}>
-            {category}
-          </button>
-        ))}
+      <h2>IT 공모전 목록</h2>
+      <div className={styles.compMakingContainer}>
+        <button
+          className={styles.compMakingButton}
+          onClick={compMakingButtonHandler}
+        >
+          공모전 등록하기
+        </button>
       </div>
-
+      <br />
+      <br />
       <div className={styles.competitionsContainer}>
         {DUMMY_COMP.map((competition, index) => (
           <Link to={`/comp/${competition.id}`} className={styles.comp}>

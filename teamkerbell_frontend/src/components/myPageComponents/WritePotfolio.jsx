@@ -7,7 +7,7 @@ const WritePortfolio = () => {
     <div className={styles.title}>
       <h1>이력서 작성하기</h1>
       <div className={styles.basicInfo}>
-        <img src="./dummy_profile.png" alt="프로필 사진" />
+        <img src="/dummy_profile.png" alt="프로필 사진" />
         <div className={styles.nameToPhoneNumber}>
           <div className={styles.infoItem}>
             <div className={styles.infoName}>

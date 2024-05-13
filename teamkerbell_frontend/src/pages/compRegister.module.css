@@ -1,0 +1,107 @@
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+    format("woff");
+  /*웹폰트 사용*/
+  font-weight: normal;
+  font-style: normal;
+}
+.container {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.redColor {
+  color: red;
+  margin-top: 18px;
+}
+.redColorNoMargin {
+  color: red;
+}
+.basicInfo {
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+}
+.infoName {
+  display: flex;
+}
+.noMargin {
+  margin-top: 0px;
+}
+.redColorNoMargin {
+  margin-top: 0px;
+}
+.basicInfo img {
+  width: 250px;
+  height: 400px;
+  display: flex;
+  flex-direction: row;
+}
+.nameToPhoneNumber {
+  width: 100%;
+  margin-left: 40px;
+  align-items: center;
+  justify-content: center;
+}
+.infoItem {
+  width: 100%;
+}
+.infoItem form input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid black;
+}
+
+.infoBigItem form input {
+  width: 100%;
+  height: 200px;
+  border: 1px solid black;
+}
+
+.editprofileCancleButton {
+  margin-top: 100px;
+  background-color: #ffffff;
+  color: #026423;
+  font-size: 30px;
+  padding: 10px 100px;
+  border: 2px solid #026423;
+  border-radius: 10px;
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
+}
+
+.editprofileSaveButton {
+  margin-top: 100px;
+  background-color: #026423;
+  color: white;
+  font-size: 30px;
+  padding: 10px 110px;
+  border: 0px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
+}
+
+.submitButton {
+  background-color: #026423;
+  margin-top: 50px;
+  color: white;
+  width: 100%;
+  font-size: 30px;
+  padding: 10px 120px;
+}
+
+/* Hover effects */
+
+.profileButton:hover,
+.editprofileCancleButton:hover,
+.editprofileSaveButton:hover {
+  background-color: #6faa86; /* Change background color on hover */
+}

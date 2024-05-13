@@ -5,36 +5,35 @@ import { Link } from "react-router-dom";
 
 const FavoriteComp = ({ comps }) => {
   // 공모전 목록 데이터
-  const [daysLeftList, setDaysLeftList] = useState([]);
+  const [filteredComps, setFilteredComps] = useState([]);
 
   useEffect(() => {
     const currentTime = new Date();
-    const newDaysLeftList = comps.map((comps) => {
-      const timeDiff = comps.deadline - currentTime.getTime();
-      return Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-    });
-    setDaysLeftList(newDaysLeftList);
-  }, []);
-  // 백엔드에서 넘겨줄 때 무조건, order-by를 이용해서 넘겨줘야 한다.
+    const tempFilteredComps = comps
+      .map((comp) => {
+        const timeDiff = comp.deadline - currentTime.getTime();
+        const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+        return { ...comp, daysLeft }; // 각 공모전 정보에 daysLeft 속성 추가
+      })
+      .filter((comp) => comp.daysLeft >= 0); // 음수인 D-day를 가진 항목 제외
 
-  // 공모전 카테고리 목록
+    setFilteredComps(tempFilteredComps); // 필터링된 공모전 목록 업데이트
+  }, [comps]); // comps가 변경될 때마다 useEffect 실행
+
   return (
     <div className={styles.container}>
       <h2>찜한 공모전 목록</h2>
-
       <div className={styles.competitionsContainer}>
-        {comps.map((competition, index) => (
+        {filteredComps.map((competition, index) => (
           <Link
             to={`/comp/${competition.id}`}
-            key={index + 100000}
+            key={index}
             className={styles.comp}
           >
-            <h3 key={index + 10000}>
-              {" "}
-              D- <span>{daysLeftList[index]}</span>
+            <h3>
+              D- <span>{competition.daysLeft}</span>
             </h3>
             <CompCard
-              key={index}
               image={competition.image}
               title={competition.title}
               description={competition.description}

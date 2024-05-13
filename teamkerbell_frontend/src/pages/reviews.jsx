@@ -79,10 +79,7 @@ const CompReviews = () => {
                       />
                     ))}
                 </div>
-
             </div>
-            
-
         </div>
     );
 
