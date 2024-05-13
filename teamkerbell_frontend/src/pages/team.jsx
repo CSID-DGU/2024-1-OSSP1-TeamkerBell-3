@@ -10,6 +10,7 @@ import MemInfo from "../components/teamComponents/MemInfo";
 import ProjectProgressing from "../components/teamComponents/ProjectProgressing";
 import LastBefore from "../components/teamComponents/LastBefore";
 import LastAfter from "../components/teamComponents/LastAfter";
+import EndKick from "../components/teamComponents/EndKick";
 
 const Team = () => {
   const listStateValue = useRecoilValue(listState); // Recoil 훅을 사용하여 상태 값 가져오기
@@ -25,9 +26,10 @@ const Team = () => {
         {listStateValue === 1 && <CntstInfo />}
         {listStateValue === 2 && <MemInfo />}
         {listStateValue === 3 && <ProjectProgressing />}
-
         {listStateValue === 4 && (End() ? <LastAfter /> : <LastBefore />)}
         {/*End함수의 리턴값에 따라 프로젝트 종료 여부 확인 및 그에 따른 컴포넌트 렌더링*/}
+
+        {listStateValue === 6 && <EndKick />}
       </div>
     </div>
   );
