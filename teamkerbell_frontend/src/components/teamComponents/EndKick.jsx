@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import styles from "./EndKick.module.css";
 
-const EndAgree = 5;
+const EndAgree = 4;
 /*동의인원*/
-
-const maxnum = 5;
 
 const name = ["홍길동", "삼다수", "김연아", "이명박"];
 /*최대인원*/
 
-const numbers = Array.from({ length: maxnum }, (_, index) => index + 1);
+const numbers = Array.from(
+  { length: name.length - 1 },
+  (_, index) => index + 1
+);
 
 const MemberSelection = () => {
   const [selectedItem, setSelectedItem] = useState("인원선택");
@@ -80,7 +81,7 @@ const EndLeader = () => {
       <div className={styles.box}>
         <div className={styles.agreeTitle}>현재 찬성 인원</div>
         <div className={styles.agreeDetail}>
-          {EndAgree} / {maxnum}
+          {EndAgree} / {name.length}
         </div>
       </div>
       <button className={styles.btn}>팀 활동 종료</button>

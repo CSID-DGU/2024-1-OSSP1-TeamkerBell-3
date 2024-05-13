@@ -11,6 +11,7 @@ import ProjectProgressing from "../components/teamComponents/ProjectProgressing"
 import LastBefore from "../components/teamComponents/LastBefore";
 import LastAfter from "../components/teamComponents/LastAfter";
 import EndKick from "../components/teamComponents/EndKick";
+import EndRun from "../components/teamComponents/EndRun";
 
 const Team = () => {
   const listStateValue = useRecoilValue(listState); // Recoil 훅을 사용하여 상태 값 가져오기
@@ -29,7 +30,7 @@ const Team = () => {
         {listStateValue === 4 && (End() ? <LastAfter /> : <LastBefore />)}
         {/*End함수의 리턴값에 따라 프로젝트 종료 여부 확인 및 그에 따른 컴포넌트 렌더링*/}
 
-        {listStateValue === 6 && <EndKick />}
+        {listStateValue === 6 && (Run() ? <EndRun /> : <EndKick />)}
       </div>
     </div>
   );
@@ -39,4 +40,8 @@ export default Team;
 
 const End = () => {
   return true;
+};
+
+const Run = () => {
+  return false;
 };
