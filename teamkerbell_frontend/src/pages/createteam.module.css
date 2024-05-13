@@ -1,0 +1,154 @@
+.compdetail{
+    border-bottom: 1px solid #858585;
+    margin: 10px 30px;
+    
+}
+
+.createteam{
+    margin: 50px 50px;
+}
+
+.createteamtext{
+    color:#044018;
+    font-size:2rem;
+    font-weight: bold;
+}
+
+
+.question{
+    display:flex;
+    flex-direction: column;
+}
+
+.qtext{
+    font-size: 1.4rem;
+    margin : 30px 20px;
+}
+
+
+.titleinput, .languageinput{
+    margin-left:30px;
+    height:40px;
+    width:95%;
+}
+
+.startdate {
+    display: flex;
+    justify-content: space-between; /* Aligns children (label and input) on opposite ends */
+    align-items: center; /* Centers them vertically */
+}
+
+.startdateinput {
+    width: 20%;
+    height: 40px;
+    margin-right:30px;
+}
+
+.introductioninput, .qualificationinput{
+    margin-left:30px;
+    margin-right:30px;
+    height:120px;
+    width:95%;
+
+}
+
+.methodbtns{
+    display: flex;
+    gap:10px;
+    justify-content: space-between;
+    margin: 0px 30px;
+}
+
+.methodbtn {
+    gap:10px;
+    width : 25%;
+    padding: 10px 20px;
+    border: 1px solid #ccc; 
+    background-color: #f0f0f0; 
+    color: black;
+    border-radius: 5px;
+    outline: none;
+    margin-right: 5px; 
+}
+
+.methodbtn.active {
+    background-color: #434343;
+    opacity: 50%;
+    border: solid #434343;
+    color:white;
+}
+
+
+
+.resumeContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-between; /* 컨테이너 내에서 아이템 간 간격을 균등하게 설정 */
+    width:80%;
+    margin: auto auto;
+}
+
+
+
+
+.resumeItem {
+    width: 50%; 
+    margin-bottom: 30px;
+}
+
+
+
+.check {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+    margin-left:30px;
+    position: relative;
+
+}
+
+
+
+.checktext {
+    margin-left: 15px;
+    font-size: 1.4em;
+}
+
+
+
+.checkbtn {
+    margin-left: 30px;
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    accent-color: green;
+    width: 30px;
+    height:30px;
+}
+
+
+
+
+.applybtn {
+    text-align: center;
+    border: solid 2px #026423;
+    color: #026423;
+    font-family: "NanumSquareRoundB";
+    font-size: 1.5rem;
+    width: 25%;
+    height: 50px;
+    background-color: #ffffff;  
+    display: block;
+    margin-top: 50px;
+    margin-left: auto; 
+    margin-right: auto; 
+    margin-bottom: 100px; 
+}
+
+.applybtn:hover {
+    background-color: #026423;
+    color:white;
+}
+
+
+
