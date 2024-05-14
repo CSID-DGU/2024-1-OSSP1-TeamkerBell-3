@@ -11,6 +11,7 @@ class BasicUser(models.Model):
     email = models.CharField(null=False, max_length=50, default="default_value")
     date = models.DateField(null=False, default=timezone.now)
     img = models.TextField(null=False, default="default_value")
+    score = models.FloatField(null=False, default=36.5)
 
 
 class Resume(models.Model):

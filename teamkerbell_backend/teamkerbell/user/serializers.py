@@ -28,7 +28,7 @@ class RudeSerializer(serializers.ModelSerializer):
 class BookmarkSerializer(serializers.ModelSerializer):
     class Meta:
         model=Bookmark
-        fields='__all__'
+        exclude = ['user', 'comp']
 
 class CompListSerializer(serializers.ModelSerializer):
     class Meta:

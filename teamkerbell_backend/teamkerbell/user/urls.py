@@ -2,13 +2,15 @@
 from django.contrib import admin
 from django.urls import path
 
-from .views import createUser, detailResume, getUserForId, manageResume
+from .views import createUser, detailResume, getUserForId, manageResume,getCompLiked, compLike, getMyAchievement
 
 urlpatterns = [
     path('register', createUser),
     path('<int:user_id>/mypage/', getUserForId),
     path('<int:user_id>/mypage/resume', manageResume),
     path('<int:user_id>/mypage/resume/<int:resume_id>', detailResume),
-
+    path('<int:user_id>/mypage/compLiked', getCompLiked),
+    path('<int:user_id>/compLike/<int:comp_id>', compLike),
+    path('<int:user_id>/mypage/myachievements', getMyAchievement),
 ]
     
