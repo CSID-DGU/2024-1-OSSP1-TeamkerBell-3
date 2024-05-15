@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import Team, ChooseTeam, TeamRole, TeamMate, Schedule, Role, Reason
-from user.models import Resume, BasicUser
+from .models import Team, ChooseTeam, TeamRole, TeamMate, Schedule,  OutReason
+from user.models import Resume, BasicUser, Rude
 
 
 class ScheduleSerializer(serializers.ModelSerializer):
@@ -28,16 +28,15 @@ class TeamMateSerializer(serializers.ModelSerializer):
         model = TeamMate
         fields='__all__'
 
-class RoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Role
-        fields='__all__'
 
 class ReasonSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Reason
+        model = OutReason
         fields='__all__'
 
+class ScheduleAndCommitSerializer(serializers.Serializer):
+    scheduleList = ScheduleSerializer(many=True, required=False)
+    repository = serializers.CharField(required=False)
 
 #팀원 모아모기에서 이력서와 팀원의 role을 합쳐서 전송
 class ResumeAndRoleSerializer(serializers.ModelSerializer):
@@ -62,10 +61,8 @@ class MemberListSerializer(serializers.ModelSerializer):
 
 
 #활동종료에서 id받아오기
-class IdSerializer(serializers.ModelSerializer):
-    class Meta:
-        model= BasicUser
-        fields=['id']
+class IdSerializer(serializers.Serializer):
+    id = serializers.PrimaryKeyRelatedField(queryset=BasicUser.objects.all())
 
 #상호평가페이지에서 정보를 받아옴 CombinedSerializer까지 전부 포함
 class ScoreTagSerializer(serializers.Serializer):
@@ -78,9 +75,9 @@ class ScoreTagSerializer(serializers.Serializer):
 class ImprovementSerializer(serializers.Serializer):
     id = serializers.PrimaryKeyRelatedField(queryset=BasicUser.objects.all())
     improvement = serializers.CharField()
+    reporter = serializers.PrimaryKeyRelatedField(queryset=BasicUser.objects.all())
 
 class ReviewSerializer(serializers.Serializer):
-    id = serializers.PrimaryKeyRelatedField(queryset=BasicUser.objects.all())
     review = serializers.CharField()
 
 class CombinedSerializer(serializers.Serializer):
@@ -88,8 +85,17 @@ class CombinedSerializer(serializers.Serializer):
     improvements = ImprovementSerializer(many=True)
     review = ReviewSerializer()
 
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Rude
+        fields=['user','rudeness','reporter']
+
+class PlusMatchingSerializer(serializers.Serializer):
+    role = serializers.CharField()
+    recruitNum = serializers.IntegerField()
+
 #강제퇴출과 중도하차에서 id와 이유 받아오기
 class KickAndRunSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Reason
-        field=['user','reason']
+        model=OutReason
+        fields=['user','reason']

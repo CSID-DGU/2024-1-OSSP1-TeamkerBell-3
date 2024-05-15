@@ -9,10 +9,11 @@ class Team(models.Model):
     comp = models.ForeignKey('comp.Comp', related_name= 'teams', on_delete=models.SET_NULL, null=True)
     recruitNum=models.IntegerField(null=False, default=0)
     startDate=models.DateField(null=False, default=timezone.now)#생성날짜
-    user=models.ForeignKey('user.BasicUser', related_name='teams',on_delete=models.SET_NULL, null=True)
+    leader=models.ForeignKey('user.BasicUser', related_name='teams',on_delete=models.SET_NULL, null=True)
     endVote =models.IntegerField(null=False, default=0)
     isRandom=models.BooleanField(null=False, default=False)
     isDone=models.BooleanField(null=False, default=False)
+    repository = models.CharField(null=False, max_length=100, default="http://github.com")
 
 class TeamMate(models.Model):
     resume = models.ForeignKey('user.Resume', related_name='teammates', on_delete=models.SET_NULL, null=True)
@@ -35,13 +36,9 @@ class ChooseTeam(models.Model):
     class Meta:
         unique_together = (('team','comp'),)
 
-class Role(models.Model):
-    id=models.IntegerField(primary_key=True, null=False)
-    name=models.CharField(null=False, max_length=50, default="default_value")
-
 
 class TeamRole(models.Model):
-    role = models.ForeignKey(Role, related_name="teamroles", on_delete=models.SET_NULL, null=True)
+    role=models.CharField(null=False, max_length=50)
     team = models.ForeignKey(Team, related_name="teamroles", on_delete=models.CASCADE)
     recruitNum = models.IntegerField(null=False, default=0)
     num= models.IntegerField(null=False, default=0)
@@ -55,9 +52,13 @@ class Schedule(models.Model):
     endDate = models.CharField(null=False, max_length=50, default="default_value")
     schedule = models.CharField(null=False, max_length=255, default="default_value")
 
-class Reason(models.Model):
+class OutReason(models.Model):
     id=models.AutoField(primary_key=True, null=False)
     user = models.ForeignKey('user.BasicUser',related_name="reasons",on_delete=models.SET_NULL, null=True)#유저 아이디, 시리얼라이즈 작성을 위해 user가 아닌 id로 설정
-    team =models.ForeignKey(Team, related_name="teams", on_delete=models.SET_NULL, null=True)
+    team =models.ForeignKey(Team, related_name="reasons", on_delete=models.SET_NULL, null=True)
     isKick=models.BooleanField(null=False, default=False)
     reason = models.TextField(null=False, default="default_value")
+
+class TeamEndVote(models.Model):
+    team = models.ForeignKey(Team, related_name="teamendvotes", on_delete=models.CASCADE, null=False)
+    user = models.ForeignKey('user.BasicUser',related_name="teamendvotes",on_delete=models.CASCADE, null=False)
