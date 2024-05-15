@@ -19,11 +19,6 @@ const MainPage = () => {
     console.log("비밀번호: ", registerPassword);
   };
 
-  const handleRegisterButton = (e) => {
-    e.preventDefault();
-    console.log("회원가입 페이지로 이동");
-  };
-
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>TeamkerBell</h2>

@@ -1,3 +1,21 @@
 .calendar {
   width: 100%;
 }
+/* Calendar.module.css에 추가 */
+.saturday {
+  color: blue; /* 토요일에 대한 스타일 */
+}
+.dotContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dot {
+  height: 8px;
+  width: 8px;
+  background-color: #f87171;
+  border-radius: 50%;
+  display: flex;
+  margin-left: 1px;
+  justify-content: center;
+}
