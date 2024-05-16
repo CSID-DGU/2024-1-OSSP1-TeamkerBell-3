@@ -31,15 +31,17 @@ class Resume(models.Model):
 
 
 class Tag(models.Model):
-    id = models.IntegerField(primary_key=True, null=False)
+    id = models.AutoField(primary_key=True, null=False)
     user = models.ForeignKey(BasicUser,related_name='tags',on_delete=models.CASCADE)
     count = models.IntegerField(null=False, default=0)
+    num =models.IntegerField(null=False, default=0)
 
 class Rude(models.Model):
-    id = models.IntegerField(primary_key=True, null=False)
+    id = models.AutoField(primary_key=True, null=False)
     user = models.ForeignKey(BasicUser,related_name='rudes',on_delete=models.CASCADE)
     rudeness= models.CharField(null=True,max_length=300)
     isrude= models.BooleanField(null=True)
+    reporter = models.ForeignKey(BasicUser,related_name='reporters',on_delete=models.CASCADE, null=True)
 
 class Bookmark(models.Model):
     user=models.ForeignKey(BasicUser,related_name='bookmarks', null=False, on_delete=models.CASCADE)
