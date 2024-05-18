@@ -14,7 +14,6 @@ from user.decorator import login_required
 
 @swagger_auto_schema(method="POST", tags=["공모전 등록하기"], request_body=CompSerializer, operation_summary="공모전 정보 입력")
 @api_view(['POST'])
-@login_required
 def createComp(request):    
     if request.method == 'POST':
         comp = CompSerializer(data=request.data)
@@ -26,7 +25,6 @@ def createComp(request):
 
 @swagger_auto_schema(method='GET', tags=["공모전 리스트 가져오기"])
 @api_view(['GET'])
-@login_required
 def getComps(request):
     #URL에 들어가는 user_id를 의미한다.
     try:

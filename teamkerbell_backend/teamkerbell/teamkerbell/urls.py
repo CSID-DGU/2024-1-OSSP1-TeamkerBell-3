@@ -3,6 +3,10 @@ from django.urls import path,include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.permissions import AllowAny
+from django.views.static import serve
+from django.urls import re_path
+
+from teamkerbell_backend.teamkerbell.teamkerbell import settings
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -25,5 +29,6 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('comp/', include('comp.urls')),
     path('team/', include('team.urls')),
+	re_path(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
 
 ]

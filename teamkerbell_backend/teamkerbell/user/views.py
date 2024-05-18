@@ -55,7 +55,7 @@ def loginView(request):
 
 @swagger_auto_schema(method="POST", tags=["유저 로그아웃"],  request_body=LoginUserSerializer, operation_summary="유저 로그아웃")      
 @api_view(['POST'])
-@login_required
+
 def logoutView(request):
     if request.method == 'POST':
         logout(request)
@@ -64,7 +64,7 @@ def logoutView(request):
 @swagger_auto_schema(method='get', tags=["유저 정보 가져오기/붙여넣기/삭제하기"])
 @swagger_auto_schema(methods=['PUT','DELETE'], request_body=UserSerializer, tags=["유저 정보 가져오기/붙여넣기/삭제하기"])          
 @api_view(['GET','PUT','DELETE'])
-@login_required
+
 def getUserForId(request, user_id):
     try:
         user = BasicUser.objects.get(id=user_id)
@@ -90,7 +90,7 @@ def getUserForId(request, user_id):
 @swagger_auto_schema(method='GET', tags=["이력서 리스트 가져오기/쓰기"])
 @swagger_auto_schema(methods=['POST'], request_body=ResumeSerializer, tags=["이력서 리스트 가져오기/쓰기"])
 @api_view(['POST','GET'])
-@login_required
+
 def manageResume(request, user_id):
     #URL에 들어가는 user_id를 의미한다.
     try:
@@ -121,7 +121,7 @@ def manageResume(request, user_id):
 @swagger_auto_schema(method='GET', tags=["세부 이력서 가져오기/수정/삭제하기"])
 @swagger_auto_schema(methods=['DELETE', 'PATCH'], tags=["세부 이력서 가져오기/수정/삭제하기"])
 @api_view(['DELETE', 'PATCH', 'GET'])
-@login_required
+
 def detailResume(request, user_id, resume_id):
     try:
         user = BasicUser.objects.get(id=user_id)
@@ -151,7 +151,7 @@ def detailResume(request, user_id, resume_id):
 
 @swagger_auto_schema(methods=['POST'],tags=["공모전 찜하기/ 찜한 공모전 가져오기"])
 @api_view(['POST'])
-@login_required
+
 def compLike(request, user_id, comp_id):
         #URL에 들어가는 user_id를 의미한다.
     try:
@@ -176,7 +176,7 @@ def compLike(request, user_id, comp_id):
 
 @swagger_auto_schema(method='GET', tags=["공모전 찜하기/ 찜한 공모전 가져오기"])
 @api_view(['GET'])
-@login_required
+
 def getCompLiked(request, user_id):
     if request.method == 'GET':
         # 찜한 Comps의 ID 얻어오기
@@ -198,7 +198,7 @@ def getCompLiked(request, user_id):
 
 @swagger_auto_schema(method='GET', tags=["나의 성취 가져오기"])
 @api_view(['GET'])
-@login_required
+
 def getMyAchievement(request, user_id):
     try:
         user = BasicUser.objects.get(id=user_id)
