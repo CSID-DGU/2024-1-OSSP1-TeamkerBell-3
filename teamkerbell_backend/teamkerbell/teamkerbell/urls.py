@@ -1,3 +1,4 @@
+import settings
 from django.contrib import admin
 from django.urls import path,include
 from drf_yasg.views import get_schema_view
@@ -6,7 +7,7 @@ from rest_framework.permissions import AllowAny
 from django.views.static import serve
 from django.urls import re_path
 
-from teamkerbell_backend.teamkerbell.teamkerbell import settings
+
 
 schema_view = get_schema_view(
     openapi.Info(
