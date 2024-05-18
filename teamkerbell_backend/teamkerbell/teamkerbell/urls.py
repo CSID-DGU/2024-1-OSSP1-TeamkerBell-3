@@ -30,6 +30,4 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('comp/', include('comp.urls')),
     path('team/', include('team.urls')),
-	re_path(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
-
 ]
