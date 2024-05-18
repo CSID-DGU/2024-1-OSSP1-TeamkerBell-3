@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import BasicUser, Resume, Tag, Rude, Bookmark
+from .models import BasicUser, Resume, Tag, Rude, Bookmark, LoginUser
 from comp.models import Comp
 
 
@@ -35,3 +35,17 @@ class CompListSerializer(serializers.ModelSerializer):
         model=Comp
         fields=['id','name','img','endDate','context']
 
+class BasicUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BasicUser
+        fields = ['nickname', 'phone', 'email', 'password']
+
+class LoginUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LoginUser
+        fields = ['email', 'password']
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = LoginUser.objects.create_user(email=validated_data['email'], password=validated_data['password'])
+        return user

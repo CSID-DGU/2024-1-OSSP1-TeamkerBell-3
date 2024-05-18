@@ -1,15 +1,15 @@
 # user/views.py
-
+from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from .serializers import ResumeSerializer, UserSerializer, BookmarkSerializer, CompListSerializer
-
+from .serializers import LoginUserSerializer, BasicUserSerializer, ResumeSerializer, UserSerializer, BookmarkSerializer, CompListSerializer
+from django.contrib.auth import authenticate, login, logout
 from .models import BasicUser, Resume, Bookmark, Tag, Rude
 from comp.models import Comp
-
-
+from .decorator import login_required
+"""
 @swagger_auto_schema(method="POST", tags=["유저 회원가입"], request_body=UserSerializer, operation_summary="유저 회원가입")
 @api_view(['POST'])
 def createUser(request):    
@@ -20,10 +20,51 @@ def createUser(request):
             return Response(user.data, status=status.HTTP_201_CREATED)
         return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
     
+"""
+
+@swagger_auto_schema(method="POST", tags=["유저 회원가입"], request_body=BasicUserSerializer, operation_summary="유저 회원가입")
+@api_view(['POST'])
+def createUser(request):
+    if request.method == 'POST':
+        user_serializer = LoginUserSerializer(data=request.data)
+        if user_serializer.is_valid():
+            user = user_serializer.save()
+            basic_user_data = request.data.copy()
+            basic_user_data['user'] = user.id
+            basic_user_serializer = BasicUserSerializer(data=basic_user_data)
+            if basic_user_serializer.is_valid():
+                basic_user_serializer.save()
+                return Response(user_serializer.data, status=status.HTTP_201_CREATED)
+            user.delete()
+            return Response(basic_user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@swagger_auto_schema(method="POST", tags=["유저 로그인"], request_body=LoginUserSerializer, operation_summary="유저 로그인")
+@api_view(['POST'])
+def loginView(request):
+    if request.method == 'POST':
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'message': 'Login successful'})
+        else:
+            return JsonResponse({'error': 'Invalid email or password'}, status=401)
+
+@swagger_auto_schema(method="POST", tags=["유저 로그아웃"],  request_body=LoginUserSerializer, operation_summary="유저 로그아웃")      
+@api_view(['POST'])
+@login_required
+def logoutView(request):
+    if request.method == 'POST':
+        logout(request)
+        return JsonResponse({'message': 'Logout successful'})
 
 @swagger_auto_schema(method='get', tags=["유저 정보 가져오기/붙여넣기/삭제하기"])
 @swagger_auto_schema(methods=['PUT','DELETE'], request_body=UserSerializer, tags=["유저 정보 가져오기/붙여넣기/삭제하기"])          
 @api_view(['GET','PUT','DELETE'])
+@login_required
 def getUserForId(request, user_id):
     try:
         user = BasicUser.objects.get(id=user_id)
@@ -49,6 +90,7 @@ def getUserForId(request, user_id):
 @swagger_auto_schema(method='GET', tags=["이력서 리스트 가져오기/쓰기"])
 @swagger_auto_schema(methods=['POST'], request_body=ResumeSerializer, tags=["이력서 리스트 가져오기/쓰기"])
 @api_view(['POST','GET'])
+@login_required
 def manageResume(request, user_id):
     #URL에 들어가는 user_id를 의미한다.
     try:
@@ -79,6 +121,7 @@ def manageResume(request, user_id):
 @swagger_auto_schema(method='GET', tags=["세부 이력서 가져오기/수정/삭제하기"])
 @swagger_auto_schema(methods=['DELETE', 'PATCH'], tags=["세부 이력서 가져오기/수정/삭제하기"])
 @api_view(['DELETE', 'PATCH', 'GET'])
+@login_required
 def detailResume(request, user_id, resume_id):
     try:
         user = BasicUser.objects.get(id=user_id)
@@ -108,6 +151,7 @@ def detailResume(request, user_id, resume_id):
 
 @swagger_auto_schema(methods=['POST'],tags=["공모전 찜하기/ 찜한 공모전 가져오기"])
 @api_view(['POST'])
+@login_required
 def compLike(request, user_id, comp_id):
         #URL에 들어가는 user_id를 의미한다.
     try:
@@ -132,6 +176,7 @@ def compLike(request, user_id, comp_id):
 
 @swagger_auto_schema(method='GET', tags=["공모전 찜하기/ 찜한 공모전 가져오기"])
 @api_view(['GET'])
+@login_required
 def getCompLiked(request, user_id):
     if request.method == 'GET':
         # 찜한 Comps의 ID 얻어오기
@@ -153,6 +198,7 @@ def getCompLiked(request, user_id):
 
 @swagger_auto_schema(method='GET', tags=["나의 성취 가져오기"])
 @api_view(['GET'])
+@login_required
 def getMyAchievement(request, user_id):
     try:
         user = BasicUser.objects.get(id=user_id)
@@ -172,7 +218,7 @@ def getMyAchievement(request, user_id):
 
         response_data = {
         "apiStatus": {
-            "statusCode": "Y200",
+            "statusCode": status.HTTP_200_OK,
             "statusMessage": "OK",
         },
         "temp": 36.5,  # 이 값은 예시입니다. 실제로는 다른 방식으로 계산하거나 데이터를 가져와야 합니다.
