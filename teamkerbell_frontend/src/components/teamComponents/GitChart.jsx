@@ -1,117 +1,173 @@
-import React, { useState, useEffect } from "react";
-import { Bar } from "react-chartjs-2";
+import React, { useState } from "react";
+import { Bar, Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
-import axios from "axios";
 import {
   fetchContributors,
   fetchCommitStats,
   fetchRateLimit,
   fetchCodeFrequency,
+  extractOwnerAndRepo,
+  loadAndPrepareGraphData,
 } from "../../utils/githubUtil";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
   Legend
 );
 
 const App = () => {
-  const [owner, setOwner] = useState("CSID-DGU");
-  const [repo, setRepo] = useState("2024-1-OSSP1-TeamkerBell-3");
+  const [gitUrl, setGitUrl] = useState(
+    "https://github.com/CSID-DGU/2024-1-OSSP1-TeamkerBell-3"
+  );
   const [contributors, setContributors] = useState([]);
   const [commits, setCommits] = useState({});
   const [linesOfCode, setLinesOfCode] = useState({});
-  const [totalLinesChanged, setTotalLinesChanged] = useState({});
   const [rateLimit, setRateLimit] = useState({});
   const [codeFrequency, setCodeFrequency] = useState([]);
+  const [weeklyData, setWeeklyData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [weeklyGraphData, setWeeklyGraphData] = useState({});
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const rateLimitData = await fetchRateLimit();
-        setRateLimit(rateLimitData.rate);
+  const handleChange = (e) => {
+    setGitUrl(e.target.value);
+  };
 
-        const contributorsData = await fetchContributors(owner, repo);
-        setContributors(contributorsData);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { owner, repo } = extractOwnerAndRepo(gitUrl);
+    fetchData(owner, repo);
+    fetchCodeFrequencyData(owner, repo);
+    fetchWeeklyDatafunction(owner, repo);
+  };
 
-        const commitStats = {};
-        const locStats = {};
-        const totalLines = {};
+  const fetchData = async (owner, repo) => {
+    setLoading(true);
+    try {
+      const rateLimitData = await fetchRateLimit();
+      setRateLimit(rateLimitData.rate);
 
-        for (let contributor of contributorsData) {
-          const commits = await fetchCommitStats(
-            owner,
-            repo,
-            contributor.login
-          );
-          commitStats[contributor.login] = commits.length;
+      const contributorsData = await fetchContributors(owner, repo);
+      setContributors(contributorsData);
 
-          let added = 0;
-          let deleted = 0;
+      const commitStats = {};
+      const locStats = {};
+      const totalLines = {};
 
-          for (let commit of commits) {
-            if (commit.stats) {
-              added += commit.stats.additions;
-              deleted += commit.stats.deletions;
-            }
+      for (let contributor of contributorsData) {
+        const commits = await fetchCommitStats(owner, repo, contributor.login);
+        commitStats[contributor.login] = commits.length;
+
+        let added = 0;
+        let deleted = 0;
+
+        for (let commit of commits) {
+          if (commit.stats) {
+            added += commit.stats.additions;
+            deleted += commit.stats.deletions;
           }
-          locStats[contributor.login] = added - deleted;
-          totalLines[contributor.login] = added + deleted;
         }
-
-        setCommits(commitStats);
-        setLinesOfCode(locStats);
-        setTotalLinesChanged(totalLines);
-      } catch (error) {
-        console.error("Error fetching data", error);
+        locStats[contributor.login] = added - deleted;
+        totalLines[contributor.login] = added + deleted;
       }
-    };
 
-    fetchData();
-  }, [owner, repo]);
+      setCommits(commitStats);
+      setLinesOfCode(locStats);
 
-  useEffect(() => {
-    const fetchCodeFrequencyData = async () => {
-      try {
-        const data = await fetchCodeFrequency(owner, repo);
-        setCodeFrequency(data);
-      } catch (error) {
-        console.error("Error fetching code frequency data", error);
+      const weeklyData = await fetchWeeklyData(owner, repo, contributorsData);
+      console.log("weeklyData :" + weeklyData);
+      setWeeklyData(weeklyData);
+    } catch (error) {
+      console.error("Error fetching data", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchWeeklyData = async (owner, repo, contributors) => {
+    const weeklyData = {};
+
+    for (let contributor of contributors) {
+      const commits = await fetchCommitStats(owner, repo, contributor.login);
+      for (let commit of commits) {
+        const week = new Date(commit.commit.author.date).toLocaleDateString();
+        if (!weeklyData[week]) {
+          weeklyData[week] = {};
+        }
+        if (!weeklyData[week][contributor.login]) {
+          weeklyData[week][contributor.login] = 0;
+        }
+        weeklyData[week][contributor.login] += commit.stats.additions;
       }
-    };
+    }
 
-    fetchCodeFrequencyData();
-  }, [owner, repo]);
+    return weeklyData;
+  };
+
+  const fetchCodeFrequencyData = async (owner, repo) => {
+    setLoading(true);
+    try {
+      const data = await fetchCodeFrequency(owner, repo);
+      setCodeFrequency(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error fetching code frequency data", error);
+      setCodeFrequency([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const weeks = codeFrequency.map((week) =>
     new Date(week[0] * 1000).toLocaleDateString()
   );
-  const additions = codeFrequency.map((week) => week[1]);
-  const deletions = codeFrequency.map((week) => week[2]);
 
-  const codeFrequencyData = {
+  const additions = codeFrequency.map((week) => week[1]);
+  const deletions = codeFrequency.map((week) => Math.abs(week[2])); // Absolute value for deletions
+
+  // Calculating cumulative additions and deletions
+  const cumulativeAdditions = additions.reduce((acc, cur, idx) => {
+    acc.push((acc[idx - 1] || 0) + cur);
+    return acc;
+  }, []);
+
+  const cumulativeDeletions = deletions.reduce((acc, cur, idx) => {
+    acc.push((acc[idx - 1] || 0) + cur);
+    return acc;
+  }, []);
+
+  const cumulativeData = {
     labels: weeks,
     datasets: [
       {
-        label: "Additions",
-        data: additions,
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        label: "Cumulative Additions",
+        data: cumulativeAdditions,
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        fill: true,
+        lineTension: 0.1,
       },
       {
-        label: "Deletions",
-        data: deletions,
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
+        label: "Cumulative Deletions",
+        data: cumulativeDeletions,
+        borderColor: "rgba(255, 99, 132, 1)",
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        fill: true,
+        lineTension: 0.1,
       },
     ],
   };
@@ -136,17 +192,16 @@ const App = () => {
     ],
   };
 
-  const linesData = {
-    labels: contributors.map((contributor) => contributor.login),
-    datasets: [
-      {
-        label: "Total Lines Changed",
-        data: contributors.map(
-          (contributor) => totalLinesChanged[contributor.login] || 0
-        ),
-        backgroundColor: "rgba(255, 159, 64, 0.6)",
-      },
-    ],
+  const weeklyLabels = Object.keys(weeklyData);
+
+  const fetchWeeklyDatafunction = async (owner, repo) => {
+    await loadAndPrepareGraphData(fetchWeeklyData, owner, repo, contributors)
+      .then((data) => {
+        setWeeklyGraphData(data);
+      })
+      .catch((error) => {
+        console.error("Error loading weekly graph data:", error);
+      });
   };
 
   return (
@@ -154,36 +209,72 @@ const App = () => {
       <h2>
         API Rate Limit: {rateLimit.remaining} / {rateLimit.limit}
       </h2>
-      <h2>GitHub 커밋 수</h2>
-      <div></div>
-      <Bar
-        data={commitData}
-        options={{
-          responsive: true,
-          plugins: {
-            legend: { position: "top" },
-            title: {
-              display: true,
-              text: "Commits and Lines of Code by Contributor",
-            },
-          },
-        }}
-      />
-
-      <h2>GitHub Code 작성 추이</h2>
-      <Bar
-        data={codeFrequencyData}
-        options={{
-          responsive: true,
-          plugins: {
-            legend: { position: "top" },
-            title: {
-              display: true,
-              text: "Code Additions and Deletions Over Time",
-            },
-          },
-        }}
-      />
+      <form onSubmit={handleSubmit}>
+        <label>
+          GitHub URL:
+          <input type="text" value={gitUrl} onChange={handleChange} />
+        </label>
+        <button type="submit">그래프 보기</button>
+      </form>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <h2>GitHub 커밋 수</h2>
+          <div></div>
+          <Bar
+            data={commitData}
+            options={{
+              responsive: true,
+              plugins: {
+                legend: { position: "top" },
+                title: {
+                  display: true,
+                  text: "Commits and Lines of Code by Contributor",
+                },
+              },
+            }}
+          />
+          {codeFrequency.length ? (
+            <>
+              <h2>누적 Code 작성 진척도</h2>
+              <Line
+                data={cumulativeData}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    legend: { position: "top" },
+                    title: {
+                      display: true,
+                      text: "Cumulative Code Additions and Deletions Over Time",
+                    },
+                  },
+                }}
+              />
+            </>
+          ) : (
+            <p>No code frequency data available.</p>
+          )}
+          <h2>주간 코드 작성량</h2>
+          {weeklyLabels.length ? (
+            <Bar
+              data={weeklyGraphData}
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: { position: "top" },
+                  title: {
+                    display: true,
+                    text: "Weekly Code Additions by Contributor",
+                  },
+                },
+              }}
+            />
+          ) : (
+            <p>No weekly data available.</p>
+          )}
+        </>
+      )}
     </div>
   );
 };
