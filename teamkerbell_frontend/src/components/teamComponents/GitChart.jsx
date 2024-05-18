@@ -53,7 +53,7 @@ const App = () => {
     const { owner, repo } = extractOwnerAndRepo(gitUrl);
     fetchData(owner, repo);
     fetchCodeFrequencyData(owner, repo);
-    fetchWeeklyDatafunction(owner, repo);
+    fetchWeeklyDatafunction(owner,repo);
   };
 
   const fetchData = async (owner, repo) => {
@@ -193,6 +193,13 @@ const App = () => {
   };
 
   const weeklyLabels = Object.keys(weeklyData);
+  const weeklyDatasets = contributors.map((contributor) => ({
+    label: contributor.login,
+    data: weeklyLabels.map((week) => weeklyData[week][contributor.login] || 0),
+    backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
+      Math.random() * 255
+    )}, ${Math.floor(Math.random() * 255)}, 0.6)`,
+  }));
 
   const fetchWeeklyDatafunction = async (owner, repo) => {
     await loadAndPrepareGraphData(fetchWeeklyData, owner, repo, contributors)

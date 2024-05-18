@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./main.module.css";
 import Carousel from "../components/mainComponents/Carousel";
 import CompCard from "../components/mainComponents/CompCard"; // CompCard 컴포넌트 import
 import { Link, useNavigate } from "react-router-dom";
+import { getComps } from "../api/comp";
+import { getCompLiked, getUserResumes } from "../api/user";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -53,6 +55,11 @@ const MainPage = () => {
   const compMakingButtonHandler = () => {
     navigate("/compregister");
   };
+
+  useEffect(() => {
+    // 컴포넌트가 처음 렌더링될 때만 실행되는 부수 효과 작성
+    getComps();
+  }, []);
 
   return (
     <div className={styles.container}>
