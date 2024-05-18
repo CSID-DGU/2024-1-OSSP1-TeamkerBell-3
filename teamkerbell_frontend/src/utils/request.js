@@ -1,9 +1,10 @@
 // // 인증 토큰을 가져오는 함수 (여기서는 예시로 localStorage를 사용)
 // export const getAuthToken = () => localStorage.getItem('flirtoken');
 
-// 공통 요청 처리기
+// 공통 요청 처리기 (수정 x)
 export const sendRequest = async (instance, method, url, data = {}) => {
   try {
+    //
     const response = await instance[method](url, data);
     console.log(
       `✅${instance.defaults.baseURL} -[${method}] success :`,
