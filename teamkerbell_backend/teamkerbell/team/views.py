@@ -10,6 +10,7 @@ from comp.models import RandomMatching, CompReview
 from user.models import BasicUser, Resume, Tag, Rude
 import random
 from django.db import transaction
+from user.decorator import login_required
 # Create your views here.
 
 
@@ -18,6 +19,7 @@ from django.db import transaction
 @swagger_auto_schema(method='get', tags=["일정 및 커밋 진행사항 보기"])
 @swagger_auto_schema(methods=['post'], request_body=ScheduleAndCommitSerializer, tags=["일정정보 및 깃허브 레포 주소 전송하기"])
 @api_view(['GET', 'POST'])
+@login_required
 @transaction.atomic
 def teamScheduleAndCommit(request, team_id):
     try:
@@ -51,6 +53,7 @@ def teamScheduleAndCommit(request, team_id):
 
 @swagger_auto_schema(method='get', tags=["팀원 이력서 정보 보기"])
 @api_view(['GET'])
+@login_required
 def teamMateList(request, team_id):
     try:
         team = Team.objects.get(id=team_id)
@@ -71,6 +74,7 @@ def teamMateList(request, team_id):
 @swagger_auto_schema(method='get', tags=["팀원 목록(상호평가 창)"])
 @swagger_auto_schema(methods=['post'], request_body=CombinedSerializer, tags=["상호평가 전송"])
 @api_view(['GET', 'POST'])
+@login_required
 @transaction.atomic
 def mutualReview(request, team_id):
     try:
@@ -145,6 +149,7 @@ def mutualReview(request, team_id):
 @swagger_auto_schema(method='get', tags=["팀원 목록(비매너신고 창)"])
 @swagger_auto_schema(methods=['post'], request_body= ReportSerializer, tags=["신고하기"])
 @api_view(['GET','POST'])
+@login_required
 @transaction.atomic
 def reportUser(request, team_id):
     try:
@@ -174,6 +179,7 @@ def reportUser(request, team_id):
 
 @swagger_auto_schema(methods=['get'], tags=["팀 관리페이지 생성(종료투표, 추가모집, 퇴출, 탈퇴)"])
 @api_view(['GET'])
+@login_required
 def manageTeam(request, team_id):
     try:
         team = Team.objects.get(id=team_id)
@@ -188,6 +194,7 @@ def manageTeam(request, team_id):
 
 @swagger_auto_schema(methods=['POST'],request_body= IdSerializer, tags=["팀 종료 투표보내기"])
 @api_view(['POST'])
+@login_required
 @transaction.atomic
 def teamEndVote(request, team_id):
     try:
@@ -213,6 +220,7 @@ def teamEndVote(request, team_id):
 
 @swagger_auto_schema(methods=['post'],request_body= PlusMatchingSerializer(many=True), tags=["추가 매칭 신청"])
 @api_view(['POST'])
+@login_required
 @transaction.atomic
 def plusMatching(request, team_id):
     try:
@@ -261,6 +269,7 @@ def plusMatching(request, team_id):
 
 @swagger_auto_schema(methods=['post'], request_body=KickAndRunSerializer, tags=["퇴출하기"])
 @api_view(['POST'])
+@login_required
 @transaction.atomic
 def KickUser(request, team_id):
     try:
@@ -296,6 +305,7 @@ def KickUser(request, team_id):
         
 @swagger_auto_schema(methods=['post'], request_body=KickAndRunSerializer, tags=["탈퇴하기"])
 @api_view(['POST'])
+@login_required
 @transaction.atomic
 def RunUser(request, team_id):
     try:
