@@ -10,7 +10,7 @@ export const login = (email, password) =>
 
 //프로필 정보 받아오기
 export const register = (email, password) =>
-  sendRequest(userInstance, "post", `/regitser`, {
+  sendRequest(userInstance, "post", `/register`, {
     email: email,
     password: password,
   });
