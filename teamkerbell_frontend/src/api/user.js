@@ -2,6 +2,20 @@ import { sendRequest } from "../utils/request";
 import { userInstance } from "./instance";
 
 //프로필 정보 받아오기
+export const login = (userId, email, password) =>
+  sendRequest(userInstance, "get", `/${userId}/mypage`, {
+    email: email,
+    password: password,
+  });
+
+//프로필 정보 받아오기
+export const register = (email, password) =>
+  sendRequest(userInstance, "post", `/regitser`, {
+    email: email,
+    password: password,
+  });
+
+//프로필 정보 받아오기
 export const getUserProfile = (userId) =>
   sendRequest(userInstance, "get", `/${userId}/mypage`);
 
