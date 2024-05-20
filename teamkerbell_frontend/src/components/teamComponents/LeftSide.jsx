@@ -12,7 +12,7 @@ import { ReactComponent as MemberInfo } from "../../stores/team_icon/memberInfo.
 import { ReactComponent as Progress } from "../../stores/team_icon/progress.svg";
 import { ReactComponent as Report } from "../../stores/team_icon/report.svg";
 
-const LeftSide = ({}) => {
+const LeftSide = () => {
   const categoryComponents = [
     Tool,
     ContestInfo,

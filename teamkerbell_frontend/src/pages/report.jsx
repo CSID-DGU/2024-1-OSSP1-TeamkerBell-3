@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./team.module.css";
 import LeftSide from "../components/teamComponents/LeftSide";
+import Report from "../components/teamComponents/Report"
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { categoryState } from "../atoms"; // Recoil에서 정의한 상태
 
@@ -21,6 +22,7 @@ const RePort = () => {
       <div className={styles.main}>
         {categoryStateValue === 0 }
         {/* categoryStateValue가 0일 때만 EditProfile을 렌더링 */}
+        <Report />
       </div>
     </div>
   );

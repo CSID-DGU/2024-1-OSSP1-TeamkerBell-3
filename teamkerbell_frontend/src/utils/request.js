@@ -8,7 +8,7 @@ export const sendRequest = async (instance, method, url, data = {}) => {
     const response = await instance[method](url, data);
     console.log(
       `✅${instance.defaults.baseURL} -[${method}] success :`,
-      response.data
+      response
     );
     return response.data;
   } catch (error) {
