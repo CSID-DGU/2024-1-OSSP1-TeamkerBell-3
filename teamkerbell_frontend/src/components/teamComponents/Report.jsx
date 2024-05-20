@@ -74,7 +74,7 @@ const Report = () => {
 
           {/* 펼칠 때 이름 선택하는 창 */}
           {view && (
-            <ul className={styles.list}>
+            <ul className={styles.list2}>
               {DUMMY_MEMBERINFO.map((content, index) => (
                 <li
                   className={styles.nameSelect}
