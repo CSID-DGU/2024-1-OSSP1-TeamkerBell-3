@@ -7,9 +7,16 @@ import MainPage from "./pages/main";
 import Header from "./components/Header";
 
 import Team from "./pages/team";
+import Tools from "./pages/coopTool"
 import TeamToolW2M from "./pages/teamToolW2M";
 import TeamToolGit from "./pages/teamToolGit";
 import TeamToolSlack from "./pages/teamToolSlack";
+import CompInfo from "./pages/cntstInfo"
+import MemInfo from "./pages/memInfo"
+import Progress from "./pages/progress"
+import Evaluation from "./pages/evaluation";
+import Report from "./pages/report"
+import TeamManage from "./pages/teamManage"
 
 import CompMatching from "./pages/comp";
 import CompReviews from "./pages/reviews";
@@ -69,10 +76,18 @@ function App() {
           element={<Mypage />}
         />
 
-        <Route path="/team/tid" element={<Team />} />
-        <Route path="/team/tid/guideline1" element={<TeamToolW2M />} />
-        <Route path="/team/tid/guideline2" element={<TeamToolGit />} />
-        <Route path="/team/tid/guideline3" element={<TeamToolSlack />} />
+        <Route path="/team/:tid" element={<Team />} />
+        <Route path="/team/:tid/tools" element={<Tools />} />
+        <Route path="/team/:tid/guidelines1" element={<TeamToolW2M />} />
+        <Route path="/team/:tid/guidelines2" element={<TeamToolGit />} />
+        <Route path="/team/:tid/guidelines3" element={<TeamToolSlack />} />
+        <Route path="/team/:tid/compinfo" element={<CompInfo />} />
+        <Route path="/team/:tid/members" element={<MemInfo />} />
+        <Route path="/team/:tid/progress" element={<Progress />} />
+        <Route path="/team/:tid/evaluation/end/" element={<Evaluation />} />
+        <Route path="/team/:tid/report" element={<Report />} />
+        <Route path="/team/:tid/teamManage" element={<TeamManage />} />
+
 
         <Route path="/comp/:compId" element={<CompMatching />} />
         <Route path="/comp/:compId/reviews" element={<CompReviews />} />

@@ -38,7 +38,7 @@ const CoopTool = () => {
               <div className={styles.boxtop}>
                 <h2 className={styles.boxtitle}>{guide.title}</h2>
                 <Link
-                  to={`/team/tid/guideline${index + 1}`}
+                  to={`/team/0/guidelines${index + 1}`}
                   className={styles.link}
                 >
                   <button className={styles.detailbutton}>자세히보기</button>
