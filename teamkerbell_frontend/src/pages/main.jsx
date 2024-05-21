@@ -58,7 +58,8 @@ const MainPage = () => {
 
   useEffect(() => {
     // 컴포넌트가 처음 렌더링될 때만 실행되는 부수 효과 작성
-    getComps();
+    const response = getComps();
+    console.log("[response status] : ", response);
   }, []);
 
   return (

@@ -37,7 +37,8 @@ def getComps(request):
         # Resume들 중에 user 값이(model에 정의된 model이라는 값) user_id인 값 
         if comps.exists():  # 이력서가 존재하는지 확인
             serializer = CompSerializer(comps, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK, statusText="성공!")
+        
         else:
             return Response({'error': {'code': 404, 'message': "Resumes not found!"}}, status=status.HTTP_404_NOT_FOUND)
 

@@ -7,7 +7,7 @@ from .views import createComp, getComps , teamDetails, teamDescriptions, reviewL
 urlpatterns = [
 
     path('', getComps),
-    path('compregister', createComp),
+    path('register', createComp),
     #path('<int:comp_id>/teamList/<int:team_id>/leaderResume',teamDetails),
     path('<int:comp_id>/teamList/<int:team_id>/leaderResume/', teamDetails),
     path('<int:comp_id>/teamList/<int:team_id>/detail/', teamDescriptions),

@@ -2,10 +2,12 @@
 import React, { useState } from "react";
 import styles from "./login.module.css";
 import { Link } from "react-router-dom";
+import { login } from "../api/user";
 
 const MainPage = () => {
   const [registerId, setRegisterId] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
+  let response = {};
 
   const handleLoginButton = (e) => {
     e.preventDefault();
@@ -13,10 +15,8 @@ const MainPage = () => {
       alert("모든 필드를 입력해주세요.");
       return;
     }
-
-    console.log("로그인 중....");
-    console.log("아이디: ", registerId);
-    console.log("비밀번호: ", registerPassword);
+    response = login(registerId, registerPassword);
+    console.log(response.status);
   };
 
   return (

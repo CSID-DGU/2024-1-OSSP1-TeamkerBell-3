@@ -1,13 +1,20 @@
-// src/team.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./mypage.module.css";
 import LeftSide from "../components/myPageComponents/MypageLeftSide";
 import FavoriteComp from "../components/myPageComponents/FavoriteComp";
 import { useSetRecoilState } from "recoil";
-import { categoryState } from "../atoms"; // Recoil에서 정의한 상태
+import { categoryState } from "../atoms";
+import { getCompLiked } from "../api/user";
+import { useParams } from "react-router-dom";
+import ErrorComponent from "../components/ErrorComponent"; // Ensure correct import path
 
 const CompLikedPage = () => {
-  const setCategoryState = useSetRecoilState(categoryState); // Recoil 상태를 업데이트하는 함수 가져오기
+  const setCategoryState = useSetRecoilState(categoryState);
+  const { userId } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [comps, setComps] = useState([]);
 
   const DUMMY_COMP = [
     {
@@ -46,12 +53,30 @@ const CompLikedPage = () => {
       jobs: ["프론트엔드", "백엔드", "기획", "디자인"],
       deadline: new Date("2024-07-20"),
     },
-    // 필요한 만큼 데이터를 추가할 수 있음
   ];
 
   useEffect(() => {
-    setCategoryState(1); // categoryState를 1로 설정
-  }, [setCategoryState]); // 의존성 배열에 setCategoryState를 추가
+    setCategoryState(1);
+
+    const fetchCompLiked = async () => {
+      try {
+        const response = await getCompLiked(userId);
+        setComps(response.data || []); // Ensure comps is always an array
+        setIsLoading(false);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setIsError(true);
+          setErrorMessage("찜한 공모전이 없어요!");
+        } else {
+          setIsError(true);
+          setErrorMessage("An unexpected error occurred.");
+        }
+        setIsLoading(false);
+      }
+    };
+
+    fetchCompLiked();
+  }, [setCategoryState, userId]);
 
   return (
     <div className={styles.container}>
@@ -59,9 +84,13 @@ const CompLikedPage = () => {
         <LeftSide />
       </div>
       <div className={styles.main}>
-        {/* categoryState 값에 따라 다른 컴포넌트 렌더링 */}
-        {/* {categoryStateValue === 0 && <EditProfile />} */}
-        <FavoriteComp comps={DUMMY_COMP} />
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : isError ? (
+          <ErrorComponent message={errorMessage} />
+        ) : (
+          <FavoriteComp comps={comps.length > 0 ? comps : DUMMY_COMP} />
+        )}
       </div>
     </div>
   );

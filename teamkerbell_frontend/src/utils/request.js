@@ -4,16 +4,22 @@
 // 공통 요청 처리기 (수정 x)
 export const sendRequest = async (instance, method, url, data = {}) => {
   try {
-    //
     const response = await instance[method](url, data);
     console.log(
       `✅${instance.defaults.baseURL} -[${method}] success :`,
-      response.data
+      response
     );
-    return response.data;
+    return response;
   } catch (error) {
-    console.error(`❌${url}-[${method}] error :`, error);
-    return error.response.data;
+    console.error(
+      `❌${url}-[${method}] error_response:`,
+      error.response,
+      `error_status : `,
+      error.response.status,
+      `error_status_text: `,
+      error.response.statusText
+    );
+    throw error;
   }
 };
 

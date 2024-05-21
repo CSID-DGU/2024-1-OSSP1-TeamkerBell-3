@@ -1,8 +1,13 @@
 // src/team.js
-import React from "react";
+import React, { useState } from "react";
 import styles from "./EditProfile.module.css";
 
-const EditProfile = () => {
+const EditProfile = ({ initialNickname, initialEmail, initialPhoneNumber }) => {
+  const [nickname, setNickname] = useState(initialNickname);
+  const [email, setEmail] = useState(initialEmail);
+  const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber);
+  const [interest, setInterest] = useState("");
+  
   return (
     <div className={styles.title}>
       <h1>프로필 편집</h1>
@@ -14,9 +19,12 @@ const EditProfile = () => {
               <h3 className={styles.noMargin}>성명</h3>
               <span className={styles.redColorNoMargin}>*</span>
             </div>
-
             <form>
-              <input placeholder="ex) 홍길동"></input>
+              <input
+                placeholder="ex) 홍길동"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+              />
             </form>
           </div>
           <div className={styles.infoItem}>
@@ -25,7 +33,11 @@ const EditProfile = () => {
               <span className={styles.redColor}> *</span>
             </div>
             <form>
-              <input placeholder="ex) hkj0206@dgu.ac.kr"></input>
+              <input
+                placeholder="ex) hkj0206@dgu.ac.kr"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </form>
           </div>
           <div className={styles.infoItem}>
@@ -34,7 +46,11 @@ const EditProfile = () => {
               <span className={styles.redColor}> *</span>
             </div>
             <form>
-              <input placeholder="ex) 010-5820-4625"></input>
+              <input
+                placeholder="ex) 010-5820-4625"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
             </form>
           </div>
           <div className={styles.infoItem}>
@@ -43,7 +59,11 @@ const EditProfile = () => {
               <span className={styles.redColor}> *</span>
             </div>
             <form>
-              <input placeholder="ex) IT/디자인"></input>
+              <input
+                placeholder="ex) IT/디자인"
+                value={interest}
+                onChange={(e) => setInterest(e.target.value)}
+              />
             </form>
           </div>
         </div>

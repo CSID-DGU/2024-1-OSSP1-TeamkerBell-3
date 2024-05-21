@@ -122,6 +122,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# SWAGGER_SETTINGS = {
+#     'SECURITY_DEFINITIONS': {
+#         'basic': {
+#             'type': 'basic'
+#         }
+#     },
+#     'DEFAULT_PROTOCOL': 'https',
+#     'DEFAULT_API_URL': 'https://port-0-ggokggok-1cupyg2klvrp1r60.sel5.cloudtype.app',
+
+# }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

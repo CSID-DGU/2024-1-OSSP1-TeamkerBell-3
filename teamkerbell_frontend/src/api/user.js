@@ -9,10 +9,13 @@ export const login = (email, password) =>
   });
 
 //프로필 정보 받아오기
-export const register = (email, password) =>
+export const register = (nickname, email, password, phoneNumber) =>
   sendRequest(userInstance, "post", `/register`, {
+    //fields = ['nickname', 'phone', 'email', 'password']
+    nickname: nickname,
     email: email,
     password: password,
+    phoneNumber: phoneNumber,
   });
 
 //프로필 정보 받아오기
@@ -20,12 +23,19 @@ export const getUserProfile = (userId) =>
   sendRequest(userInstance, "get", `/${userId}/mypage`);
 
 //프로필 편집하기
-export const patchUserProfile = (userId) =>
-  sendRequest(userInstance, "patch", `/${userId}/mypage/editProfile`);
+export const patchUserProfile = (userId, email, nickname, phoneNumber) =>
+  sendRequest(userInstance, "patch", `/${userId}/mypage/editProfile`, {
+    // id : userId
+    // email : email
+    // nickname : nickname
+    // phone : phoneNumber
+    // date :
+    // img:
+  });
 
 //이력서 목록 가져오기
 export const getUserResumes = (userId) =>
-  sendRequest(userInstance, "get", `/${userId}/mypage/resume`);
+  sendRequest(userInstance, "get", `/${userId}/mypage/resumes`);
 
 //이력서 작성하기
 export const setUserResume = (userId) =>
