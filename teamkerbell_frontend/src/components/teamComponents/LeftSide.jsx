@@ -2,7 +2,7 @@ import styles from "./LeftSide.module.css";
 import React from "react";
 import { useRecoilState } from "recoil";
 import { listState } from "../../atoms";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { ReactComponent as Tool } from "../../stores/team_icon/tool.svg";
 import { ReactComponent as ContestInfo } from "../../stores/team_icon/contestInfo.svg";
@@ -12,7 +12,7 @@ import { ReactComponent as MemberInfo } from "../../stores/team_icon/memberInfo.
 import { ReactComponent as Progress } from "../../stores/team_icon/progress.svg";
 import { ReactComponent as Report } from "../../stores/team_icon/report.svg";
 
-const LeftSide = ({}) => {
+const LeftSide = () => {
   const categoryComponents = [
     Tool,
     ContestInfo,
@@ -24,10 +24,38 @@ const LeftSide = ({}) => {
   ];
   const [categoryNum, setCategoryNum] = useRecoilState(listState);
 
+  const navigate = useNavigate(); // useNavigate 훅을 호출하여 navigate 함수를 가져옴
+
   const onClick = (index) => {
     setCategoryNum(index);
     console.log("[Recoil]categoryNum :", categoryNum);
     /*누른 index로 categoryNum설정*/
+    switch (index) {
+      case 0:
+        navigate("/team/0/tools"); // 0번 index에 해당하는 링크로 이동
+        break;
+      case 1:
+        navigate("/team/0/compinfo"); // 1번 index에 해당하는 링크로 이동
+        break;
+      case 2:
+        navigate("/team/0/members"); // 2번 index에 해당하는 링크로 이동
+        break;
+      case 3:
+        navigate("/team/0/progress"); // 3번 index에 해당하는 링크로 이동
+        break;
+      case 4:
+        navigate("/team/0/evaluation/end/"); // 1번 index에 해당하는 링크로 이동
+        break;
+      case 5:
+        navigate("/team/0/report"); // 1번 index에 해당하는 링크로 이동
+        break;
+      case 6:
+        navigate("/team/0/teamManage"); // 1번 index에 해당하는 링크로 이동
+        break;
+  
+      default:
+        break;
+    }
   };
 
   return (

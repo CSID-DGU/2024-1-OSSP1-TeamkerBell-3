@@ -38,6 +38,7 @@ def getComps(request):
         if comps.exists():  # 이력서가 존재하는지 확인
             serializer = CompSerializer(comps, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
+        
         else:
             return Response({'error': {'code': 404, 'message': "Resumes not found!"}}, status=status.HTTP_404_NOT_FOUND)
 

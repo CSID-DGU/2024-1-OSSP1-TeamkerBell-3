@@ -16,7 +16,7 @@ const ResumeMakingPage = () => {
       </div>
       <div className={styles.main}>
         {/* categoryState 값에 따라 다른 컴포넌트 렌더링 */}
-        {categoryStateValue === 5 && <WritePortfolio />}
+        {<WritePortfolio />}
       </div>
     </div>
   );

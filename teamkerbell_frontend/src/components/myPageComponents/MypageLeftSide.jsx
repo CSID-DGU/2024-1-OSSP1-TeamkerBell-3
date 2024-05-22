@@ -31,22 +31,22 @@ const LeftSide = ({}) => {
     console.log("[Recoil]categoryNum :", categoryNum);
     switch (index) {
       case 0:
-        navigate("/user/0/mypage/editProfile"); // 0번 index에 해당하는 링크로 이동
+        navigate("/user/1/mypage/editProfile"); // 0번 index에 해당하는 링크로 이동
         break;
       case 1:
-        navigate("/user/0/mypage/compLiked"); // 1번 index에 해당하는 링크로 이동
+        navigate("/user/1/mypage/compLiked"); // 1번 index에 해당하는 링크로 이동
         break;
       case 2:
-        navigate("/user/0/mypage/resumes"); // 1번 index에 해당하는 링크로 이동
+        navigate("/user/1/mypage/resumes"); // 1번 index에 해당하는 링크로 이동
         break;
       case 3:
-        navigate("/user/0/mypage/projects"); // 1번 index에 해당하는 링크로 이동
+        navigate("/user/1/mypage/projects"); // 1번 index에 해당하는 링크로 이동
         break;
       case 4:
-        navigate("/user/0/mypage/myAchieve"); // 1번 index에 해당하는 링크로 이동
+        navigate("/user/1/mypage/myAchieve"); // 1번 index에 해당하는 링크로 이동
         break;
       case 5:
-        navigate("/user/0/mypage/compLiked"); // 1번 index에 해당하는 링크로 이동
+        navigate("/user/1/mypage/compLiked"); // 1번 index에 해당하는 링크로 이동
         break;
       default:
         break;

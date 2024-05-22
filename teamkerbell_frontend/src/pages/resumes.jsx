@@ -1,11 +1,14 @@
 // src/team.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./mypage.module.css";
 import LeftSide from "../components/myPageComponents/MypageLeftSide";
 import Portfolios from "../components/myPageComponents/Potfolios";
-import WritePortfolio from "../components/myPageComponents/WritePotfolio";
-import { useRecoilValue } from "recoil";
+
+import { useSetRecoilState } from "recoil";
 import { categoryState } from "../atoms"; // Recoil에서 정의한 상태
+import { getUserResumes } from "../api/user";
+import { useNavigate, useParams } from "react-router-dom";
+import ErrorComponent from "../components/ErrorComponent"; // Ensure correct import path
 
 const DUMMY_Portfolio = [
   {
@@ -63,7 +66,38 @@ const DUMMY_Portfolio = [
 ];
 
 const ResumesPage = () => {
-  const categoryStateValue = useRecoilValue(categoryState); // Recoil 훅을 사용하여 상태 값 가져오기
+  const setCategoryState = useSetRecoilState(categoryState);
+  const navigate = useNavigate();
+  const { userId } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [resumes, setResumes] = useState([]);
+  const handleResumeButton = () => {
+    navigate(`/user/${userId}/mypage/resumeMaking`);
+  };
+  useEffect(() => {
+    setCategoryState(2); // Set the appropriate category state
+
+    const fetchUserResumes = async () => {
+      try {
+        const response = await getUserResumes(userId);
+        setResumes(response.data || []); // Ensure resumes is always an array
+        setIsLoading(false);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setIsError(true);
+          setErrorMessage("이력서가 없습니다!");
+        } else {
+          setIsError(true);
+          setErrorMessage("An unexpected error occurred.");
+        }
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserResumes();
+  }, [setCategoryState, userId]);
 
   return (
     <div className={styles.container}>
@@ -71,9 +105,18 @@ const ResumesPage = () => {
         <LeftSide />
       </div>
       <div className={styles.main}>
-        {/* categoryState 값에 따라 다른 컴포넌트 렌더링 */}
-        {categoryStateValue === 2 && <Portfolios resumes={DUMMY_Portfolio} />}
-        {categoryStateValue === 5 && <WritePortfolio />}
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : isError ? (
+          <>
+            <ErrorComponent message={errorMessage} />
+            <button onClick={handleResumeButton}>이력서 생성</button>
+          </>
+        ) : (
+          <Portfolios
+            resumes={resumes.length > 0 ? resumes : DUMMY_Portfolio}
+          />
+        )}
       </div>
     </div>
   );

@@ -9,10 +9,13 @@ export const login = (email, password) =>
   });
 
 //프로필 정보 받아오기
-export const register = (email, password) =>
+export const register = (nickname, email, password, phoneNumber) =>
   sendRequest(userInstance, "post", `/register`, {
+    //fields = ['nickname', 'phone', 'email', 'password']
+    nickname: nickname,
     email: email,
     password: password,
+    phoneNumber: phoneNumber,
   });
 
 //프로필 정보 받아오기
@@ -20,12 +23,19 @@ export const getUserProfile = (userId) =>
   sendRequest(userInstance, "get", `/${userId}/mypage`);
 
 //프로필 편집하기
-export const patchUserProfile = (userId) =>
-  sendRequest(userInstance, "patch", `/${userId}/mypage/editProfile`);
+export const patchUserProfile = (userId, email, nickname, phoneNumber) =>
+  sendRequest(userInstance, "patch", `/${userId}/mypage/editProfile`, {
+    // id : userId
+    // email : email
+    // nickname : nickname
+    // phone : phoneNumber
+    // date :
+    // img:
+  });
 
 //이력서 목록 가져오기
 export const getUserResumes = (userId) =>
-  sendRequest(userInstance, "get", `/${userId}/mypage/resume`);
+  sendRequest(userInstance, "get", `/${userId}/mypage/resumes`);
 
 //이력서 작성하기
 export const setUserResume = (userId) =>
@@ -71,13 +81,9 @@ export const breakeTeam = (userId, teamId) =>
     `/${userId}/mypage/team/${teamId}/breakteam`
   );
 
-//팀 신청 취소
-export const getMyAchievements = (userId, teamId) =>
-  sendRequest(
-    userInstance,
-    "delete",
-    `/${userId}/mypage/team/${teamId}/cancel`
-  );
+//나의 성취 가져오기
+export const getMyAchievements = (userId) =>
+  sendRequest(userInstance, "get", `/${userId}/mypage/myachievements`);
 
 //팀 모집 완료
 export const compliteTeamMatching = (userId, teamId) =>
