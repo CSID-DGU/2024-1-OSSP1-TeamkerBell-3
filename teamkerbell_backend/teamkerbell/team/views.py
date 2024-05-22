@@ -64,7 +64,7 @@ def teamMateList(request, team_id):
         if team.isRandom == False:
             teammateList = team.teammates.filter(isTeam=True)
             resume_list = [teammate.resume for teammate in teammateList]
-            serializer = ResumeAndRoleSerializer(resume_list, many=True)
+            serializer = ResumeAndRoleSerializer(resume_list, many=True,  context={'team': team})
             return Response(serializer.data)
         else:
             teammateList = team.teammates.filter(isTeam=True)

@@ -81,13 +81,9 @@ export const breakeTeam = (userId, teamId) =>
     `/${userId}/mypage/team/${teamId}/breakteam`
   );
 
-//팀 신청 취소
-export const getMyAchievements = (userId, teamId) =>
-  sendRequest(
-    userInstance,
-    "delete",
-    `/${userId}/mypage/team/${teamId}/cancel`
-  );
+//나의 성취 가져오기
+export const getMyAchievements = (userId) =>
+  sendRequest(userInstance, "get", `/${userId}/mypage/myachievements`);
 
 //팀 모집 완료
 export const compliteTeamMatching = (userId, teamId) =>

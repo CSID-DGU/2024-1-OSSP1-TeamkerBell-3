@@ -81,7 +81,6 @@ const MainPage = () => {
       <br />
       <div className={styles.competitionsContainer}>
         {DUMMY_COMP.map((competition, index) => (
-          <Link to={`/comp/${competition.id}`} className={styles.comp}>
             <CompCard
               key={index}
               image={competition.image}
@@ -89,7 +88,6 @@ const MainPage = () => {
               description={competition.description}
               jobs={competition.jobs}
             />
-          </Link>
         ))}
       </div>
     </div>

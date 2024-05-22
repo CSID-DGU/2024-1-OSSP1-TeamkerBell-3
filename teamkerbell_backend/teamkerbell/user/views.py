@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from .serializers import LoginUserSerializer, BasicUserSerializer, ResumeSerializer, UserSerializer, BookmarkSerializer, CompListSerializer
+from .serializers import AcceptSerializer, LoginUserSerializer, BasicUserSerializer, ResumeSerializer, UserSerializer, BookmarkSerializer, CompListSerializer, TeamAndCompNameSerializer, ResumeAndRoleAndTagSerializer
 from django.contrib.auth import authenticate, login, logout
 from .models import BasicUser, Resume, Bookmark, Tag, Rude
 from comp.models import Comp
 from .decorator import login_required
+from team.models import Team, TeamEndVote, TeamMate, TeamRole, Schedule, ChooseTeam
 """
 @swagger_auto_schema(method="POST", tags=["유저 회원가입"], request_body=UserSerializer, operation_summary="유저 회원가입")
 @api_view(['POST'])
@@ -228,3 +229,173 @@ def getMyAchievement(request, user_id):
         }
 
     return Response(response_data, status=status.HTTP_200_OK)
+
+@swagger_auto_schema(method='GET', tags=["나의 팀 목록 모아보기"])
+@api_view(['GET'])
+def myTeamList(request, user_id):
+    try:
+        user = BasicUser.objects.get(id=user_id)
+    except BasicUser.DoesNotExist:
+        return Response({'error' : {'code' : 404, 'message' : "User not found!"}}, status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        team = Team.objects.filter(leader=user_id, isDone=True)
+        yourTeam = Team.objects.filter(leader=user_id, isDone=False)
+        joinTeam = TeamMate.objects.filter(user=user_id, isTeam=False).values_list('team', flat=True)
+        joinTeam_teams = Team.objects.filter(id__in=joinTeam)
+
+        teamList= TeamAndCompNameSerializer(team, many=True)
+        yourTeamList=TeamAndCompNameSerializer(yourTeam, many=True)
+        jointeamList=TeamAndCompNameSerializer(joinTeam_teams, many=True)
+        return Response({"teamList": teamList.data, "yourTeamList": yourTeamList.data, "joinTeamList": jointeamList.data}, status=status.HTTP_200_OK)
+    
+    
+@swagger_auto_schema(methods=['POST'], tags=["마이페이지에서 팀 종료 투표보내기"])
+@api_view(['POST'])
+def teamEndVoteInMyPage(request, user_id, team_id):
+    try:
+        team = Team.objects.get(id=team_id)
+    except Team.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "Team not found!"}}, status=status.HTTP_404_NOT_FOUND) 
+    try:
+        user = BasicUser.objects.get(id=user_id)
+    except BasicUser.DoesNotExist:
+        return Response({'error' : {'code' : 404, 'message' : "User not found!"}}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method =='POST':
+        if TeamEndVote.objects.filter(team=team,user=user).exists():
+            return Response({'message': 'already voted'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        else:
+            vote = TeamEndVote(user=user, team=team)
+            vote.save()
+            team.endVote +=1
+            team.save()
+            return Response({'message': 'vote successfully'}, status=status.HTTP_200_OK)
+
+@swagger_auto_schema(methods=['DELETE'], tags=["마이페이지에서 팀 모집 취소"])
+@api_view(['DELETE'])
+def breakTeam(request, user_id, team_id):
+    try:
+        team = Team.objects.get(id=team_id)
+    except Team.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "Team not found!"}}, status=status.HTTP_404_NOT_FOUND) 
+    try:
+        user = BasicUser.objects.get(id=user_id)
+    except BasicUser.DoesNotExist:
+        return Response({'error' : {'code' : 404, 'message' : "User not found!"}}, status=status.HTTP_404_NOT_FOUND)
+    if request.method=='DELETE':
+        if user.id == team.leader.id:
+            TeamMate.objects.filter(team=team).delete()
+            TeamRole.objects.filter(team=team).delete()
+            TeamEndVote.objects.filter(team=team).delete()
+            ChooseTeam.objects.filter(team=team).delete()
+            Schedule.objects.filter(team=team).delete()
+            team.delete()
+            return Response({'message': 'delete successfully'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'you are not leader'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        
+@swagger_auto_schema(methods=['DELETE'], tags=["신청 취소"])
+@api_view(['DELETE'])
+def cancelJoin(request, user_id, team_id):
+    try:
+        team = Team.objects.get(id=team_id)
+    except Team.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "Team not found!"}}, status=status.HTTP_404_NOT_FOUND) 
+    try:
+        user = BasicUser.objects.get(id=user_id)
+    except BasicUser.DoesNotExist:
+        return Response({'error' : {'code' : 404, 'message' : "User not found!"}}, status=status.HTTP_404_NOT_FOUND)
+    try:
+            teammate=TeamMate.objects.get(user=user, isTeam=False)
+    except TeamMate.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "TeamMate not found!"}}, status=status.HTTP_404_NOT_FOUND) 
+    if request.method == 'DELETE':
+        teammate.delete()
+        return Response({'message': 'delete successfully'}, status=status.HTTP_200_OK)
+
+@swagger_auto_schema(method='POST', tags=["팀 모집 완료(팀 결성 완료)"])
+@api_view(['POST'])
+def makeTeam(request, user_id, team_id):
+    try:
+        team = Team.objects.get(id=team_id)
+    except Team.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "Team not found!"}}, status=status.HTTP_404_NOT_FOUND) 
+    try:
+        user = BasicUser.objects.get(id=user_id)
+    except BasicUser.DoesNotExist:
+        return Response({'error' : {'code' : 404, 'message' : "User not found!"}}, status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'POST':
+        if user.id == team.leader.id:
+            team.recruitNum = TeamMate.objects.filter(team=team, isTeam=True).count()
+            team.isDone = True
+            team.save()
+            TeamMate.objects.filter(team=team, isTeam=False).delete()
+            return Response({'message': 'Team recruitment completed'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'you are not leader'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        
+@swagger_auto_schema(method='GET', tags=["팀 신청 인원 이력서 모음"])
+@api_view(['GET'])
+def resumeList(request, user_id, team_id):
+    try:
+        team = Team.objects.get(id=team_id)
+    except Team.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "Team not found!"}}, status=status.HTTP_404_NOT_FOUND) 
+    try:
+        user = BasicUser.objects.get(id=user_id)
+    except BasicUser.DoesNotExist:
+        return Response({'error' : {'code' : 404, 'message' : "User not found!"}}, status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        resumeId = TeamMate.objects.filter(team=team).values_list('resume', flat=True)
+        resumeList = Resume.objects.filter(id__in=resumeId)
+        serializer = ResumeAndRoleAndTagSerializer(resumeList, many=True, context={'team': team})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+
+@swagger_auto_schema(method='GET', tags=["이력서 세부사항 가져오기"])
+@swagger_auto_schema(methods=['POST'], request_body=AcceptSerializer, tags=["이력서 수락/거절"])
+@api_view(['POST','GET'])
+def resumeAccept(request, user_id, team_id, resume_id):
+    try:
+        team = Team.objects.get(id=team_id)
+    except Team.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "Team not found!"}}, status=status.HTTP_404_NOT_FOUND) 
+    try:
+        user = BasicUser.objects.get(id=user_id)
+    except BasicUser.DoesNotExist:
+        return Response({'error' : {'code' : 404, 'message' : "User not found!"}}, status=status.HTTP_404_NOT_FOUND)
+    try:
+        resume = Resume.objects.get(id=resume_id)
+    except Resume.DoesNotExist:
+        return Response({'error' : {'code' : 404, 'message' : "Resume not found!"}}, status=status.HTTP_404_NOT_FOUND)
+    if request.method=='GET':
+        serializer = ResumeSerializer(resume)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method=='POST':
+        serializer = AcceptSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                teammate = TeamMate.objects.get(team=team, resume=resume, isTeam=False)  
+            except TeamMate.DoesNotExist:
+                return Response({'error' : {'code' : 404, 'message' : "TeamMate not found!"}}, status=status.HTTP_404_NOT_FOUND)
+            try:
+                teamrole = TeamRole.objects.get(team=team, role=teammate.role)  
+            except TeamRole.DoesNotExist:
+                return Response({'error' : {'code' : 404, 'message' : "TeamMate not found!"}}, status=status.HTTP_404_NOT_FOUND)
+
+            
+            accept = serializer.validated_data['accept']
+            if accept==True:
+                if teamrole.recruitNum<teamrole.num+1:
+                    return Response({'message': 'full'}, status=status.HTTP_200_OK)
+                else:
+                    teamrole.num+=1
+                teamrole.save()
+                teammate.isTeam=True
+                teammate.save()
+                teamrole=TeamRole.objects.get(team=team, role=teammate.role)
+                return Response({'message': 'Accepted'}, status=status.HTTP_200_OK)
+            else:
+                TeamMate.objects.filter(team=team, resume=resume, isTeam=False).delete()
+                return Response({'message': 'kick Accepted'}, status=status.HTTP_200_OK)
+        

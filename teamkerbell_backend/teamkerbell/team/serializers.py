@@ -47,7 +47,8 @@ class ResumeAndRoleSerializer(serializers.ModelSerializer):
         extra_kwargs = {'user': {'read_only': True}}
     
     def get_role(self, obj):
-        teammate = TeamMate.objects.filter(resume=obj).first()
+        team = self.context.get('team')
+        teammate = TeamMate.objects.filter(resume=obj, team=team).first()
         if teammate:
             return teammate.role
         else:

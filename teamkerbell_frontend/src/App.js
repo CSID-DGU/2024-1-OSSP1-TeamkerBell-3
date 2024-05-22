@@ -62,11 +62,11 @@ function App() {
         />
 
         <Route
-          path="/user/:user_id/mypage/projects"
+          path="/user/:userId/mypage/projects"
           element={<ProjectsPage />}
         />
         <Route
-          path="/user/:user_id/mypage/myAchieve"
+          path="/user/:userId/mypage/myAchieve"
           element={<MyAchievementPage />}
         />
 

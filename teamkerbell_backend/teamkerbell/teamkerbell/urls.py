@@ -16,12 +16,11 @@ schema_view = get_schema_view(
         description="팀커벨 API 모음",   # 설명
         terms_of_service="",
         contact=openapi.Contact(email="hkj020607@gmail.com")
-),
+        ),
     validators=['flex'],
     public=True,
     permission_classes=(AllowAny,),
        url='https://port-0-teamkerbelldjango-rm6l2llwbxs0ho.sel5.cloudtype.app/', # HTTPS URL을 여기에 지정
-
 )
 
 
