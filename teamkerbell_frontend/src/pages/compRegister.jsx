@@ -10,7 +10,6 @@ const CompRegister = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
   const [organization, setOrganization] = useState("");
   const [eligibility, setEligibility] = useState("");
   const [applicationMethod, setApplicationMethod] = useState("");
@@ -18,6 +17,7 @@ const CompRegister = () => {
   const [reward, setReward] = useState("");
   const [contact, setContact] = useState("");
   const [link, setLink] = useState("");
+  const [theme, setTheme] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [s3ImageUrl, setImageUrl] = useState(null);
@@ -56,7 +56,8 @@ const CompRegister = () => {
         reward,
         contact,
         link,
-        img
+        img,
+        theme
       );
       alert("생성이 완료되었습니다.");
       navigate("/");
@@ -90,14 +91,14 @@ const CompRegister = () => {
 
             <div className={styles.infoItem}>
               <div className={styles.infoName}>
-                <h3>2. 공모전 구분</h3>
+                <h3>2. 간략한 공모전 설명</h3>
                 <span className={styles.redColor}> *</span>
               </div>
               <input
-                name="category"
-                placeholder="ex) 동국교육진흥원"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                name="theme"
+                placeholder="ex) 간략한 공모전에 대한 주제 및 한 두 줄로 끝나는 설명을 작성해주세요!"
+                value={theme}
+                onChange={(e) => setTheme(e.target.value)}
                 required
               />
             </div>

@@ -5,15 +5,22 @@ import { Link } from "react-router-dom";
 
 const CompCard = ({ id, image, title, description, jobs }) => {
   const [heartActive, setHeartActive] = useState(false);
+  // 이미지가 null인 경우 기본 이미지 사용
+  const compImage = image || "./public/comp_example.jpeg";
+
+  // title, description, jobs가 null인 경우 빈 문자열로 설정
+  const compTitle = title || "";
+  const compDescription = description || "";
+  const compJobs = jobs || [];
 
   return (
     <div className={styles.compCard}>
       <Link to={`/comp/${id}`} className={styles.comp}>
-        <img src={image} alt={title} className={styles.image} />
-        <h2 className={styles.title}>{title}</h2>
-        <p className={styles.description}>{description}</p>
+        <img src={compImage} alt={compTitle} className={styles.image} />
+        <h2 className={styles.title}>{compTitle}</h2>
+        <p className={styles.description}>{compDescription}</p>
         <div className={styles.jobs}>
-          {jobs.map((job, index) => (
+          {compJobs.map((job, index) => (
             <p key={index} className={styles.job}>
               #{job}
             </p>

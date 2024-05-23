@@ -9,13 +9,13 @@ export const login = (email, password) =>
   });
 
 //프로필 정보 받아오기
-export const register = (nickname, email, password, phoneNumber) =>
+export const register = (nickname, email, password, phone) =>
   sendRequest(userInstance, "post", `/register`, {
     //fields = ['nickname', 'phone', 'email', 'password']
     nickname: nickname,
     email: email,
     password: password,
-    phoneNumber: phoneNumber,
+    phone: phone,
   });
 
 //프로필 정보 받아오기
