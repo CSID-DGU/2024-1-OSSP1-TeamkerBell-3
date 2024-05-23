@@ -40,7 +40,7 @@ def getComps(request):
             return Response(serializer.data, status=status.HTTP_200_OK)
         
         else:
-            return Response({'error': {'code': 404, 'message': "Resumes not found!"}}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': {'code': 404, 'message': "Comps not found!"}}, status=status.HTTP_404_NOT_FOUND)
 
 @swagger_auto_schema(method='get', tags = ["공모전 정보 조회/찜"])
 @api_view(['GET'])
