@@ -23,21 +23,47 @@ export const getUserProfile = (userId) =>
   sendRequest(userInstance, "get", `/${userId}/mypage`);
 
 //프로필 편집하기
-export const patchUserProfile = (userId, email, nickname, phoneNumber) =>
+export const patchUserProfile = (userId, email, nickname, phoneNumber, img) =>
   sendRequest(userInstance, "patch", `/${userId}/mypage/editProfile`, {
-    // id : userId
-    // email : email
-    // nickname : nickname
-    // phone : phoneNumber
-    // date :
-    // img:
+    email: email,
+    nickname: nickname,
+    phoneNumber: phoneNumber,
+    img: img,
   });
 
 //이력서 목록 가져오기
-export const getUserResumes = (userId) =>
-  sendRequest(userInstance, "get", `/${userId}/mypage/resumes`);
+export const getUserResumes = (
+  userId,
+  id,
+  user,
+  name,
+  email,
+  phone,
+  tier,
+  userIntro,
+  skill,
+  experience,
+  githubLik,
+  snsLink,
+  city,
+  dong
+) =>
+  sendRequest(userInstance, "get", `/${userId}/mypage/resumes`, {
+    id,
+    user,
+    name,
+    email,
+    phone,
+    tier,
+    userIntro,
+    skill,
+    experience,
+    githubLik,
+    snsLink,
+    city,
+    dong,
+  });
 
-//이력서 작성하기
 export const setUserResume = (userId) =>
   sendRequest(userInstance, "post", `/${userId}/mypage/writeResume`);
 

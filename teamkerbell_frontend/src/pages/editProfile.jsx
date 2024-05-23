@@ -43,6 +43,7 @@ const EditProfilePage = () => {
             initialNickname={data.nickname}
             initialEmail={data.email}
             initialPhoneNumber={data.phoneNumber}
+            initialImage={data.img}
           />
         )}
         {/* categoryStateValue가 0이고 isLoading이 false일 때만 EditProfile을 렌더링 */}

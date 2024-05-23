@@ -9,12 +9,11 @@ export const registerComp = (
   endDate,
   organization,
   eligibillty,
-  applicationMethod,
+  img,
   context,
   reward,
   contact,
-  link,
-  img
+  link
 ) =>
   sendRequest(compInstance, "post", "/register", {
     name: name,
@@ -22,10 +21,9 @@ export const registerComp = (
     endDate: endDate,
     organization: organization,
     eligibillty: eligibillty,
-    applicationMethod: applicationMethod,
+    img: img,
     context: context,
     reward: reward,
     contact: contact,
     link: link,
-    img: img,
   });

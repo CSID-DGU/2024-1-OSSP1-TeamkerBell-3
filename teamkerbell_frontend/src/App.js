@@ -7,16 +7,16 @@ import MainPage from "./pages/main";
 import Header from "./components/Header";
 
 import Team from "./pages/team";
-import Tools from "./pages/coopTool"
+import Tools from "./pages/coopTool";
 import TeamToolW2M from "./pages/teamToolW2M";
 import TeamToolGit from "./pages/teamToolGit";
 import TeamToolSlack from "./pages/teamToolSlack";
-import CompInfo from "./pages/cntstInfo"
-import MemInfo from "./pages/memInfo"
-import Progress from "./pages/progress"
+import CompInfo from "./pages/cntstInfo";
+import MemInfo from "./pages/memInfo";
+import Progress from "./pages/progress";
 import Evaluation from "./pages/evaluation";
-import Report from "./pages/report"
-import TeamManage from "./pages/teamManage"
+import Report from "./pages/report";
+import TeamManage from "./pages/teamManage";
 
 import CompMatching from "./pages/comp";
 import CompReviews from "./pages/reviews";
@@ -32,6 +32,7 @@ import MyAchievementPage from "./pages/myAchieve";
 import ProjectsPage from "./pages/projects";
 import ResumeMakingPage from "./pages/resumeMaking";
 import CompRegister from "./pages/compRegister";
+import BtnUpload from "./pages/uploadImage";
 
 function App() {
   return (

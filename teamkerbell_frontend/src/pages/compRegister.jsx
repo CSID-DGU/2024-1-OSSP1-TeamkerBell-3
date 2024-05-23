@@ -3,6 +3,7 @@ import styles from "./compRegister.module.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerComp } from "../api/comp"; // Adjust the import path as needed
+import { uploadS3 } from "../utils/uploadS3";
 
 const CompRegister = () => {
   const [startDate, setStartDate] = useState(null);
@@ -16,28 +17,50 @@ const CompRegister = () => {
   const [reward, setReward] = useState("");
   const [contact, setContact] = useState("");
   const [link, setLink] = useState("");
-  const [img, setImg] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [imageSrc, setImageSrc] = useState(null);
+  const [s3ImageUrl, setImageUrl] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageSrc(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!imageFile) {
+      alert("이미지를 선택해주세요!");
+      return;
+    }
+    setIsUploading(true);
     try {
-      await registerComp(
+      const imageUrl = await uploadS3(imageFile);
+      await setImageUrl(imageUrl);
+      const response = await registerComp(
         name,
         startDate,
         endDate,
         organization,
         eligibility,
-        applicationMethod,
+        s3ImageUrl,
         context,
         reward,
         contact,
-        link,
-        img
+        link
       );
-      alert("공모전 등록이 완료되었습니다!");
     } catch (error) {
-      console.error("Error registering competition:", error);
-      alert("공모전 등록 중 오류가 발생했습니다.");
+      console.error("[S3 Upload Error]:", error);
+      alert("S3 업로드 에러가 났습니다! 다시 시도해주세요!");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -45,7 +68,7 @@ const CompRegister = () => {
     <div className={styles.title}>
       <h2>공모전 등록하기</h2>
       <div className={styles.basicInfo}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={styles.compForm}>
           <div className={styles.nameToPhoneNumber}>
             <div className={styles.infoItem}>
               <div className={styles.infoName}>
@@ -188,23 +211,34 @@ const CompRegister = () => {
                 required
               />
             </div>
+            <h3>11. 공모전 이미지 설정</h3>
 
-            <div className={styles.infoBigItem}>
-              <div className={styles.infoName}>
-                <h3>11. 사진 첨부</h3>
-                <span className={styles.redColor}> *</span>
+            <div className={styles.imageContainer}>
+              <div className={styles.compImageContainer}>
+                <label htmlFor="profileImage" className={styles.imageLabel}>
+                  {imageSrc && (
+                    <img
+                      src={imageSrc}
+                      alt="preview"
+                      className={styles.compImage}
+                    />
+                  )}
+                  <div className={styles.overlay}>
+                    <div className={styles.text}>이미지 편집</div>
+                  </div>
+                  {/* Added the additional image */}
+                </label>
+
+                <input
+                  id="profileImage"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  style={{ display: "none" }}
+                />
               </div>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImg(e.target.files[0])}
-                required
-              />
+              <button> 생성하기 </button>
             </div>
-
-            <button className={styles.submitButton} type="submit">
-              제출
-            </button>
           </div>
         </form>
       </div>
