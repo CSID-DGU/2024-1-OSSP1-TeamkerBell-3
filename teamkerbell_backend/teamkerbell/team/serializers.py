@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Team, ChooseTeam, TeamRole, TeamMate, Schedule,  OutReason
+from .models import Team, ChooseTeam, TeamRole, TeamMate, Schedule,  OutReason, PreviousWinning
 from user.models import Resume, BasicUser, Rude
 
 
@@ -39,18 +39,30 @@ class ScheduleAndCommitSerializer(serializers.Serializer):
     repository = serializers.CharField(required=False)
 
 #팀원 모아모기에서 이력서와 팀원의 role을 합쳐서 전송
-class ResumeAndRoleSerializer(serializers.ModelSerializer):
+class ResumeAndRoleAndImgSerializer(serializers.ModelSerializer):
     role = serializers.SerializerMethodField()
+    img=serializers.SerializerMethodField()
+    score=serializers.SerializerMethodField()
     class Meta:
         model = Resume
         fields = '__all__'
         extra_kwargs = {'user': {'read_only': True}}
+
+    def get_score(self, obj):
+        user = obj.user
+        return user.score
     
     def get_role(self, obj):
         team = self.context.get('team')
         teammate = TeamMate.objects.filter(resume=obj, team=team).first()
         if teammate:
             return teammate.role
+        else:
+            return None
+    def get_img(self, obj):
+        user=BasicUser.objects.filter(id=obj.user.id).first()
+        if user:
+            return user.img
         else:
             return None
 
@@ -100,3 +112,13 @@ class KickAndRunSerializer(serializers.ModelSerializer):
     class Meta:
         model=OutReason
         fields=['user','reason']
+
+class TeamRoleForApplySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeamRole
+        fields=['role','recruitNum','num']
+
+class PreviousWinningSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PreviousWinning
+        fields=['img','comp','title','interview']

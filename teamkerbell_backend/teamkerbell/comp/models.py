@@ -22,6 +22,7 @@ class RandomMatching(models.Model):
     dong = models.CharField(null=False, max_length=50, default="default_value")
     isLeader = models.BooleanField(null=False, default=False)
     role = models.CharField(null=False, max_length=50)
+    recruitNum = models.IntegerField(null=False, default=0)
 
 class CompReview(models.Model):
     id = models.AutoField(primary_key=True, null=False)

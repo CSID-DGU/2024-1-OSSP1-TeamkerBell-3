@@ -4,13 +4,14 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from .models import Team, TeamEndVote, TeamRole, TeamMate, OutReason
-from .serializers import ScheduleAndCommitSerializer, ScheduleSerializer,TeamMateSerializer, ResumeAndRoleSerializer,  MemberListSerializer, ReportSerializer, KickAndRunSerializer, CombinedSerializer, IdSerializer, PlusMatchingSerializer, ScoreTagSerializer, ImprovementSerializer, ReviewSerializer
-from comp.models import RandomMatching, CompReview
+from .models import PreviousWinning, Team, TeamEndVote, TeamRole, TeamMate, OutReason
+from .serializers import PreviousWinningSerializer,ScheduleAndCommitSerializer, ScheduleSerializer,TeamMateSerializer, ResumeAndRoleAndImgSerializer,  MemberListSerializer, ReportSerializer, KickAndRunSerializer, CombinedSerializer, IdSerializer, PlusMatchingSerializer, ScoreTagSerializer, ImprovementSerializer, ReviewSerializer
+from comp.models import RandomMatching, CompReview, Comp
 from user.models import BasicUser, Resume, Tag, Rude
 import random
 from django.db import transaction
 from user.decorator import login_required
+from comp.serializers import CompSerializer
 # Create your views here.
 
 
@@ -64,7 +65,7 @@ def teamMateList(request, team_id):
         if team.isRandom == False:
             teammateList = team.teammates.filter(isTeam=True)
             resume_list = [teammate.resume for teammate in teammateList]
-            serializer = ResumeAndRoleSerializer(resume_list, many=True,  context={'team': team})
+            serializer = ResumeAndRoleAndImgSerializer(resume_list, many=True,  context={'team': team})
             return Response(serializer.data)
         else:
             teammateList = team.teammates.filter(isTeam=True)
@@ -341,3 +342,16 @@ def RunUser(request, team_id):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(method='get', tags=["팀이 참가중인 공모전 정보 보기"])
+@api_view(['GET'])
+def teamCompInfo(requset, team_id):
+    try:
+        team = Team.objects.get(id=team_id)
+    except Team.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "Team not found!"}}, status=status.HTTP_404_NOT_FOUND)  
+    if requset.method == 'GET':
+        comp= Comp.objects.get(id=team.comp.id)
+        serializer = CompSerializer(comp)
+        winning = PreviousWinning.objects.filter(comp=team.comp)
+        winningserializer = PreviousWinningSerializer(winning, many=True)
+        return Response({"compInfo":serializer.data, "priviousWinningList":winningserializer.data}, status=status.HTTP_200_OK)

@@ -69,13 +69,18 @@ class TeamAndCompNameSerializer(serializers.ModelSerializer):
         else:
             return None
         
-class ResumeAndRoleAndTagSerializer(serializers.ModelSerializer):
+class ResumeAndRoleAndTagAndImgSerializer(serializers.ModelSerializer):
+    score= serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
     tag = serializers.SerializerMethodField()
+    img=serializers.SerializerMethodField()
     class Meta:
         model = Resume
         fields = '__all__'
-
+    def get_score(self, obj):
+        user = obj.user
+        return user.score
+    
     def get_role(self, obj):
         team = self.context.get('team')
         teammate = TeamMate.objects.filter(resume=obj, team=team).first()
@@ -87,6 +92,50 @@ class ResumeAndRoleAndTagSerializer(serializers.ModelSerializer):
         user = obj.user
         top_tags = Tag.objects.filter(user=user).order_by('-count')[:4]
         return [tag.num for tag in top_tags]
+    def get_img(self, obj):
+        user=BasicUser.objects.filter(id=obj.user.id).first()
+        if user:
+            return user.img
+        else:
+            return None
 
 class AcceptSerializer(serializers.Serializer):
     accept = serializers.BooleanField()
+
+class ResumeAndImgSerializer(serializers.ModelSerializer):
+    score=serializers.SerializerMethodField()
+    img=serializers.SerializerMethodField()
+
+    class Meta:
+        model = Resume
+        fields = '__all__'
+    def get_score(self, obj):
+        user = obj.user
+        return user.score
+    def get_img(self, obj):
+        user=BasicUser.objects.filter(id=obj.user.id).first()
+        if user:
+            return user.img
+        else:
+            return None
+
+class ResumeAndImgAndTagSerializer(serializers.ModelSerializer):
+    score=serializers.SerializerMethodField()
+    img=serializers.SerializerMethodField()
+    tag=serializers.SerializerMethodField()
+    def get_score(self, obj):
+        user = obj.user
+        return user.score
+    class Meta:
+        model = Resume
+        fields = '__all__'
+    def get_img(self, obj):
+        user=BasicUser.objects.filter(id=obj.user.id).first()
+        if user:
+            return user.img
+        else:
+            return None
+    def get_tag(self, obj):
+        user = obj.user
+        top_tags = Tag.objects.filter(user=user).order_by('-count')[:4]
+        return [tag.num for tag in top_tags]

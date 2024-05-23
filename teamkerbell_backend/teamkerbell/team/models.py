@@ -62,3 +62,10 @@ class OutReason(models.Model):
 class TeamEndVote(models.Model):
     team = models.ForeignKey(Team, related_name="teamendvotes", on_delete=models.CASCADE, null=False)
     user = models.ForeignKey('user.BasicUser',related_name="teamendvotes",on_delete=models.CASCADE, null=False)
+
+class PreviousWinning(models.Model):
+    id = models.AutoField(primary_key=True, null=False)
+    img = models.TextField(null=True)
+    comp = models.ForeignKey('comp.Comp', related_name= 'previouswinnings', on_delete=models.SET_NULL, null=True)
+    title= models.CharField(null=False, max_length=100, default="default_value")
+    interview = models.TextField(null=False)
