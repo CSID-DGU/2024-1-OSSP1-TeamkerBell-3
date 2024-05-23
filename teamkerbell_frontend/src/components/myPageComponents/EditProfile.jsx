@@ -1,24 +1,28 @@
 // src/team.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./EditProfile.module.css";
 import { uploadS3 } from "../../utils/uploadS3";
 import { patchUserProfile } from "../../api/user";
 import { useParams } from "react-router-dom";
 
-const EditProfile = ({
-  initialNickname,
-  initialEmail,
-  initialPhoneNumber,
-  initialImage,
-}) => {
+const EditProfile = ({ data }) => {
   const { userId } = useParams();
-  const [nickname, setNickname] = useState(initialNickname);
-  const [email, setEmail] = useState(initialEmail);
-  const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber);
+  const [nickname, setNickname] = useState(data.nickname || ""); // data.nickname을 초기값으로 설정
+  const [email, setEmail] = useState(data.email || ""); // data.email을 초기값으로 설정
+  const [phone, setPhone] = useState(data.phone || ""); // data.phoneNumber을 초기값으로 설정
   const [imageFile, setImageFile] = useState(null);
-  const [imageSrc, setImageSrc] = useState(initialImage);
+  const [imageSrc, setImageSrc] = useState(data.img || null); // data.img를 초기값으로 설정
   const [imageUrl, setImageUrl] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+
+  // useEffect를 사용하여 data 변경 시 컴포넌트 상태 업데이트
+  useEffect(() => {
+    setNickname(data.nickname || "");
+    setEmail(data.email || "");
+    setPhone(data.phone || "");
+    setImageSrc(data.img || null);
+    console.log("[UseEffect] :", nickname, email, phone, imageSrc);
+  }, [data]); // data 추가
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -32,17 +36,23 @@ const EditProfile = ({
     }
   };
 
+  
   const handleSubmit = async () => {
-    if (!imageFile) {
+    if (!imageFile && !imageSrc) {
       alert("이미지를 선택해주세요!");
       return;
     }
 
     setIsUploading(true);
 
+    let finalImageUrl = imageSrc; // 기본값으로 imageSrc 사용
+
     try {
-      const imageUrl = await uploadS3(imageFile);
-      setImageUrl(imageUrl);
+      if (imageFile) {
+        const uploadedImageUrl = await uploadS3(imageFile);
+        finalImageUrl = uploadedImageUrl; // 이미지 파일이 선택되었다면, 업로드된 이미지 URL 사용
+      }
+      setImageUrl(finalImageUrl);
     } catch (error) {
       console.error("[S3 Upload Error]:", error);
       alert("S3 업로드 에러가 났습니다! 다시 시도해주세요!");
@@ -53,10 +63,10 @@ const EditProfile = ({
         userId,
         nickname,
         email,
-        phoneNumber,
-        imageUrl
+        phone,
+        finalImageUrl
       );
-      await patchUserProfile(userId, nickname, email, phoneNumber, imageUrl);
+      await patchUserProfile(userId, nickname, email, phone, finalImageUrl);
     }
   };
 
@@ -125,8 +135,8 @@ const EditProfile = ({
             <form>
               <input
                 placeholder="ex) 010-5820-4625"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
               />
             </form>
           </div>

@@ -71,7 +71,7 @@
 }
 
 .editprofileCancleButton {
-  margin-top: 100px;
+  margin-top: 50px;
   background-color: #ffffff;
   color: #026423;
   font-size: 30px;
@@ -82,7 +82,9 @@
 }
 
 .editprofileSaveButton {
-  margin-top: 100px;
+  margin-top: 50px;
+  width: 90%;
+  height: 100px;
   background-color: #026423;
   color: white;
   font-size: 30px;
@@ -104,8 +106,8 @@
 
 .imageContainer {
   position: relative;
-  width: 100%; /* Make image container responsive */
-  height: 300px;
+  width: 90%; /* Make image container responsive */
+  height: auto;
   margin-bottom: 20px;
   border: 1px solid black;
 }

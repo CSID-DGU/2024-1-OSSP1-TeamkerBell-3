@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerComp } from "../api/comp"; // Adjust the import path as needed
 import { uploadS3 } from "../utils/uploadS3";
+import { useNavigate } from "react-router-dom";
 
 const CompRegister = () => {
   const [startDate, setStartDate] = useState(null);
@@ -21,7 +22,7 @@ const CompRegister = () => {
   const [imageSrc, setImageSrc] = useState(null);
   const [s3ImageUrl, setImageUrl] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
-
+  const navigate = useNavigate();
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -42,20 +43,23 @@ const CompRegister = () => {
     }
     setIsUploading(true);
     try {
-      const imageUrl = await uploadS3(imageFile);
-      await setImageUrl(imageUrl);
+      const img = await uploadS3(imageFile);
+
       const response = await registerComp(
         name,
         startDate,
         endDate,
         organization,
         eligibility,
-        s3ImageUrl,
+        applicationMethod,
         context,
         reward,
         contact,
-        link
+        link,
+        img
       );
+      alert("생성이 완료되었습니다.");
+      navigate("/");
     } catch (error) {
       console.error("[S3 Upload Error]:", error);
       alert("S3 업로드 에러가 났습니다! 다시 시도해주세요!");
@@ -237,8 +241,8 @@ const CompRegister = () => {
                   style={{ display: "none" }}
                 />
               </div>
-              <button> 생성하기 </button>
             </div>
+            <button className={styles.editprofileSaveButton}> 생성하기 </button>
           </div>
         </form>
       </div>

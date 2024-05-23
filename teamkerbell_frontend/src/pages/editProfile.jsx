@@ -1,36 +1,37 @@
-// src/team.js
 import React, { useEffect, useState } from "react";
 import styles from "./mypage.module.css";
 import LeftSide from "../components/myPageComponents/MypageLeftSide";
 import EditProfile from "../components/myPageComponents/EditProfile";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { categoryState } from "../atoms"; // Recoil에서 정의한 상태
+import { categoryState } from "../atoms";
 import { getUserProfile } from "../api/user";
 import { useParams } from "react-router-dom";
 
 const EditProfilePage = () => {
-  const setCategoryState = useSetRecoilState(categoryState); // Recoil 상태를 업데이트하는 함수 가져오기
-  const [data, setData] = useState({});
+  const setCategoryState = useSetRecoilState(categoryState);
+  const [data, setData] = useState(null); // 초기값 null로 설정
   const [isLoading, setIsLoading] = useState(true);
-  const { userId } = useParams(); // useParams에서 userId를 추출
+  const [error, setError] = useState(null); // 에러 상태 추가
+  const { userId } = useParams();
 
   useEffect(() => {
-    setCategoryState(0); // categoryState를 0으로 설정
+    setCategoryState(0);
 
     const fetchData = async () => {
       try {
-        const userProfile = await getUserProfile(userId);
-        setData(userProfile);
-        setIsLoading(false);
+        const response = await getUserProfile(userId);
+        setData(response.data); // await 제거
       } catch (error) {
         console.error("Failed to fetch user profile:", error);
-        setIsLoading(false);
+        setError(error); // 에러 상태 설정
+      } finally {
+        setIsLoading(false); // await 제거
       }
     };
     fetchData();
-  }, [setCategoryState, userId]); // 의존성 배열에 setCategoryState와 userId를 추가
+  }, [setCategoryState, userId]);
 
-  const categoryStateValue = useRecoilValue(categoryState); // Recoil 훅을 사용하여 상태 값 가져오기
+  const categoryStateValue = useRecoilValue(categoryState);
 
   return (
     <div className={styles.container}>
@@ -38,15 +39,13 @@ const EditProfilePage = () => {
         <LeftSide />
       </div>
       <div className={styles.main}>
-        {categoryStateValue === 0 && !isLoading && (
-          <EditProfile
-            initialNickname={data.nickname}
-            initialEmail={data.email}
-            initialPhoneNumber={data.phoneNumber}
-            initialImage={data.img}
-          />
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>Error loading profile: {error.message}</div>
+        ) : (
+          <EditProfile data={data} />
         )}
-        {/* categoryStateValue가 0이고 isLoading이 false일 때만 EditProfile을 렌더링 */}
       </div>
     </div>
   );
