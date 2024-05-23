@@ -14,7 +14,7 @@ class Comp(models.Model):
     contact=models.TextField(null=True)
     link=models.CharField(null=True,max_length=225)
     img=models.TextField(null=True)
-    theme=models.CharField(null=False, max_length=100)
+    theme=models.CharField(null=False, max_length=100, default="")
 
 class RandomMatching(models.Model):
     comp=models.ForeignKey(Comp, related_name="randommatchings",null=False, on_delete=models.CASCADE)
