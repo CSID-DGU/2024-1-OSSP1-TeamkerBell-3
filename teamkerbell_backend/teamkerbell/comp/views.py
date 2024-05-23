@@ -224,3 +224,29 @@ def applyTeam(request, team_id, comp_id, user_id):
             return Response({'message': 'apply successfully'}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@swagger_auto_schema(methods=['DELETE'], tags=["공모전 지우기"])
+@api_view(['DELETE'])
+def deletecomp(request, comp_id):
+    try:
+        comp = Comp.objects.get(id=comp_id)
+    except Comp.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "comp not found!"}}, status=status.HTTP_404_NOT_FOUND)
+    if request.method =='DELETE':
+        comp.delete()
+        return Response({'message': 'delete successfully'}, status=status.HTTP_200_OK)
+    
+@swagger_auto_schema(methods=['PATCH'], request_body=CompSerializer, tags=["공모전 수정하기"])
+@api_view(['PATCH'])
+def patchcomp(request, comp_id):
+    try:
+        comp = Comp.objects.get(id=comp_id)
+    except Comp.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "comp not found!"}}, status=status.HTTP_404_NOT_FOUND)
+    if request.method =='PUT':
+        serializer = CompSerializer(comp, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'delete successfully'}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
