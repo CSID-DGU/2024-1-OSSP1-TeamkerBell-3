@@ -243,7 +243,7 @@ def patchcomp(request, comp_id):
         comp = Comp.objects.get(id=comp_id)
     except Comp.DoesNotExist:
         return Response({'error': {'code': 404, 'message': "comp not found!"}}, status=status.HTTP_404_NOT_FOUND)
-    if request.method =='PUT':
+    if request.method =='PATCH':
         serializer = CompSerializer(comp, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
