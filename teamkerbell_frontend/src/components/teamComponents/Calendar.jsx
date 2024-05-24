@@ -74,7 +74,7 @@ function CalendarComponent() {
   const today = moment(new Date());
   return (
     <div>
-      <h2>오늘의 날짜: {today.format("YYYY년 MM월 DD일")}</h2>
+      <h3>오늘의 날짜: {today.format("YYYY년 MM월 DD일")}</h3>
       <Calendar
         onChange={onChange}
         formatDay={(locale, date) => moment(date).format("DD")}
@@ -100,7 +100,7 @@ function CalendarComponent() {
           }
         }}
       />
-      <h2>선택한 날의 일정</h2>
+      <h3>선택한 날의 일정</h3>
       {selectedDateSchedules.length > 0 ? (
         selectedDateSchedules.map((schedule, index) => (
           <div key={index}>{schedule}</div>
