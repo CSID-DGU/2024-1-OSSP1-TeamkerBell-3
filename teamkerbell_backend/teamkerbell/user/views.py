@@ -10,6 +10,7 @@ from .models import BasicUser, Resume, Bookmark, Tag, Rude
 from comp.models import Comp
 from .decorator import login_required
 from team.models import Team, TeamEndVote, TeamMate, TeamRole, Schedule, ChooseTeam
+from comp.serializers import CompSerializer
 """
 @swagger_auto_schema(method="POST", tags=["유저 회원가입"], request_body=UserSerializer, operation_summary="유저 회원가입")
 @api_view(['POST'])
@@ -191,7 +192,7 @@ def getCompLiked(request, user_id):
         #id__in 은 likedCompsIds 리스트에 포함된 어떤 값과도 일치하는 Comp 객체들을 모두 찾아라라는 뜻으로 해석
         
         if comps.exists():  # 찜한 Comps가 존재하는지 확인
-            serializer = CompListSerializer(comps, many=True)
+            serializer = CompSerializer(comps, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({'error': {'code': 404, 'message': "No liked comps found!"}}, status=status.HTTP_404_NOT_FOUND)

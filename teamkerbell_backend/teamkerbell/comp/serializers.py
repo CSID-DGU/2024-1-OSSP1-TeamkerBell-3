@@ -6,6 +6,11 @@ class CompSerializer(serializers.ModelSerializer):
     class Meta:
         model= Comp
         fields='__all__'
+    def validate_startDate(self, value):
+        return value.split('T')[0]
+
+    def validate_endDate(self, value):
+        return value.split('T')[0]
 
 class CompReviewSerializer(serializers.ModelSerializer):
     class Meta:
