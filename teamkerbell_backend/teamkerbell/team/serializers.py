@@ -8,11 +8,25 @@ class ScheduleSerializer(serializers.ModelSerializer):
         model = Schedule
         fields='__all__'
 
-class TeamSerializer(serializers.ModelSerializer):
+class TeamforMainSerializer(serializers.ModelSerializer):
+    roleList = serializers.SerializerMethodField()
+    name =serializers.SerializerMethodField()
+    language = serializers.SerializerMethodField()
     class Meta:
         model = Team
         fields='__all__'
+    def get_roleList(self, obj):
+        teamroles = TeamRole.objects.filter(team=obj).values_list('role', flat=True)
+        return list(teamroles) if teamroles else None
 
+    def get_name(self, obj):
+        chooseteam = ChooseTeam.objects.filter(team=obj).first()
+        return chooseteam.name if chooseteam else None
+
+    def get_language(self, obj):
+        chooseteam = ChooseTeam.objects.filter(team=obj).first()
+        return chooseteam.language if chooseteam else None
+        
 class ChooseTeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChooseTeam

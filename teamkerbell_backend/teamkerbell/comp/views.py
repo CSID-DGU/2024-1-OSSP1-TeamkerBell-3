@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from team.models import Team,ChooseTeam, TeamMate, TeamRole
-from team.serializers import TeamSerializer, IdSerializer, TeamRoleForApplySerializer
+from team.serializers import IdSerializer, TeamRoleForApplySerializer, TeamforMainSerializer, PreviousWinningSerializer
 from user.models import BasicUser,Resume
 from rest_framework.response import Response
 from user.serializers import ResumeAndImgAndTagSerializer, ResumeAndImgSerializer
@@ -42,7 +42,7 @@ def getComps(request):
         else:
             return Response({'error': {'code': 404, 'message': "Comps not found!"}}, status=status.HTTP_404_NOT_FOUND)
 
-@swagger_auto_schema(method='get', tags = ["공모전 정보 조회/찜"])
+@swagger_auto_schema(method='get', tags = ["공모전 정보 조회"])
 @api_view(['GET'])
 def CompInfo(request, comp_id):
     try:
@@ -53,7 +53,7 @@ def CompInfo(request, comp_id):
         teams = Team.objects.filter(comp = comp)
         serializer1 = CompSerializer(comp)
         reviews=CompReview.objects.filter(comp=comp).values_list('review', flat=True)
-        serializer3 = TeamSerializer(teams, many=True)
+        serializer3 = TeamforMainSerializer(teams, many=True)
         finderCount=RandomMatching.objects.filter(comp=comp).count()
         return Response({"compInfo": serializer1.data,"reviewList":reviews, "teamList":serializer3.data, "finderCount": finderCount})
 
@@ -248,5 +248,20 @@ def patchcomp(request, comp_id):
         if serializer.is_valid():
             serializer.save()
             return Response({'message': 'delete successfully'}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+@swagger_auto_schema(methods=['POST'], request_body=PreviousWinningSerializer, tags=["이전 수상팀 생성"])
+@api_view(['POST'])
+def createwinner(request, comp_id):
+    try:
+        comp = Comp.objects.get(id=comp_id)
+    except Comp.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "comp not found!"}}, status=status.HTTP_404_NOT_FOUND)
+    if request.method =='POST':
+        serializer = PreviousWinningSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'create successfully'}, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
