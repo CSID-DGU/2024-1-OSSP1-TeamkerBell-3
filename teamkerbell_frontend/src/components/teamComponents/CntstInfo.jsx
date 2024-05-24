@@ -3,72 +3,56 @@
 import React from "react";
 import styles from "./CntstInfo.module.css";
 
-/*팀이 진행중인 공모전정보 더미데이터*/
-const DUMMY_CNTST_INFO = {
-  title: "생성형 AI 이미지 활용 공모전",
-  period: "2024.03.11 ~ 2024.05.17",
-  organization: "에프엔가이드",
-  theme: "생성형 AI 이미지",
-  qualification: "예비 창업자, 3년 미만 스타트업",
-  apply: "온라인 지원",
-  awards: {
-    first: "10,000,000원",
-    second: "5,000,000원",
-    third: "1,000,000원",
-  },
-  inquiry: "teamkerbell@dongguk.edu",
-  link: "https://github.com/CSID-DGU/2024-1-OSSP1-TeamkerBell-3.git",
-};
-
-const MyCntstInfo = () => {
+const MyCntstInfo = ({ compinfo }) => {
   return (
     <div>
-      <h2 className={styles.title2}>{DUMMY_CNTST_INFO.title}</h2>
+      <h2 className={styles.title2}>{compinfo.name}</h2>
 
       <ul className={styles.infoList}>
-        <li>접수 기간: {DUMMY_CNTST_INFO.period}</li>
-        <li>기관: {DUMMY_CNTST_INFO.organization}</li>
-        <li>공모 주제: {DUMMY_CNTST_INFO.theme}</li>
-        <li>지원 자격 {DUMMY_CNTST_INFO.qualification}</li>
-        <li>지원 방법: {DUMMY_CNTST_INFO.apply}</li>
         <li>
-          시상
-          <div> 1등 - {DUMMY_CNTST_INFO.awards.first}</div>
-          <div> 2등 - {DUMMY_CNTST_INFO.awards.second}</div>
-          <div> 3등 - {DUMMY_CNTST_INFO.awards.third}</div>
+          접수 기간: {compinfo.startDate}~{compinfo.endDate}
         </li>
-        <li>문의 사항: {DUMMY_CNTST_INFO.inquiry}</li>
+        <li>기관: {compinfo.organization}</li>
+        <li>공모 주제: {compinfo.theme}</li>
+        <li>지원 자격: {compinfo.eligibillty}</li>
+        <li>지원 방법: {compinfo.applicationMethod}</li>
+        <li>시상: {compinfo.reward} </li>
+        <li>문의 사항: {compinfo.contact}</li>
         <li>
           자세히보기
           <div>
-            <a href={DUMMY_CNTST_INFO.link}>{DUMMY_CNTST_INFO.link}</a>
+            <a href={compinfo.link}>{compinfo.link}</a>
           </div>
-          {/*자세히보기 링크 연결*/}
         </li>
       </ul>
     </div>
   );
 };
 
-/*공모전 과거 입상작 더미데이터*/
+/*공모전 과거 입상작 더미데이터 (api 미연결)*/
 const DUMMY_WINREC_INFO = [
   {
+    id: 1,
     img: "../../comp_example.jpeg",
     generation: "1",
     prize: "대상",
     teamName: "얼레벌레",
     theme: "자연물",
+    interview: "",
   },
   {
+    id: 2,
     img: "../../comp_example.jpeg",
     generation: "2",
     prize: "최우수상",
     teamName: "로켓단",
     theme: "포켓몬",
+    interview: "",
   },
 ];
 
-const WinRecord = () => {
+const WinRecord = (compinfo) => {
+  console.log("이전 수상작:", compinfo);
   return (
     <div>
       <h2 className={styles.title2}>공모전 과거 입상작</h2>
@@ -84,6 +68,8 @@ const WinRecord = () => {
               </li>
               <li>팀명 : {content.teamName}</li>
               <li>주제 : {content.theme}</li>
+              <li>id : {content.id}</li>
+              <li>인터뷰 : {content.interview}</li>
             </ul>
           </div>
         </div>
@@ -92,13 +78,14 @@ const WinRecord = () => {
   );
 };
 
-const ContestInfo = () => {
+const ContestInfo = (compinfo) => {
   return (
     <div className={styles.main}>
       <h2 className={styles.title}>공모전 정보</h2>
       <hr className={styles.line} />
-      <MyCntstInfo />
-      <WinRecord /> {/*공모전 입상작*/}
+      <MyCntstInfo compinfo={compinfo.compinfo.compInfo} />
+      <WinRecord compinfo={compinfo.compinfo.priviousWinningList} />{" "}
+      {/*공모전 입상작*/}
     </div>
   );
 };

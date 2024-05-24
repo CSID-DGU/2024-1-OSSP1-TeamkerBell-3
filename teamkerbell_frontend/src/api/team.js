@@ -10,3 +10,12 @@ import { teamInstance } from "./instance";
 //팀 일정 전달
 export const teamProgress = (teamId) =>
   sendRequest(teamInstance, "post", `/${teamId}/progress`);
+
+export const getTeamTool = (teamId) =>
+  sendRequest(teamInstance, "get", `/${teamId}/tools`);
+
+export const getTeamCompDetail = (teamId) =>
+  sendRequest(teamInstance, "get", `/${teamId}/compinfo`);
+
+export const getTeamMemInfo = (teamId) =>
+  sendRequest(teamInstance, "get", `/${teamId}/members`);
