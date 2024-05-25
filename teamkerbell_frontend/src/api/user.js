@@ -9,13 +9,13 @@ export const login = (email, password) =>
   });
 
 //프로필 정보 받아오기
-export const register = (nickname, email, password, phoneNumber) =>
+export const register = (nickname, email, password, phone) =>
   sendRequest(userInstance, "post", `/register`, {
     //fields = ['nickname', 'phone', 'email', 'password']
     nickname: nickname,
     email: email,
     password: password,
-    phoneNumber: phoneNumber,
+    phone: phone,
   });
 
 //프로필 정보 받아오기
@@ -23,21 +23,47 @@ export const getUserProfile = (userId) =>
   sendRequest(userInstance, "get", `/${userId}/mypage`);
 
 //프로필 편집하기
-export const patchUserProfile = (userId, email, nickname, phoneNumber) =>
-  sendRequest(userInstance, "patch", `/${userId}/mypage/editProfile`, {
-    // id : userId
-    // email : email
-    // nickname : nickname
-    // phone : phoneNumber
-    // date :
-    // img:
+export const patchUserProfile = (userId, email, nickname, phone, img) =>
+  sendRequest(userInstance, "put", `/${userId}/mypage/`, {
+    email: email,
+    nickname: nickname,
+    phone: phone,
+    img: img,
   });
 
 //이력서 목록 가져오기
-export const getUserResumes = (userId) =>
-  sendRequest(userInstance, "get", `/${userId}/mypage/resumes`);
+export const getUserResumes = (
+  userId,
+  id,
+  user,
+  name,
+  email,
+  phone,
+  tier,
+  userIntro,
+  skill,
+  experience,
+  githubLik,
+  snsLink,
+  city,
+  dong
+) =>
+  sendRequest(userInstance, "get", `/${userId}/mypage/resumes`, {
+    id,
+    user,
+    name,
+    email,
+    phone,
+    tier,
+    userIntro,
+    skill,
+    experience,
+    githubLik,
+    snsLink,
+    city,
+    dong,
+  });
 
-//이력서 작성하기
 export const setUserResume = (userId) =>
   sendRequest(userInstance, "post", `/${userId}/mypage/writeResume`);
 

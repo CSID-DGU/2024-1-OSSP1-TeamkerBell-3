@@ -53,7 +53,7 @@ const App = () => {
     const { owner, repo } = extractOwnerAndRepo(gitUrl);
     fetchData(owner, repo);
     fetchCodeFrequencyData(owner, repo);
-    fetchWeeklyDatafunction(owner,repo);
+    fetchWeeklyDatafunction(owner, repo);
   };
 
   const fetchData = async (owner, repo) => {
@@ -213,9 +213,9 @@ const App = () => {
 
   return (
     <div>
-      <h2>
+      <h3>
         API Rate Limit: {rateLimit.remaining} / {rateLimit.limit}
-      </h2>
+      </h3>
       <form onSubmit={handleSubmit}>
         <label>
           GitHub URL:
@@ -227,7 +227,7 @@ const App = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <h2>GitHub 커밋 수</h2>
+          <h3>GitHub 커밋 수</h3>
           <div></div>
           <Bar
             data={commitData}
@@ -262,7 +262,7 @@ const App = () => {
           ) : (
             <p>No code frequency data available.</p>
           )}
-          <h2>주간 코드 작성량</h2>
+          <h3>주간 코드 작성량</h3>
           {weeklyLabels.length ? (
             <Bar
               data={weeklyGraphData}

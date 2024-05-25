@@ -8,10 +8,10 @@ class BasicUser(models.Model):
     email = models.CharField(null=False,max_length=50)
     password=models.CharField(null=False,max_length=50)
     nickname = models.CharField(null=False, max_length=50, default='Anonymous')
-    phone =models.CharField(null=False, max_length=50, default="default_value")
-    email = models.CharField(null=False, max_length=50, default="default_value")
+    phone =models.CharField(null=False, max_length=50, default="010-0000-0000")
+    email = models.CharField(null=False, max_length=50, default="email@gmail.com")
     date = models.DateField(null=False, default=timezone.now)
-    img = models.TextField(null=False, default="default_value")
+    img = models.TextField(null=False, default="https://teamkerbellbucket.s3.ap-northeast-2.amazonaws.com/default_profile.jpeg")
     score = models.FloatField(null=False, default=36.5)
 
 
