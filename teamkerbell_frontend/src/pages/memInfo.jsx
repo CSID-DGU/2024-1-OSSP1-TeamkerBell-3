@@ -28,7 +28,7 @@ const Meminfo = () => {
       } catch (error) {
         setIsError(true);
         setErrorMessage("멤버 정보를 불러오는 중 오류가 발생했습니다.");
-        console.error("Error fetching team comp detail: ", error);
+        console.error("Error fetching team mem detail: ", error);
       } finally {
         setIsLoading(false);
       }
