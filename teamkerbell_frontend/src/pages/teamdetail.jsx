@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./teamdetail.module.css";
 import TeamOutline from "../components/matchingComponents/TeamOutline";
 import TeamSpecificDetail from "../components/matchingComponents/TeamSpecificDetail";
 import { Link, useParams } from "react-router-dom";
+import { getTeamDetail } from "../api/comp";
 
 const TeamDetail = () => {
-  const { compId, teamId } = useParams();
+  const { compId, teamId, userId } = useParams();
+  const [teamDetail, setTeamDetail] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const DUMMY_TEAM_OUTLINE = {
     title: "교보생명 대학생 디자인 공모전 팀원 구합니다!",
@@ -33,27 +38,53 @@ const TeamDetail = () => {
     meetingtime: "월, 수, 금",
   };
 
+  console.log("teamdetail: ", teamDetail);
+
+  useEffect(() => {
+    const fetchTeamDetail = async () => {
+      try {
+        const response = await getTeamDetail(compId, teamId);
+        setTeamDetail(response.data)
+        
+        setIsLoading(false);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setIsError(true);
+          setErrorMessage("선택한 공모전의 팀이 없어요!");
+        } else {
+          setIsError(true);
+          setErrorMessage("An unexpected error occurred.");
+        }
+        setIsLoading(false);
+      }
+    };
+
+    fetchTeamDetail();
+
+  }, [compId, teamId]);
+
+
   return (
     <div className={styles.container}>
       <div className={styles.teamoutline}>
         <TeamOutline
-          title={DUMMY_TEAM_OUTLINE.title}
-          profileimg={DUMMY_TEAM_OUTLINE.profileimg}
-          writer={DUMMY_TEAM_OUTLINE.writer}
-          uploaddate={DUMMY_TEAM_OUTLINE.uploaddate}
-          category={DUMMY_TEAM_OUTLINE.category}
-          meetingway={DUMMY_TEAM_OUTLINE.meetingway}
-          recruitnum={DUMMY_TEAM_OUTLINE.recruitnum}
-          startdate={DUMMY_TEAM_OUTLINE.startdate}
-          recruitjobs={DUMMY_TEAM_OUTLINE.recruitjobs}
-          languages={DUMMY_TEAM_OUTLINE.languages}
-          location={DUMMY_TEAM_OUTLINE.location}
+          title={teamDetail.name}
+          profileimg={DUMMY_TEAM_OUTLINE.profileimg} //프로필 이미지
+          writer={teamDetail.leader}
+          uploaddate={teamDetail.createdAt}
+          meetingway={teamDetail.method}
+          recruitnum={teamDetail.recruitNum}
+          startdate={teamDetail.startDate}
+          recruitjobs={teamDetail.role}
+          languages={teamDetail.language}
+          location={DUMMY_TEAM_OUTLINE.location} //활동 지역
         />
       </div>
 
       <div className={styles.teamdetails}>
         <TeamSpecificDetail
-          intro={DUMMY_TEAM_DETAILS.intro}
+          intro={teamDetail.intro}
+          //자격조건 세부 사항
           experience={DUMMY_TEAM_DETAILS.experience}
           baekjoontier={DUMMY_TEAM_DETAILS.baekjoontier}
           requiredmajor={DUMMY_TEAM_DETAILS.requiredmajor}
@@ -63,7 +94,7 @@ const TeamDetail = () => {
 
       <div className={styles.button}>
         <Link
-          to={`/comp/${compId}/teamList/${teamId}/apply`}
+          to={`/comp/${compId}/teamList/${teamId}/apply/${userId}`}
           className={styles.applybtn}
         >
           지원하기

@@ -91,13 +91,13 @@ function App() {
 
 
         <Route path="/comp/:compId" element={<CompMatching />} />
-        <Route path="/comp/:compId/reviews" element={<CompReviews />} />
+        <Route path="/comp/:compId/teamList/reviewList" element={<CompReviews />} />
         <Route
           path="/comp/:compId/teamList/:teamId/detail"
           element={<TeamDetail />}
         />
         <Route
-          path="/comp/:compId/teamList/:teamId/apply"
+          path="/comp/:compId/teamList/:teamId/apply/:userId"
           element={<TeamApply />}
         />
         <Route

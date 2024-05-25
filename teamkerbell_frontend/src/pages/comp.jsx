@@ -4,7 +4,7 @@ import CompDetail from "../components/matchingComponents/CompDetail"; // CompDet
 import ReviewCard from "../components/matchingComponents/ReviewCard"; // ReviwCard 컴포넌트 import
 import AskMatching from "../components/matchingComponents/AskMatchingComponent"; //AskMatching 컴포넌트 import
 import { Link, useParams } from "react-router-dom";
-import { getCompDetail, getReviewList, getTeamDetail, getTeamList } from "../api/comp";
+import { getCompDetail } from "../api/comp";
 import ErrorComponent from "../components/ErrorComponent";
 
 const CompMatching = () => {
@@ -12,10 +12,13 @@ const CompMatching = () => {
   const { compId } = useParams();
   const [compDetail, setCompDetail] = useState(null);
   const [compReview, setCompReview] = useState([]);
-  const [compTeamList, setCompTeamList] = useState(null);
+  
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  console.log("compDetail: ",compDetail);
+  console.log("compReview: ",compReview);
 
 
   useEffect(() => {
@@ -23,12 +26,7 @@ const CompMatching = () => {
       try {
         const response = await getCompDetail(compId);
         setCompDetail(response.data.compInfo);
-        setCompTeamList(response.data.teamList);
         setCompReview(response.data.reviewList);
-        
-        console.log("compDetail: ",compDetail);
-        console.log("compTeamList: ",compTeamList);
-        console.log("compReview: ",compReview);
 
         setIsLoading(false);
       } catch (error) {
@@ -46,6 +44,8 @@ const CompMatching = () => {
     fetchCompDetail();
 
   }, [compId]);
+
+
 
   
 
@@ -80,7 +80,7 @@ const CompMatching = () => {
       <div className={styles.reviewContainer}>
         <div className={styles.reviewHeader}>
           <h2 className={styles.reviewTitle}>공모전 후기</h2>
-          <Link to={`/comp/${compId}/reviews`} className={styles.moreReviews}>
+          <Link to={`/comp/${compId}/teamList/reviewList`} className={styles.moreReviews}>
             더보기
           </Link>
         </div>
@@ -94,9 +94,7 @@ const CompMatching = () => {
 
       {/* 공모전 매칭 선택 질문 */}
       <div>
-        <AskMatching
-          teamlist = {compTeamList||[]}
-        ></AskMatching>
+        <AskMatching></AskMatching>
       </div>
     </div>
   );

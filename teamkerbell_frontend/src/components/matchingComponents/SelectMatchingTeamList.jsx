@@ -5,10 +5,7 @@ import {Link, useParams} from 'react-router-dom';
 
 const SelectMatchingTeamList = (teamlist) => {
     
-    const { compId, userId } = useParams();
-    console.log("[selectmatching component의 teamlist]:",teamlist);
-
-    
+    const { compId, userId } = useParams();    
     
     return(
         <div className={styles.SelectMatchingTeamListContainer}>
@@ -20,6 +17,7 @@ const SelectMatchingTeamList = (teamlist) => {
             {teamlist.teamlist.map((team, index) => (
               <Link to={`/comp/${compId}/teamList/${team.id}/detail`} className={styles.teamlist}>
                 <TeamCard
+                  //변수명 수정해야 (백엔드 수정중)
                   key={index}
                   image={team.image}
                   title={team.title}

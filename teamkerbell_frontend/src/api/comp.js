@@ -45,6 +45,7 @@ export const getTeamList = (compId) =>
 //선택 팀 생성
 export const setSelectTeam = (
   compId,
+  userId, 
   recruitRole,
   recruitNumber,
   projectStartDate,
@@ -55,7 +56,7 @@ export const setSelectTeam = (
   resumeId,
   check
 ) =>
-  sendRequest(compInstance, "post", `/${compId}/createTeam`, {
+  sendRequest(compInstance, "post", `/${compId}/createTeam/${userId}`, {
     compId: compId,
     recruitRole: recruitRole,
     recruitNumber: recruitNumber,
@@ -67,8 +68,6 @@ export const setSelectTeam = (
     resumeId: resumeId,
     check: check,
   });
-
-
 
 //랜덤 팀 생성
 export const setRandomTeam = (
@@ -90,27 +89,32 @@ export const setRandomTeam = (
 
 //공모전 내용/후기
 export const getReviewList = (compId) =>
-  sendRequest(compInstance, "get", `/${compId}/reviewList`);
+  sendRequest(compInstance, "get", `/${compId}/teamList/reviewList`);
 
 //팀 상세/설명
 export const getTeamDetail = (compId, teamId) =>
   sendRequest(compInstance, "get", `/${compId}/teamList/${teamId}/detail`);
 
-//팀 상세/설명, 지원서 제출
+//팀 상세/설명, 지원서 제출(이력서 전달)
 export const setApplyResume = (
   compId,
   teamId,
-  teamInfo,
-  resumeList,
-  teamRole
+  userId,
+  resumeId,
+  role
 ) =>
-  sendRequest(compInstance, "post", `/${compId}/teamList/${teamId}/apply`, {
+  sendRequest(compInstance, "post", `/${compId}/teamList/${teamId}/apply/${userId}`, {
     compId: compId,
     teamId: teamId,
-    teamInfo: teamInfo,
-    resumeList: resumeList,
-    teamRole: teamRole,
+    userId: userId,
+    resumeId: resumeId,
+    role: role,
   });
+
+//팀 상세/설명, 지원서 제출(이력서 가져오기)
+export const getMyResume = (compId, teamId, userId) =>
+  sendRequest(compInstance, "get", `/${compId}/teamList/${teamId}/apply/${userId}`);
+
 
 //팀장 이력서 상세 보기
 export const getLeaderResume = (compId, teamId) =>

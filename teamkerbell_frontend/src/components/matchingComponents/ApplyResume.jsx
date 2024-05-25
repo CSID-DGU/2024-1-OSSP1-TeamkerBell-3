@@ -16,7 +16,7 @@ const tagComponents = {
   // 이런 식으로 필요한 만큼 추가할 수 있습니다.
 };
 
-const ApplyResume = ({ user, resume, isSelected, onSelect }) => {
+const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
 
 
     const { userId } = useParams();
@@ -48,7 +48,7 @@ const ApplyResume = ({ user, resume, isSelected, onSelect }) => {
         <img src="/dummy_profile.png" alt="유저 이미지" />
         <div className={styles.nameNTemp}>
           <h1>{resume.name}</h1>
-          <p>온도 : {resume.temperature}</p>
+          <p>온도 : {resume.score}</p>
         </div>
       </div>
       <p className={styles.resumeContent}>{resume.content}</p>

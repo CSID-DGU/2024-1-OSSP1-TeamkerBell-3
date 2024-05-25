@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ResumeSummary from "../components/matchingComponents/ResumeSummary"
 import styles from "./leaderresume.module.css";
 import {Link, useParams} from "react-router-dom"
+import { getLeaderResume } from "../api/comp";
 
 
 const LeaderResume = () => {
 
     const { compId, teamId } = useParams();
+    const [leaderResume, setLeaderResume] = useState();
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const DUMMY_MEMBERSUMMARY = 
     {
@@ -35,6 +41,30 @@ const LeaderResume = () => {
     
 
     }
+
+    // INTERNAL SERVER ERROR
+    useEffect(() => {
+        const fetchLeaderResume = async () => {
+          try {
+            const response = await getLeaderResume(compId, teamId);
+            console.log(response);
+    
+            setIsLoading(false);
+          } catch (error) {
+            if (error.response && error.response.status === 404) {
+              setIsError(true);
+              setErrorMessage("선택한 팀장의 이력서가 없어요!");
+            } else {
+              setIsError(true);
+              setErrorMessage("An unexpected error occurred.");
+            }
+            setIsLoading(false);
+          }
+        };
+    
+        fetchLeaderResume();
+    
+      }, [compId]);
 
 
 
