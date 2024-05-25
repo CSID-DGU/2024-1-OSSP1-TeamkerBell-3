@@ -103,7 +103,7 @@ function App() {
           path="/comp/:compId/teamList/:teamId/leaderResume"
           element={<LeaderResume />}
         />
-        <Route path="/comp/:compId/createTeam" element={<CreateTeam />} />
+        <Route path="/comp/:compId/createTeam/:userId" element={<CreateTeam />} />
       </Routes>
     </BrowserRouter>
   );

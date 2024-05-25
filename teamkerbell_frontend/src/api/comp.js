@@ -30,9 +30,14 @@ export const registerComp = (
     img: img,
   });
 
-  //공모전 정보 조회
+//공모전 정보 조회
 export const getCompDetail = (compId) =>
   sendRequest(compInstance, "get", `/${compId}`);
+
+//공모전 팀 리스트 정보 조회
+export const getTeamList = (compId) =>
+  sendRequest(compInstance, "get", `/${compId}`);
+
 
 //선택 팀 생성
 export const setSelectTeam = (
@@ -59,6 +64,8 @@ export const setSelectTeam = (
       resumeId: resumeId,
       check: check
   });
+
+
 
 //랜덤 팀 생성
 export const setRandomTeam = (

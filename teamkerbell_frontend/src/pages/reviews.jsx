@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./reviews.module.css";
 import {Link, useParams} from 'react-router-dom';
 import CompDetail from "../components/matchingComponents/CompDetail"; // CompDetail 컴포넌트 import
 import ReviewCard from "../components/matchingComponents/ReviewCard"; // ReviewCard 컴포넌트 import
+import { getCompDetail } from "../api/comp";
 
 
 const CompReviews = () => {
 
     const { compId } = useParams();
+
+    const [compDetail, setCompDetail] = useState(null);
+    const [compReview, setCompReview] = useState([]);
+
+
+    useEffect(() => {
+        const fetchCompDetail = async () => {
+          
+            const response = await getCompDetail(compId);
+            console.log(response)
+
+            setCompDetail(response.data.compInfo);
+            setCompReview(response.data.reviewList);
+            
+            console.log("compDetail: ",compDetail);
+            console.log("compReview: ",compReview);
+        };
+    
+        fetchCompDetail();
+    
+      }, [compId]);
+
 
     //공모전 상세 내용
     const DUMMY_COMP_DETAIL = {

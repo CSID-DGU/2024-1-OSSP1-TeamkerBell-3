@@ -4,7 +4,7 @@ import SelectMatchingTeamList from "./SelectMatchingTeamList"; // SelectMatching
 import RandomMatchingQuestion from "./RandomMatchingQuestion"; // RandomMatchingQuestion 컴포넌트 import
 
 
-const AskMatching = () => {
+const AskMatching = (teamlist) => {
   const [isRandomMatching, setIsRandomMatching] = useState(false); // 초기값 설정
 
 
@@ -16,6 +16,8 @@ const AskMatching = () => {
     // 랜덤 매칭 처리
     setIsRandomMatching(true);
   };
+
+ 
   return (
     <div className={styles.askMatchingContainer}>
       <hr className={styles.line}></hr>
@@ -52,7 +54,9 @@ const AskMatching = () => {
         {isRandomMatching ? (
           <div className = {styles.SelectMatchingDescription}>
             <img src="../../../selectMatchingMethod.png"  />
-            <SelectMatchingTeamList></SelectMatchingTeamList>
+            <SelectMatchingTeamList
+              teamlist={teamlist.teamlist||[]}
+            ></SelectMatchingTeamList>
           </div>
           
         ) : (

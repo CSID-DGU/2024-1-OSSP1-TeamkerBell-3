@@ -14,7 +14,7 @@ const CompDetail = ({ image, title, period, daycount, organization, theme, quali
 
         <ul className={styles.description}>
           <li>
-            <div>
+            <div> 
                 접수 기간: {period}   
                 <div className={styles.daycount}>
                     {daycount}
@@ -27,9 +27,12 @@ const CompDetail = ({ image, title, period, daycount, organization, theme, quali
           <li>지원 방법: {apply}</li>
           <li>시상:
             <div>
-                {awards.map((award, index) => (
+                {awards}
+
+
+                {/* {awards.map((award, index) => (
                     <div key={index}>{award}</div>
-                ))}
+                ))} */}
             </div>
           </li>
           <li>문의 사항: {inquiry}</li>

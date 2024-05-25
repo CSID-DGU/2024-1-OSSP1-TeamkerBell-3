@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./createteam.module.css";
 import CompDetail from "../components/matchingComponents/CompDetail";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import RecruitNumInput from "../components/matchingComponents/RecruitNumInput";
 import ApplyResume from "../components/matchingComponents/ApplyResume";
+import { getCompDetail } from "../api/comp";
+import { useParams } from "react-router-dom";
 
 const CreateTeam = () => {
+    const {compId, userId} = useParams();
 
     const DUMMY_COMP_DETAIL = {
         image: "../../comp_example.jpeg",
@@ -94,15 +96,18 @@ const CreateTeam = () => {
 
 
 
-    //상태
+    //사용자 입력용 상태
     const [title, setTitle] = useState("");
-    const [isAgree, setAgree] = useState(false); 
+    const [recruitRole, setRecruitRole] = useState([]);
+    const [recruitNum, setRecruitNum] = useState([]);
     const [selectedMethod, setSelectedMethod] = useState("");
     const [intro, setIntro] = useState("");
     const [projectStartDate, setProjectStartDate] = useState("");
     const [selectedResumeId, setSelectedResumeId] = useState(null);
     const [language, setLanguage] = useState("");
     const [qualification, setQualification] = useState("");
+    const [isAgree, setAgree] = useState(false); 
+
 
 
     const handleMethod = (method) => {
@@ -125,6 +130,7 @@ const CreateTeam = () => {
 
 
 
+
     //확인용
     console.log(title);
     console.log(selectedMethod);
@@ -136,21 +142,42 @@ const CreateTeam = () => {
     console.log(selectedResumeId);
     console.log(intro);
 
+    
+    //api 연결
+    const [compDetail, setCompDetail] = useState(null); //공모전 상세 정보
+
+
+    useEffect(() => {
+      const fetchCompDetail = async () => {
+    
+        const response = await getCompDetail(compId);
+        console.log("[response]", response.data);
+        setCompDetail(response.data.compInfo);    
+        console.log("compDetail: ",compDetail);
+    
+      };
+  
+      fetchCompDetail();
+  
+    }, [compId]);
+
+
+
     return(
         <div className={styles.container}>
             <div className={styles.compdetail}>
                 <CompDetail
-                    image={DUMMY_COMP_DETAIL.image}
-                    title={DUMMY_COMP_DETAIL.title}
-                    period={DUMMY_COMP_DETAIL.period}
-                    daycount={DUMMY_COMP_DETAIL.daycount}
-                    organization={DUMMY_COMP_DETAIL.organization}
-                    theme={DUMMY_COMP_DETAIL.theme}
-                    qualification={DUMMY_COMP_DETAIL.qualification}
-                    apply={DUMMY_COMP_DETAIL.apply}
-                    awards={DUMMY_COMP_DETAIL.awards}
-                    inquiry={DUMMY_COMP_DETAIL.inquiry}
-                    link={DUMMY_COMP_DETAIL.link}
+                    image={compDetail.img}
+                    title={compDetail.name}
+                    period={compDetail.startDate+"~"+compDetail.endDate}
+                    daycount={compDetail.endDate-new Date()}
+                    organization={compDetail.organization}
+                    theme={compDetail.theme}
+                    qualification={compDetail.eligibillty}
+                    apply={compDetail.applicationMethod}
+                    awards={compDetail.reward}
+                    inquiry={compDetail.contact}
+                    link={compDetail.link}
                 />
             </div>
 
@@ -208,7 +235,7 @@ const CreateTeam = () => {
                         {DUMMY_RESUMES.map((resume) => (
                           <ApplyResume className={styles.resumeItem} 
                             key={resume.id}  
-                            user={DUMMY_USER_ID}
+                            user={userId}
                             resume={resume} 
                             isSelected={selectedResumeId === resume.id} 
                             onSelect={handleSelectResume}/>
@@ -222,12 +249,6 @@ const CreateTeam = () => {
                     </div>
 
                   </div>
-
-
-
-                    
-
-
 
                 </div>
             </div>
