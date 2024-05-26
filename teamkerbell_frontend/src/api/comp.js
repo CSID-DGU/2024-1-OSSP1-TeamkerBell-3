@@ -68,6 +68,12 @@ export const setSelectTeam = (
     resumeId: resumeId,
   });
 
+//선택 팀에서 자신의 이력서 가져오기
+export const getMyResumeForCreateTeam = (compId, userId) =>
+  sendRequest(compInstance, "get", `/${compId}/createTeam/${userId}`);
+
+
+
 //랜덤 팀 생성
 export const setRandomTeam = (
   compId,

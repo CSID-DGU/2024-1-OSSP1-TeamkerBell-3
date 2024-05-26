@@ -4,99 +4,24 @@ import CompDetail from "../components/matchingComponents/CompDetail";
 import { useState } from "react";
 import RecruitNumInput from "../components/matchingComponents/RecruitNumInput";
 import ApplyResume from "../components/matchingComponents/ApplyResume";
-import { getCompDetail, setSelectTeam } from "../api/comp";
+import { getCompDetail, getMyResume, getMyResumeForCreateTeam, setSelectTeam } from "../api/comp";
 import { useParams } from "react-router-dom";
 
 const CreateTeam = () => {
-    const {compId, userId} = useParams();
-    const [compDetail, setCompDetail] = useState(null); //공모전 상세 정보
+    const {compId, userId, teamId} = useParams();
+    const [compDetail, setCompDetail] = useState({}); //공모전 상세 정보
+    const [myResumes, setMyResumes] = useState([]);
+
 
 
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const DUMMY_COMP_DETAIL = {
-        image: "../../comp_example.jpeg",
-        title: "생성형 AI 이미지 활용 공모전",
-        period: "2024.03.11 ~ 2024.05.17",
-        daycount: "D-40",
-        organization: "에프엔가이드",
-        theme: "생성형 AI 이미지",
-        qualification: "예비 창업자, 3년 미만 스타트업",
-        apply: "온라인 지원",
-        awards: ["1등 -  10,000,000원", "2등 - 5,000,000원", "3등 - 1,000,000원"],
-        inquiry: "teamkerbell@dongguk.edu",
-        link: "https://github.com/CSID-DGU/2024-1-OSSP1-TeamkerBell-3.git",
-    };
 
-    const DUMMY_METHOD_LIST = ["대면","비대면","대면/비대면", "상관 없음"];
+    const METHOD_LIST = ["대면","비대면","대면/비대면", "상관 없음"];
 
   
-
-    const DUMMY_RESUMES = [
-        {
-          id:0,
-          temperature: 42.5,
-          title: "규진's 이력서",
-          content:
-            "안녕하세요, 저는 풀스택 개발자 김동국입니다. 작년에 AI 생성 공모전을 참가하여 경험을 쌓았으며 이를 바탕으로 이번에는 수상을 해보고 싶습니다. 그만큼, 최선을 다하고 열심히 하겠습니다. 감사합니다. 뽑아주세요!",
-          name: "홍규진",
-          age: 24,
-          occupation: "프론트엔드 개발/백엔드 개발",
-          skills: "JavaScript, React, Django, Flutter",
-          baekjoonTier: "Gold",
-          github: "github.com/kyujenius",
-          tags: [0, 1, 2, 3],
-        },
-  
-        {
-          id:1,
-          temperature: 42.5,
-          title: "규진's 이력서",
-          content:
-            "안녕하세요, 저는 풀스택 개발자 김동국입니다. 작년에 AI 생성 공모전을 참가하여 경험을 쌓았으며 이를 바탕으로 이번에는 수상을 해보고 싶습니다. 그만큼, 최선을 다하고 열심히 하겠습니다. 감사합니다. 뽑아주세요!",
-          name: "홍규진",
-          age: 24,
-          occupation: "프론트엔드 개발/백엔드 개발",
-          skills: "JavaScript, React, Django, Flutter",
-          baekjoonTier: "Gold",
-          github: "github.com/kyujenius",
-          tags: [0, 1, 2, 3],
-        },
-  
-        {
-          id:2,
-          temperature: 42.5,
-          title: "규진's 이력서",
-          content:
-            "안녕하세요, 저는 풀스택 개발자 김동국입니다. 작년에 AI 생성 공모전을 참가하여 경험을 쌓았으며 이를 바탕으로 이번에는 수상을 해보고 싶습니다. 그만큼, 최선을 다하고 열심히 하겠습니다. 감사합니다. 뽑아주세요!",
-          name: "홍규진",
-          age: 24,
-          occupation: "프론트엔드 개발/백엔드 개발",
-          skills: "JavaScript, React, Django, Flutter",
-          baekjoonTier: "Gold",
-          github: "github.com/kyujenius",
-          tags: [0, 1, 2, 3],
-        },
-        
-        {
-          id:3,
-          temperature: 42.5,
-          title: "규진's 이력서",
-          content:
-            "안녕하세요, 저는 풀스택 개발자 김동국입니다. 작년에 AI 생성 공모전을 참가하여 경험을 쌓았으며 이를 바탕으로 이번에는 수상을 해보고 싶습니다. 그만큼, 최선을 다하고 열심히 하겠습니다. 감사합니다. 뽑아주세요!",
-          name: "홍규진",
-          age: 24,
-          occupation: "프론트엔드 개발/백엔드 개발",
-          skills: "JavaScript, React, Django, Flutter",
-          baekjoonTier: "Gold",
-          github: "github.com/kyujenius",
-          tags: [0, 1, 2, 3],
-        },
-      ];
-
-
 
 
     //사용자 입력용 상태
@@ -111,25 +36,12 @@ const CreateTeam = () => {
     const [qualification, setQualification] = useState("");
     const [isAgree, setAgree] = useState(false); 
 
-    
-    /* console.log(title);
-    console.log(selectedMethod);
-    console.log("동의 여부", isAgree);
-    console.log(projectStartDate);
-    console.log(selectedResumeId);
-    console.log(qualification);
-    console.log(language);
-    console.log(selectedResumeId);
-    console.log(intro);
-    console.log("compDetail: ",compDetail);
-    console.log("recruitRole", recruitRole);
-    console.log("recruitNum", recruitNum); */
 
-    console.log("recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId: ", recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId);
     console.log("title:",title, typeof(title));
     console.log("recruitRole:",recruitRole, typeof(recruitRole));
     console.log("recruitNum:",recruitNum, typeof(recruitNum));
     console.log("projectStartDate:",projectStartDate, typeof(projectStartDate));
+    console.log("myResumes: ", myResumes);
     console.log("selectedResumeId:",selectedResumeId, typeof(selectedResumeId));
 
 
@@ -160,7 +72,11 @@ const CreateTeam = () => {
       const fetchCompDetail = async () => {
         try {
           const response = await getCompDetail(compId);
+          const response1 = await getMyResumeForCreateTeam(compId, userId);
+          console.log(response1.data);
           setCompDetail(response.data.compInfo);
+          setMyResumes(response1.data)
+          
   
           setIsLoading(false);
         } catch (error) {
@@ -188,7 +104,8 @@ const CreateTeam = () => {
         return;
       }
       try {
-        await setSelectTeam(recruitRole, recruitNum, projectStartDate, title, intro, selectedMethod, language, qualification, selectedResumeId);
+        console.log("recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId: ", recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId);
+        await setSelectTeam(compId, userId, recruitRole, recruitNum, projectStartDate, title, intro, selectedMethod, language, qualification, selectedResumeId);
         alert("제출 완료되었습니다.");
       } catch (error) {
         console.error("Error submitting application:", error);
@@ -200,7 +117,7 @@ const CreateTeam = () => {
     return(
         <div className={styles.container}>
             <div className={styles.compdetail}>
-            {/* <CompDetail
+            <CompDetail
               image={compDetail.img}
               title={compDetail.name}
               period={compDetail.startDate+"~"+compDetail.endDate}
@@ -212,21 +129,6 @@ const CreateTeam = () => {
               awards={compDetail.reward}
               inquiry={compDetail.contact}
               link={compDetail.link}
-            /> */}
-            
-            {/* 자꾸 결과 변경 */}
-            <CompDetail
-              image={DUMMY_COMP_DETAIL.image}
-              title={DUMMY_COMP_DETAIL.title}
-              period={DUMMY_COMP_DETAIL.period}
-              daycount={DUMMY_COMP_DETAIL.daycount}
-              organization={DUMMY_COMP_DETAIL.organization}
-              theme={DUMMY_COMP_DETAIL.theme}
-              qualification={DUMMY_COMP_DETAIL.qualification}
-              apply={DUMMY_COMP_DETAIL.apply}
-              awards={DUMMY_COMP_DETAIL.awards}
-              inquiry={DUMMY_COMP_DETAIL.inquiry}
-              link={DUMMY_COMP_DETAIL.link}
             />
             
             </div>
@@ -260,7 +162,7 @@ const CreateTeam = () => {
                     <div className={styles.method}>
                         <div className={styles.qtext}>5. 프로젝트 진행 방식</div>
                         <div className={styles.methodbtns}>
-                          {DUMMY_METHOD_LIST.map((method, index) => (
+                          {METHOD_LIST.map((method, index) => (
                               <button className={selectedMethod === method ? `${styles.methodbtn} ${styles.active}` : styles.methodbtn} key={index} onClick={() => handleMethod(method)}>{method}</button>
                           ))}
                         </div>
@@ -282,7 +184,7 @@ const CreateTeam = () => {
                       <div className={styles.qtext}>8. 이력서 선택</div>
                       <div className={styles.resumeContainer}>
 
-                        {DUMMY_RESUMES.map((resume) => (
+                        {myResumes.map((resume) => (
                           <ApplyResume className={styles.resumeItem} 
                             key={resume.id}  
                             user={userId}
