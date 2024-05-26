@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Comp, CompReview, RandomMatching
-from team.models import ChooseTeam, Team, TeamRole
+from team.models import ChooseTeam, Team, TeamRole, TeamMate
 from user.models import BasicUser, Resume
 class CompSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,6 +27,8 @@ class TeamInfoAndChooseTeamInfoAndTeamRoleSerializer(serializers.ModelSerializer
     recruitNum=serializers.SerializerMethodField()
     role=serializers.SerializerMethodField()
     createdAt=serializers.SerializerMethodField()
+    city = serializers.SerializerMethodField()
+    dong =serializers.SerializerMethodField()
     class Meta:
         model=ChooseTeam
         fields='__all__'
@@ -53,6 +55,22 @@ class TeamInfoAndChooseTeamInfoAndTeamRoleSerializer(serializers.ModelSerializer
         team=Team.objects.filter(id=obj.team.id).first()
         if team:
             return team.startDate
+        else:
+            return None
+    def get_city(self,obj):
+        team=Team.objects.filter(id=obj.team.id).first()
+        teammate = TeamMate.objects.filter(team=team, user=team.leader).first()
+        resume = Resume.objects.filter(id=teammate.resume.id).first()
+        if resume:
+            return resume.city
+        else:
+            return None
+    def get_dong(self, obj):
+        team=Team.objects.filter(id=obj.team.id).first()
+        teammate = TeamMate.objects.filter(team=team, user=team.leader).first()
+        resume = Resume.objects.filter(id=teammate.resume.id).first()
+        if resume:
+            return resume.dong
         else:
             return None
         
