@@ -73,7 +73,7 @@ function App() {
 
         {/* 이력서 수정 페이지로 수정 필요 */}
         <Route
-          path="/mypage/user/:userId/resume/:resumeId"
+          path="/user/:userId/resume/:resumeId"
           element={<Mypage />}
         />
 

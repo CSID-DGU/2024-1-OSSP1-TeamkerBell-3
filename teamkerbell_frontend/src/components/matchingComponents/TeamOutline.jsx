@@ -3,7 +3,6 @@ import { useParams, Link } from "react-router-dom";
 
 const TeamOutline = ({
   title,
-  profileimg,
   writer,
   uploaddate,
   meetingway,
@@ -29,7 +28,6 @@ const TeamOutline = ({
       </div>
 
       <div className={styles.header}>
-        <img src={profileimg} alt="profile" className={styles.profile} />
         <div className={styles.writer}>{writer}</div>
         <div className={styles.uploaddate}>{uploaddate}</div>
         {/* 찜하기 기능 추가*/}

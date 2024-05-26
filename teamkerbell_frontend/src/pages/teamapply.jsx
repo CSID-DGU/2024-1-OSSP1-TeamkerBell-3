@@ -149,7 +149,7 @@ const TeamApply = ( ) => {
         return;
       }
       try {
-        console.log("compId, teamId, userId, selectedResumeId, selectedRole: ", compId, teamId, userId, selectedResumeId, selectedRole);
+        console.log("selectedResumeId, selectedRole: ", selectedResumeId, selectedRole);
         await setApplyResume(compId, teamId, userId, selectedResumeId, selectedRole);
         alert("제출 완료되었습니다.");
       } catch (error) {
@@ -165,7 +165,6 @@ const TeamApply = ( ) => {
             <div className={styles.teamoutline}>
               <TeamOutline
                 title={teamInfo.name}
-                profileimg={DUMMY_TEAM_OUTLINE.profileimg} //프로필 이미지
                 writer={teamInfo.leader}
                 uploaddate={teamInfo.createdAt}
                 meetingway={teamInfo.method}
@@ -199,7 +198,7 @@ const TeamApply = ( ) => {
                 <div className={styles.selectresume}>이력서 선택</div>
                 <div className={styles.resumeContainer}>
 
-                  {DUMMY_RESUMES.map((resume) => (
+                  {myResumes.map((resume, index) => (
                     <ApplyResume className={styles.resumeItem} 
                       key={resume.id}  
                       user={userId}

@@ -17,12 +17,12 @@ const SelectMatchingTeamList = (teamlist) => {
             {teamlist.teamlist.map((team, index) => (
               <Link to={`/comp/${compId}/teamList/${team.id}/detail`} className={styles.teamlist}>
                 <TeamCard
-                  //변수명 수정해야 (백엔드 수정중)
+                  //변수명 수정 필요
                   key={index}
                   image={team.image}
                   title={team.title}
                   writer={team.writer}
-                  membernum={team.recruitnum}
+                  membernum={team.recruitNum}
                   startdate={team.startDate}
                   dday={team.star}
                   jobs={team.jobs}

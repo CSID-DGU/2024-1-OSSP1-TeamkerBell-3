@@ -49,24 +49,23 @@ export const setSelectTeam = (
   recruitRole,
   recruitNumber,
   projectStartDate,
+  name,
   intro,
   method,
   language,
   qualification,
   resumeId,
-  check
 ) =>
   sendRequest(compInstance, "post", `/${compId}/createTeam/${userId}`, {
-    compId: compId,
     recruitRole: recruitRole,
     recruitNumber: recruitNumber,
     projectStartDate: projectStartDate,
+    name: name,
     intro: intro,
     method: method,
     language: language,
     qualification: qualification,
     resumeId: resumeId,
-    check: check,
   });
 
 //랜덤 팀 생성
@@ -78,8 +77,7 @@ export const setRandomTeam = (
   isLeader,
   recruitNumber
 ) =>
-  sendRequest(compInstance, "post", `/${compId}/createRandomTeam`, {
-    compId: compId,
+  sendRequest(compInstance, "post", `/${compId}`, {
     role: role,
     city: city,
     dong: dong,
@@ -95,7 +93,8 @@ export const getReviewList = (compId) =>
 export const getTeamDetail = (compId, teamId) =>
   sendRequest(compInstance, "get", `/${compId}/teamList/${teamId}/detail`);
 
-//팀 상세/설명, 지원서 제출(이력서 전달)
+
+//팀 상세/설명, 지원서 제출(이력서 전달) -> 매개 변수 개수 다름, compId 빼도 괜찮을지
 export const setApplyResume = (
   compId,
   teamId,
@@ -104,12 +103,10 @@ export const setApplyResume = (
   role
 ) =>
   sendRequest(compInstance, "post", `/${compId}/teamList/${teamId}/apply/${userId}`, {
-    compId: compId,
-    teamId: teamId,
-    userId: userId,
     resumeId: resumeId,
     role: role,
   });
+
 
 //팀 상세/설명, 지원서 제출(이력서 가져오기)
 export const getMyResume = (compId, teamId, userId) =>

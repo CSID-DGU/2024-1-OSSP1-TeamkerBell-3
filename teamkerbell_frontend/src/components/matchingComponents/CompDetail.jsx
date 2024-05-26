@@ -17,7 +17,7 @@ const CompDetail = ({ image, title, period, daycount, organization, theme, quali
             <div> 
                 접수 기간: {period}   
                 <div className={styles.daycount}>
-                    {daycount}
+                    D-{daycount}
                 </div>
             </div>
           </li>

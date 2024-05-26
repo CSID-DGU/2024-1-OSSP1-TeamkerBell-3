@@ -125,7 +125,12 @@ const CreateTeam = () => {
     console.log("recruitRole", recruitRole);
     console.log("recruitNum", recruitNum); */
 
-    console.log("compId, userId, recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId, isAgree: ", compId, userId, recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId, isAgree)
+    console.log("recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId: ", recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId);
+    console.log("title:",title, typeof(title));
+    console.log("recruitRole:",recruitRole, typeof(recruitRole));
+    console.log("recruitNum:",recruitNum, typeof(recruitNum));
+    console.log("projectStartDate:",projectStartDate, typeof(projectStartDate));
+    console.log("selectedResumeId:",selectedResumeId, typeof(selectedResumeId));
 
 
 
@@ -178,13 +183,12 @@ const CreateTeam = () => {
     //제출
     const handleApplyButton = async (e) => {
       e.preventDefault();
-      if (!recruitRole || !recruitNum || !projectStartDate || !intro || !selectedMethod || !qualification || !isAgree || selectedResumeId < 0 || !language) {
+      if (!title || !recruitRole || !recruitNum || !projectStartDate || !intro || !selectedMethod || !qualification || !isAgree || selectedResumeId < 0 || !language) {
         alert("모든 필드를 입력해주세요.");
         return;
       }
       try {
-  
-        await setSelectTeam(compId, userId, recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId, isAgree);
+        await setSelectTeam(recruitRole, recruitNum, projectStartDate, title, intro, selectedMethod, language, qualification, selectedResumeId);
         alert("제출 완료되었습니다.");
       } catch (error) {
         console.error("Error submitting application:", error);
@@ -196,6 +200,21 @@ const CreateTeam = () => {
     return(
         <div className={styles.container}>
             <div className={styles.compdetail}>
+            {/* <CompDetail
+              image={compDetail.img}
+              title={compDetail.name}
+              period={compDetail.startDate+"~"+compDetail.endDate}
+              daycount={(Math.floor((new Date(compDetail.endDate)-new Date().getTime())/ (1000 * 60 * 60 * 24)))}
+              organization={compDetail.organization}
+              theme={compDetail.theme}
+              qualification={compDetail.eligibillty}
+              apply={compDetail.applicationMethod}
+              awards={compDetail.reward}
+              inquiry={compDetail.contact}
+              link={compDetail.link}
+            /> */}
+            
+            {/* 자꾸 결과 변경 */}
             <CompDetail
               image={DUMMY_COMP_DETAIL.image}
               title={DUMMY_COMP_DETAIL.title}
@@ -209,6 +228,7 @@ const CreateTeam = () => {
               inquiry={DUMMY_COMP_DETAIL.inquiry}
               link={DUMMY_COMP_DETAIL.link}
             />
+            
             </div>
 
             <div className={styles.createteam}>

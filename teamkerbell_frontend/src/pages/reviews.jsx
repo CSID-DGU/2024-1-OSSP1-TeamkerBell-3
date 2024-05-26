@@ -66,7 +66,7 @@ const CompReviews = () => {
                   image={compDetail.img}
                   title={compDetail.name}
                   period={compDetail.startDate+"~"+compDetail.endDate}
-                  daycount={compDetail.endDate-new Date()}
+                  daycount={(Math.floor((new Date(compDetail.endDate)-new Date().getTime())/ (1000 * 60 * 60 * 24)))}
                   organization={compDetail.organization}
                   theme={compDetail.theme}
                   qualification={compDetail.eligibillty}

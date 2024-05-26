@@ -19,9 +19,6 @@ const tagComponents = {
 const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
 
 
-    const { userId } = useParams();
-
-
     const navigate = useNavigate();
 
     // 한번 클릭 시, 이력서 선택
@@ -34,7 +31,7 @@ const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
     // 두번 클릭 시, 이력서 수정
     const handleDoubleClick = () => {
         console.log("이력서 수정");
-        navigate(`/mypage/user/${user}/resume/${resume.id}`);
+        navigate(`/user/${user}/mypage/resume/${resume.id}`);
         
     }
 
@@ -45,13 +42,13 @@ const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
   return (
     <div className={resumeItem} onClick={click}>
       <div className={styles.profileImgNName}>
-        <img src="/dummy_profile.png" alt="유저 이미지" />
+        <img src={resume.img} alt="유저 이미지" />
         <div className={styles.nameNTemp}>
           <h1>{resume.name}</h1>
           <p>온도 : {resume.score}</p>
         </div>
       </div>
-      <p className={styles.resumeContent}>{resume.content}</p>
+      <p className={styles.resumeContent}>{resume.userIntro}</p>
       <h3 className={styles.greenColor}>Details:</h3>
       <ul>
         <li>
@@ -62,23 +59,23 @@ const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
         </li>
         <li>
           <span className={styles.label}>설명:</span>{" "}
-          <span>{resume.occupation}</span>
+          <span>{resume.experience}</span>
         </li>
         <li>
           <span className={styles.label}>기술:</span>{" "}
-          <span>{resume.skills}</span>
+          <span>{resume.skill}</span>
         </li>
         <li>
           <span className={styles.label}>백준 티어:</span>{" "}
-          <span>{resume.baekjoonTier}</span>
+          <span>{resume.tier}</span>
         </li>
         <li>
           <span className={styles.label}>Github:</span>{" "}
-          <span>{resume.github}</span>
+          <span>{resume.githubLink}</span>
         </li>
       </ul>
       <div className={styles.tagContainer}>
-        {resume.tags.length > 0 &&
+        {resume.tags && resume.tags.length > 0 &&
           resume.tags.map((tag, index) => {
             const TagComponent = tagComponents[tag];
             return <TagComponent key={index} />;

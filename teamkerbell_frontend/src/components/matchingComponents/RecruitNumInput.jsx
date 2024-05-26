@@ -28,7 +28,7 @@ const RecruitNumInput = ({ onRoleAndRecruitNumChange }) => {
     };
 
     const handleRecruitNum = (role) => (e) => {
-        const num = e.target.value;
+        const num = parseInt(e.target.value, 10) || 0; // 정수로 변환
         setRoleANDRecruitNum(prev => ({...prev, [role]: num}));
     };
 
