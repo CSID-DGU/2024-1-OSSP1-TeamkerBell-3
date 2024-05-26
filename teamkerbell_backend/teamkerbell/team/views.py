@@ -166,9 +166,10 @@ def reportUser(request, team_id):
     #신고처리
     elif request.method == 'POST':
         serializer = ReportSerializer(data=request.data)
-        if serializer.is_valid(isrude=True):
+        if serializer.is_valid():
         # 유효성 검증이 성공한 경우의 로직 처리
-            if Rude.objects.filter(reporter=serializer.validated_data('reporter'),isrude=True).exists():
+            reporter = serializer.validated_data['reporter']
+            if Rude.objects.filter(reporter=reporter,isrude=True).exists():
                 return Response({'message': 'report already saved '},status=status.HTTP_400_BAD_REQUEST)
             else:
                 serializer.save(isrude=True)
