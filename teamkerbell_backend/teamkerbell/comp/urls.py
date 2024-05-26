@@ -11,7 +11,7 @@ urlpatterns = [
     #path('<int:comp_id>/teamList/<int:team_id>/leaderResume',teamDetails),
     path('<int:comp_id>/teamList/<int:team_id>/leaderResume/', teamDetails),
     path('<int:comp_id>/teamList/<int:team_id>/detail/', teamDescriptions),
-    path('<int:comp_id>/teamList/reviewList/', reviewList),
+    path('<int:comp_id>/reviewList/', reviewList),
     path('<int:comp_id>/', CompInfo),
     path('<int:comp_id>/createTeam/<int:user_id>', createTeam),
     path('<int:comp_id>/createRandomTeam/', createRandomTeam),

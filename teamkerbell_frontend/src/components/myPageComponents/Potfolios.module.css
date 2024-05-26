@@ -6,9 +6,13 @@
   font-weight: normal;
   font-style: normal;
 }
+.mainContainer {
+  width: 100%;
+}
 .resumeContainer {
   display: flex;
   flex-wrap: wrap; /* 아이템이 넘칠 경우 다음 줄로 넘어감 */
+  width: 100%;
 }
 .resumeItem {
   width: calc(

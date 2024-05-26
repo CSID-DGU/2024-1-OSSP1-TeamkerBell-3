@@ -8,9 +8,9 @@ const WritePortfolio = () => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [interest, setInterest] = useState("");
-  const [baeckjoonId, setBackjoonId] = useState("");
+  const [baeckjoonId, setBaeckjoonId] = useState("");
   const [introduction, setIntroduction] = useState("");
-  const [techStack, setTechStack] = useState("");
+  const [skill, setSkill] = useState("");
   const [projectExperience, setProjectExperience] = useState("");
   const [github, setGithub] = useState("");
   const [sns, setSns] = useState("");
@@ -18,7 +18,10 @@ const WritePortfolio = () => {
   const [email, setEmail] = useState(""); // data.email을 초기값으로 설정
   const [phone, setPhone] = useState(""); // data.phoneNumber을 초기값으로 설정
   const [imageFile, setImageFile] = useState(null);
-  const [imageSrc, setImageSrc] = useState(null); // data.img를 초기값으로 설정
+  const [imageSrc, setImageSrc] = useState(null);
+  const [city, setCity] = useState("");
+  const [districts, setDistricts] = useState([]);
+  const [dong, setDong] = useState(""); // data.img를 초기값으로 설정
   const [imageUrl, setImageUrl] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const { userId } = useParams();
@@ -67,11 +70,31 @@ const WritePortfolio = () => {
       await console.log(
         "수정 완료: ",
         userId,
-        nickname,
+        name,
         email,
         phone,
-        finalImageUrl
+        baeckjoonId,
+        introduction,
+        skill,
+        projectExperience,
+        github,
+        sns,
+        city,
+        dong
       );
+      /* id = models.AutoField(primary_key=True,null=False)
+    user = models.ForeignKey(BasicUser, related_name='resumes', on_delete=models.CASCADE)
+    name = models.CharField(null=False,max_length=50)
+    email = models.CharField(null=False,max_length=50)
+    phone = models.CharField(null=False,max_length=50)
+    tier = models.CharField(null=True,max_length=50)
+    userIntro = models.CharField(null=True,max_length=500)
+    skill = models.CharField(null=True,max_length=500)
+    experience = models.CharField(null=True,max_length=500)
+    githubLink = models.CharField(null=True,max_length=100)
+    snsLink = models.CharField(null=True,max_length=200)
+    city = models.CharField(null=True,max_length=20)
+    dong = models.CharField(null=True,max_length=20) */
     }
   };
 
@@ -83,6 +106,25 @@ const WritePortfolio = () => {
   const handleCancel = () => {
     // Implement cancel logic here
     console.log("Cancel button clicked");
+  };
+
+  const regions = {
+    서울특별시: ["강남구", "서초구", "종로구"],
+    부산광역시: ["해운대구", "남구", "동래구"],
+    대구광역시: ["수성구", "중구"],
+    인천광역시: ["부평구", "계양구"],
+    광주광역시: ["북구", "남구"],
+  };
+
+  const handleCityChange = (e) => {
+    const selectedCity = e.target.value;
+    setCity(selectedCity);
+    setDistricts(regions[selectedCity]);
+  };
+
+  const handleGunGuChange = (e) => {
+    const selectedDistrict = e.target.value;
+    setDong(selectedDistrict);
   };
 
   return (
@@ -156,16 +198,40 @@ const WritePortfolio = () => {
           </div>
           <div className={styles.infoItem}>
             <div className={styles.infoName}>
-              <h3>관심분야</h3>
+              <h3>지역 설정</h3>
               <span className={styles.redColor}> *</span>
             </div>
-            <form>
-              <input
-                placeholder="ex) IT/디자인"
-                value={interest}
-                onChange={(e) => setInterest(e.target.value)}
-              />
-            </form>
+            <div className={styles.container}>
+              <label htmlFor="city-select"></label>
+              <select
+                id="city-select"
+                class={styles.select}
+                value={city}
+                onChange={handleCityChange}
+              >
+                <option value="">시 선택</option>
+                {Object.keys(regions).map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+
+              <label htmlFor="district-select"></label>
+              <select
+                id="district-select"
+                class={styles.select}
+                value={dong}
+                onChange={handleGunGuChange}
+              >
+                <option value="">군/구 선택</option>
+                {districts.map((district) => (
+                  <option key={district} value={district}>
+                    {district}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -178,13 +244,10 @@ const WritePortfolio = () => {
           </div>
           <form>
             <input
-              placeholder="백준에서 사용하시는 이메일을 입력해주세요"
+              placeholder="백준에서 사용하시는 아이디를 입력해주세요"
               value={baeckjoonId}
-              onChange={(e) => setBackjoonId(e.target.value)}
+              onChange={(e) => setBaeckjoonId(e.target.value)}
             />
-            <button type="button" onClick={handleSave}>
-              Save
-            </button>
           </form>
         </div>
       </div>
@@ -211,8 +274,8 @@ const WritePortfolio = () => {
         <form>
           <input
             placeholder="ex) React, Node.js, Python"
-            value={techStack}
-            onChange={(e) => setTechStack(e.target.value)}
+            value={skill}
+            onChange={(e) => setSkill(e.target.value)}
           />
         </form>
       </div>

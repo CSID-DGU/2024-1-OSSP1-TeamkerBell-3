@@ -36,7 +36,6 @@ const EditProfile = ({ data }) => {
     }
   };
 
-  
   const handleSubmit = async () => {
     if (!imageFile && !imageSrc) {
       alert("이미지를 선택해주세요!");
@@ -99,7 +98,6 @@ const EditProfile = ({ data }) => {
             />
           </div>
         </div>
-
         <div className={styles.nameToPhoneNumber}>
           <div className={styles.infoItem}>
             <div className={styles.infoName}>

@@ -12,6 +12,8 @@ class TeamforMainSerializer(serializers.ModelSerializer):
     roleList = serializers.SerializerMethodField()
     name =serializers.SerializerMethodField()
     language = serializers.SerializerMethodField()
+    writer=serializers.SerializerMethodField()
+    writerImg=serializers.SerializerMethodField()
     class Meta:
         model = Team
         fields='__all__'
@@ -26,6 +28,14 @@ class TeamforMainSerializer(serializers.ModelSerializer):
     def get_language(self, obj):
         chooseteam = ChooseTeam.objects.filter(team=obj).first()
         return chooseteam.language if chooseteam else None
+    
+    def get_writer(self, obj):
+        user = BasicUser.objects.filter(id=obj.leader.id).first()
+        return user.nickname if user else None
+    
+    def get_writerImg(self, obj):
+        user = BasicUser.objects.filter(id=obj.leader.id).first()
+        return user.img if user else None
         
 class ChooseTeamSerializer(serializers.ModelSerializer):
     class Meta:

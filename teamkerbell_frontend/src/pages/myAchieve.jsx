@@ -1,23 +1,35 @@
-// src/team.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./mypage.module.css";
 import LeftSide from "../components/myPageComponents/MypageLeftSide";
-
 import { useRecoilValue } from "recoil";
-import { categoryState } from "../atoms"; // Recoil에서 정의한 상태
-
+import { categoryState } from "../atoms";
 import MyAchievements from "../components/myPageComponents/MyAchievements";
 import { getMyAchievements } from "../api/user";
 import { useParams } from "react-router-dom";
 
 const MyAchievementPage = () => {
-  const categoryStateValue = useRecoilValue(categoryState); // Recoil 훅을 사용하여 상태 값 가져오기
-  const { userId } = useParams(); // useParams에서 userId를 추출
+  const categoryStateValue = useRecoilValue(categoryState);
+  const { userId } = useParams();
+  const [data, setData] = useState(); // 초기값 null로 설정
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
 
   useEffect(() => {
-    // 컴포넌트가 처음 렌더링될 때만 실행되는 부수 효과 작성
-    const response = getMyAchievements(userId);
-  }, []);
+    const fetchData = async () => {
+      // async 함수로 변경
+      try {
+        console.log("userID:", userId);
+        const response = await getMyAchievements(userId); // await 추가
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // 에러 처리 로직 추가 (예: 에러 메시지 표시)
+      } finally {
+        setIsLoading(false); // 로딩 완료
+      }
+    };
+
+    fetchData(); // useEffect 내에서 fetchData 호출
+  }, [userId]); // userId가 변경될 때마다 다시 데이터 가져오기
 
   return (
     <div className={styles.container}>
@@ -25,8 +37,12 @@ const MyAchievementPage = () => {
         <LeftSide />
       </div>
       <div className={styles.main}>
-        {/* categoryState 값에 따라 다른 컴포넌트 렌더링 */}
-        {categoryStateValue === 4 && <MyAchievements />}
+        {categoryStateValue === 4 &&
+          (isLoading ? (
+            <p>Loading...</p> // 로딩 중일 때 로딩 표시
+          ) : (
+            <MyAchievements data={data} /> // 데이터가 있을 때만 컴포넌트 렌더링
+          ))}
       </div>
     </div>
   );
