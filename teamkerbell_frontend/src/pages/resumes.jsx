@@ -82,7 +82,7 @@ const ResumesPage = () => {
     const fetchUserResumes = async () => {
       try {
         const response = await getUserResumes(userId);
-        setResumes(response.data || []); // Ensure resumes is always an array
+        setResumes(response.data); // Ensure resumes is always an array
         setIsLoading(false);
       } catch (error) {
         if (error.response && error.response.status === 404) {

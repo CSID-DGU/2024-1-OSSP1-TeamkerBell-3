@@ -9,14 +9,11 @@ const FavoriteComp = ({ comps }) => {
 
   useEffect(() => {
     const currentTime = new Date();
-    const tempFilteredComps = comps
-      .map((comp) => {
-        const timeDiff = comp.deadline - currentTime.getTime();
-        const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-        return { ...comp, daysLeft }; // 각 공모전 정보에 daysLeft 속성 추가
-      })
-      .filter((comp) => comp.daysLeft >= 0); // 음수인 D-day를 가진 항목 제외
-
+    const tempFilteredComps = comps.map((comp) => {
+      const timeDiff = comp.deadline - currentTime.getTime();
+      const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+      return { ...comp, daysLeft }; // 각 공모전 정보에 daysLeft 속성 추가
+    });
     setFilteredComps(tempFilteredComps); // 필터링된 공모전 목록 업데이트
   }, [comps]); // comps가 변경될 때마다 useEffect 실행
 
@@ -34,10 +31,10 @@ const FavoriteComp = ({ comps }) => {
               D- <span>{competition.daysLeft}</span>
             </h3>
             <CompCard
-              image={competition.image}
-              title={competition.title}
-              description={competition.description}
-              jobs={competition.jobs}
+              image={competition.img}
+              title={competition.name}
+              description={competition.context}
+              jobs={["프론트엔드", "백엔드", "기획", "디자인"]}
             />
           </Link>
         ))}

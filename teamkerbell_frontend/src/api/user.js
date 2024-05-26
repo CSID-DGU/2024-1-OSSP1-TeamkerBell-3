@@ -64,8 +64,47 @@ export const getUserResumes = (
     dong,
   });
 
-export const setUserResume = (userId) =>
-  sendRequest(userInstance, "post", `/${userId}/mypage/writeResume`);
+export const setUserResume = (
+  userId,
+  name,
+  email,
+  phone,
+  tier,
+  userIntro,
+  skill,
+  experience,
+  githubLik,
+  snsLink,
+  city,
+  dong
+) =>
+  sendRequest(userInstance, "post", `/${userId}/mypage/writeResume`, {
+    userId,
+    name,
+    email,
+    phone,
+    tier,
+    userIntro,
+    skill,
+    experience,
+    githubLik,
+    snsLink,
+    city,
+    dong,
+  });
+/*/* id = models.AutoField(primary_key=True,null=False)
+    user = models.ForeignKey(BasicUser, related_name='resumes', on_delete=models.CASCADE)
+    name = models.CharField(null=False,max_length=50)
+    email = models.CharField(null=False,max_length=50)
+    phone = models.CharField(null=False,max_length=50)
+    tier = models.CharField(null=True,max_length=50)
+    userIntro = models.CharField(null=True,max_length=500)
+    skill = models.CharField(null=True,max_length=500)
+    experience = models.CharField(null=True,max_length=500)
+    githubLink = models.CharField(null=True,max_length=100)
+    snsLink = models.CharField(null=True,max_length=200)
+    city = models.CharField(null=True,max_length=20)
+    dong = models.CharField(null=True,max_length=20) */
 
 //세부 이력서 조회하기
 export const getUserDetailResume = (userId, resumeId) =>

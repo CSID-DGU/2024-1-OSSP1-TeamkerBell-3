@@ -101,7 +101,7 @@ const MainPage = () => {
             key={index}
             image={competition.img}
             title={competition.name}
-            description={competition.description}
+            description={competition.theme}
             jobs={["프론트엔드", "백엔드", "기획", "디자인"]}
           />
         ))}
