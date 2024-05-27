@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./RecruitNumInput.module.css";
 
-const RecruitNumInput = () => {
+const RecruitNumInput = ({ onRoleAndRecruitNumChange }) => {
     const [roles, setRoles] = useState(["기획", "디자인", "프론트엔드", "백엔드"]);
-    const [newRole, setNewRole] = useState(""); // State to track the input for a new role
-    const [roleANDrecruitNum, setRoleANDRecruitNum] = useState({}); // State to hold each role and its recruitment number
+    const [newRole, setNewRole] = useState(""); 
+    const [roleANDrecruitNum, setRoleANDRecruitNum] = useState({});
 
     const handleRemoveRole = (index) => {
         const newRoles = roles.filter((_, idx) => idx !== index);
@@ -18,7 +18,7 @@ const RecruitNumInput = () => {
         if (newRole) { 
             const newRoles = [...roles, newRole];
             setRoles(newRoles);
-            setRoleANDRecruitNum(prev => ({...prev, [newRole]: 0})); // Initialize with 0 recruitment number
+            setRoleANDRecruitNum(prev => ({...prev, [newRole]: 0})); 
             setNewRole(""); 
         }
     };
@@ -28,11 +28,16 @@ const RecruitNumInput = () => {
     };
 
     const handleRecruitNum = (role) => (e) => {
-        const num = e.target.value;
+        const num = parseInt(e.target.value, 10) || 0; // 정수로 변환
         setRoleANDRecruitNum(prev => ({...prev, [role]: num}));
     };
 
-    console.log(roleANDrecruitNum);
+
+    // onRoleAndRecruitNumChange 콜백 호출
+    useEffect(() => {
+        onRoleAndRecruitNumChange(roleANDrecruitNum);
+    }, [roleANDrecruitNum]);
+
     
     return(
         <div className={styles.container}>

@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import styles from "./createteam.module.css";
 import CompDetail from "../components/matchingComponents/CompDetail";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import RecruitNumInput from "../components/matchingComponents/RecruitNumInput";
 import ApplyResume from "../components/matchingComponents/ApplyResume";
+import { getCompDetail, setSelectTeam } from "../api/comp";
+import { useParams } from "react-router-dom";
 
 const CreateTeam = () => {
+    const {compId, userId} = useParams();
+    const [compDetail, setCompDetail] = useState(null); //공모전 상세 정보
+
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const DUMMY_COMP_DETAIL = {
         image: "../../comp_example.jpeg",
@@ -24,10 +32,7 @@ const CreateTeam = () => {
 
     const DUMMY_METHOD_LIST = ["대면","비대면","대면/비대면", "상관 없음"];
 
-    
-    //유저 ID
-    const DUMMY_USER_ID = 3;
-
+  
 
     const DUMMY_RESUMES = [
         {
@@ -90,43 +95,24 @@ const CreateTeam = () => {
           tags: [0, 1, 2, 3],
         },
       ];
-  
 
 
 
-    //상태
+
+    //사용자 입력용 상태
     const [title, setTitle] = useState("");
-    const [isAgree, setAgree] = useState(false); 
+    const [recruitRole, setRecruitRole] = useState([]);
+    const [recruitNum, setRecruitNum] = useState([]);
     const [selectedMethod, setSelectedMethod] = useState("");
     const [intro, setIntro] = useState("");
     const [projectStartDate, setProjectStartDate] = useState("");
-    const [selectedResumeId, setSelectedResumeId] = useState(null);
+    const [selectedResumeId, setSelectedResumeId] = useState(-1);
     const [language, setLanguage] = useState("");
     const [qualification, setQualification] = useState("");
-
-
-    const handleMethod = (method) => {
-        setSelectedMethod(method)
-
-    }
-
-    const handleCheck = () => setAgree(!isAgree);
-
-
-    const handleApply = () => {
-        isAgree? alert("매칭 신청 완료되었습니다."):alert("위의 사항을 확인하고 동의 후에 이용해주시기 바랍니다.");
-    }
+    const [isAgree, setAgree] = useState(false); 
 
     
-
-    const handleSelectResume = (id) => {
-        setSelectedResumeId(id);
-    };
-
-
-
-    //확인용
-    console.log(title);
+    /* console.log(title);
     console.log(selectedMethod);
     console.log("동의 여부", isAgree);
     console.log(projectStartDate);
@@ -135,23 +121,114 @@ const CreateTeam = () => {
     console.log(language);
     console.log(selectedResumeId);
     console.log(intro);
+    console.log("compDetail: ",compDetail);
+    console.log("recruitRole", recruitRole);
+    console.log("recruitNum", recruitNum); */
+
+    console.log("recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId: ", recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId);
+    console.log("title:",title, typeof(title));
+    console.log("recruitRole:",recruitRole, typeof(recruitRole));
+    console.log("recruitNum:",recruitNum, typeof(recruitNum));
+    console.log("projectStartDate:",projectStartDate, typeof(projectStartDate));
+    console.log("selectedResumeId:",selectedResumeId, typeof(selectedResumeId));
+
+
+
+
+    const handleMethod = (method) => {
+        setSelectedMethod(method)
+
+    }
+
+    const handleCheck = () => setAgree(!isAgree);
+    
+    const handleSelectResume = (id) => {
+        setSelectedResumeId(id);
+    };
+
+    // RecruitNumInput에서 전달받은 데이터를 처리하는 함수
+    const handleRoleAndRecruitNumChange = useCallback((roleAndRecruitNum) => {
+      const roles = Object.keys(roleAndRecruitNum);
+      const recruitNums = Object.values(roleAndRecruitNum);
+  
+      setRecruitRole(roles);
+      setRecruitNum(recruitNums);
+  }, []);
+
+
+    useEffect(() => {
+      const fetchCompDetail = async () => {
+        try {
+          const response = await getCompDetail(compId);
+          setCompDetail(response.data.compInfo);
+  
+          setIsLoading(false);
+        } catch (error) {
+          if (error.response && error.response.status === 404) {
+            setIsError(true);
+            setErrorMessage("선택한 공모전이 없어요!");
+          } else {
+            setIsError(true);
+            setErrorMessage("An unexpected error occurred.");
+          }
+          setIsLoading(false);
+        }
+      };
+  
+      fetchCompDetail();
+  
+    }, [compId]);
+
+
+    //제출
+    const handleApplyButton = async (e) => {
+      e.preventDefault();
+      if (!title || !recruitRole || !recruitNum || !projectStartDate || !intro || !selectedMethod || !qualification || !isAgree || selectedResumeId < 0 || !language) {
+        alert("모든 필드를 입력해주세요.");
+        return;
+      }
+      try {
+        await setSelectTeam(recruitRole, recruitNum, projectStartDate, title, intro, selectedMethod, language, qualification, selectedResumeId);
+        alert("제출 완료되었습니다.");
+      } catch (error) {
+        console.error("Error submitting application:", error);
+        alert("제출 중 오류가 발생했습니다. 다시 시도해주세요.");
+      }
+    };
+
 
     return(
         <div className={styles.container}>
             <div className={styles.compdetail}>
-                <CompDetail
-                    image={DUMMY_COMP_DETAIL.image}
-                    title={DUMMY_COMP_DETAIL.title}
-                    period={DUMMY_COMP_DETAIL.period}
-                    daycount={DUMMY_COMP_DETAIL.daycount}
-                    organization={DUMMY_COMP_DETAIL.organization}
-                    theme={DUMMY_COMP_DETAIL.theme}
-                    qualification={DUMMY_COMP_DETAIL.qualification}
-                    apply={DUMMY_COMP_DETAIL.apply}
-                    awards={DUMMY_COMP_DETAIL.awards}
-                    inquiry={DUMMY_COMP_DETAIL.inquiry}
-                    link={DUMMY_COMP_DETAIL.link}
-                />
+            {/* <CompDetail
+              image={compDetail.img}
+              title={compDetail.name}
+              period={compDetail.startDate+"~"+compDetail.endDate}
+              daycount={(Math.floor((new Date(compDetail.endDate)-new Date().getTime())/ (1000 * 60 * 60 * 24)))}
+              organization={compDetail.organization}
+              theme={compDetail.theme}
+              qualification={compDetail.eligibillty}
+              apply={compDetail.applicationMethod}
+              awards={compDetail.reward}
+              inquiry={compDetail.contact}
+              link={compDetail.link}
+            /> */}
+            
+            {/* 자꾸 결과 변경 */}
+            <CompDetail
+              image={DUMMY_COMP_DETAIL.image}
+              title={DUMMY_COMP_DETAIL.title}
+              period={DUMMY_COMP_DETAIL.period}
+              daycount={DUMMY_COMP_DETAIL.daycount}
+              organization={DUMMY_COMP_DETAIL.organization}
+              theme={DUMMY_COMP_DETAIL.theme}
+              qualification={DUMMY_COMP_DETAIL.qualification}
+              apply={DUMMY_COMP_DETAIL.apply}
+              awards={DUMMY_COMP_DETAIL.awards}
+              inquiry={DUMMY_COMP_DETAIL.inquiry}
+              link={DUMMY_COMP_DETAIL.link}
+            />
+            
             </div>
 
             <div className={styles.createteam}>
@@ -167,7 +244,7 @@ const CreateTeam = () => {
 
                     <div className={styles.recruitnum}>
                         <div className={styles.qtext}>2. 총 모집 인원 및 모집 분야</div>
-                        <RecruitNumInput/>
+                        <RecruitNumInput onRoleAndRecruitNumChange={handleRoleAndRecruitNumChange}/>
                     </div>
 
                     <div className={styles.startdate}>
@@ -208,7 +285,7 @@ const CreateTeam = () => {
                         {DUMMY_RESUMES.map((resume) => (
                           <ApplyResume className={styles.resumeItem} 
                             key={resume.id}  
-                            user={DUMMY_USER_ID}
+                            user={userId}
                             resume={resume} 
                             isSelected={selectedResumeId === resume.id} 
                             onSelect={handleSelectResume}/>
@@ -223,16 +300,10 @@ const CreateTeam = () => {
 
                   </div>
 
-
-
-                    
-
-
-
                 </div>
             </div>
 
-            <button className={styles.applybtn} onClick={handleApply}>매칭 시작</button>
+            <button className={styles.applybtn} onClick={handleApplyButton}>매칭 시작</button>
 
         </div>
     );

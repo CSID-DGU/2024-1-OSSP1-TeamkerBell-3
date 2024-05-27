@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styles from "./RegionSelector.module.css";
-function RegionSelector() {
+
+
+
+function RegionSelector({onCityChange,onDistrictChange }) {
   const [city, setCity] = useState("");
   const [districts, setDistricts] = useState([]);
   const [district, setDistrict] = useState("");
@@ -17,16 +20,16 @@ function RegionSelector() {
     const selectedCity = e.target.value;
     setCity(selectedCity);
     setDistricts(regions[selectedCity]);
+    onCityChange(selectedCity); // 부모 컴포넌트로 city 값 전달
   };
 
   const handleGunGuChange = (e) => {
     const selectedDistrict = e.target.value;
     setDistrict(selectedDistrict);
+    onDistrictChange(selectedDistrict); // 부모 컴포넌트로 district 값 전달
+
   };
 
-
-  console.log(city);
-  console.log(district);
 
   return (
     <div className = {styles.container}>

@@ -3,10 +3,8 @@ import { useParams, Link } from "react-router-dom";
 
 const TeamOutline = ({
   title,
-  profileimg,
   writer,
   uploaddate,
-  category,
   meetingway,
   recruitnum,
   startdate,
@@ -30,30 +28,26 @@ const TeamOutline = ({
       </div>
 
       <div className={styles.header}>
-        <img src={profileimg} alt="profile" className={styles.profile} />
         <div className={styles.writer}>{writer}</div>
         <div className={styles.uploaddate}>{uploaddate}</div>
         {/* 찜하기 기능 추가*/}
       </div>
 
       <div className={styles.description}>
-        <div className={styles.category}>모집 구분: {category}</div>
         <div className={styles.meetingway}>진행 방식: {meetingway}</div>
         <div className={styles.recruitnum}>모집 인원: {recruitnum}</div>
         <div className={styles.startdate}>시작 날짜: {startdate}</div>
         <div className={styles.location}>활동 지역: {location}</div>
 
-        <div className={styles.languages}>
-          사용 언어:{" "}
-          {languages.map((language) => (
-            <div key={language}>{language}</div>
-          ))}
+        <div className={styles.languages}>          
+          <div>사용 언어: {languages}</div>
+          
         </div>
         <div className={styles.recruitjobs}>
-          모집 분야:{" "}
-          {recruitjobs.map((job) => (
+          모집 분야:{recruitjobs}
+          {/* MAP 오류 발생) {recruitjobs.map((job) => (
             <div key={job}>{job}</div>
-          ))}
+          ))} */}
         </div>
       </div>
     </div>

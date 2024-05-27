@@ -68,10 +68,9 @@
     display:grid;
     grid-auto-columns: 1fr 1fr;
     grid-template-areas: 
-        "category meetingway"
-        "recruitnum startdate"
-        "location languages"
-        "jobs jobs";
+        "meetingway recruitnum"
+        "location startdate"
+        "languages jobs";
     margin:30px 0px;   
 }
 
@@ -96,7 +95,13 @@
 
 }
 
-.languages div, .recruitjobs div {
+.languages div{
+    margin-right: 10px; 
+    padding: 0px 0px; 
+    
+}
+
+.recruitjobs div {
     margin-right: 10px; 
     padding: 0px 10px; 
     

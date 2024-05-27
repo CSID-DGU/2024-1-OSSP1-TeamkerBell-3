@@ -1,64 +1,92 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./comp.module.css";
 import CompDetail from "../components/matchingComponents/CompDetail"; // CompDetail 컴포넌트 import
 import ReviewCard from "../components/matchingComponents/ReviewCard"; // ReviwCard 컴포넌트 import
 import AskMatching from "../components/matchingComponents/AskMatchingComponent"; //AskMatching 컴포넌트 import
 import { Link, useParams } from "react-router-dom";
+import { getCompDetail } from "../api/comp";
+import ErrorComponent from "../components/ErrorComponent";
 
 const CompMatching = () => {
   //공모전 상세 내용
   const { compId } = useParams();
+  const [compDetail, setCompDetail] = useState(null);
+  const [compReview, setCompReview] = useState([]);
+  
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const DUMMY_COMP_DETAIL = {
-    image: "../../comp_example.jpeg",
-    title: "생성형 AI 이미지 활용 공모전",
-    period: "2024.03.11 ~ 2024.05.17",
-    daycount: "D-40",
-    organization: "에프엔가이드",
-    theme: "생성형 AI 이미지",
-    qualification: "예비 창업자, 3년 미만 스타트업",
-    apply: "온라인 지원",
-    awards: ["1등 -  10,000,000원", "2등 - 5,000,000원", "3등 - 1,000,000원"],
-    inquiry: "teamkerbell@dongguk.edu",
-    link: "https://github.com/CSID-DGU/2024-1-OSSP1-TeamkerBell-3.git",
-  };
+  console.log("compDetail: ",compDetail);
+  console.log("compReview: ",compReview);
 
-  const DUMMY_COMP_REVIEWS = [
-    "활용이 어떻게 되고 실현 가능한지를 많이 보는 듯해용",
-    "아니 넘 많은 제출 서류가 필요해서 하시려면 각 잡고 제대로 해야할 듯ㅠㅠㅠ",
-    "대학생은 거의 없고 현직자가 너무 많아요 후엥",
-  ];
+
+  useEffect(() => {
+    const fetchCompDetail = async () => {
+      try {
+        const response = await getCompDetail(compId);
+        setCompDetail(response.data.compInfo);
+        setCompReview(response.data.reviewList);
+
+        setIsLoading(false);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setIsError(true);
+          setErrorMessage("선택한 공모전이 없어요!");
+        } else {
+          setIsError(true);
+          setErrorMessage("An unexpected error occurred.");
+        }
+        setIsLoading(false);
+      }
+    };
+
+    fetchCompDetail();
+
+  }, [compId]);
+
+
+
+  
 
   return (
+    
     <div className={styles.container}>
+      
       {/* 공모전 상세 정보 */}
       <div className={styles.compDetailContainer}>
-        <CompDetail
-          image={DUMMY_COMP_DETAIL.image}
-          title={DUMMY_COMP_DETAIL.title}
-          period={DUMMY_COMP_DETAIL.period}
-          daycount={DUMMY_COMP_DETAIL.daycount}
-          organization={DUMMY_COMP_DETAIL.organization}
-          theme={DUMMY_COMP_DETAIL.theme}
-          qualification={DUMMY_COMP_DETAIL.qualification}
-          apply={DUMMY_COMP_DETAIL.apply}
-          awards={DUMMY_COMP_DETAIL.awards}
-          inquiry={DUMMY_COMP_DETAIL.inquiry}
-          link={DUMMY_COMP_DETAIL.link}
-        />
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : isError ? (
+          <ErrorComponent message={errorMessage} />
+        ) : (
+          <CompDetail
+            image={compDetail.img}
+            title={compDetail.name}
+            period={compDetail.startDate+"~"+compDetail.endDate}
+            daycount={(Math.floor((new Date(compDetail.endDate)-new Date().getTime())/ (1000 * 60 * 60 * 24)))}
+            organization={compDetail.organization}
+            theme={compDetail.theme}
+            qualification={compDetail.eligibillty}
+            apply={compDetail.applicationMethod}
+            awards={compDetail.reward}
+            inquiry={compDetail.contact}
+            link={compDetail.link}
+          />
+        )}
       </div>
 
       {/* 공모전 후기 */}
       <div className={styles.reviewContainer}>
         <div className={styles.reviewHeader}>
           <h2 className={styles.reviewTitle}>공모전 후기</h2>
-          <Link to={`/comp/${compId}/reviews`} className={styles.moreReviews}>
+          <Link to={`/comp/${compId}/teamList/reviewList`} className={styles.moreReviews}>
             더보기
           </Link>
         </div>
 
         <div className={styles.reviews}>
-          {DUMMY_COMP_REVIEWS.map((review, index) => (
+          {compReview.slice(0,3).map((review, index) => (
             <ReviewCard key={index} review={review} />
           ))}
         </div>

@@ -73,7 +73,7 @@ function App() {
 
         {/* 이력서 수정 페이지로 수정 필요 */}
         <Route
-          path="/mypage/user/:userId/resume/:resumeId"
+          path="/user/:userId/resume/:resumeId"
           element={<Mypage />}
         />
 
@@ -91,20 +91,20 @@ function App() {
 
 
         <Route path="/comp/:compId" element={<CompMatching />} />
-        <Route path="/comp/:compId/reviews" element={<CompReviews />} />
+        <Route path="/comp/:compId/teamList/reviewList" element={<CompReviews />} />
         <Route
           path="/comp/:compId/teamList/:teamId/detail"
           element={<TeamDetail />}
         />
         <Route
-          path="/comp/:compId/teamList/:teamId/apply"
+          path="/comp/:compId/teamList/:teamId/apply/:userId"
           element={<TeamApply />}
         />
         <Route
           path="/comp/:compId/teamList/:teamId/leaderResume"
           element={<LeaderResume />}
         />
-        <Route path="/comp/:compId/createTeam" element={<CreateTeam />} />
+        <Route path="/comp/:compId/createTeam/:userId" element={<CreateTeam />} />
       </Routes>
     </BrowserRouter>
   );

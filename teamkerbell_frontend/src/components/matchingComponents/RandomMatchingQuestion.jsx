@@ -2,50 +2,76 @@ import React, { useState } from "react";
 import styles from "./RandomMatchingQuestion.module.css"
 import RegionSelector from "./RegionSelector";
 import { useParams } from "react-router-dom";
+import { setRandomTeam } from "../../api/comp";
 
 const RandomMatchingQuestion = () => {
 
+    const { compId } = useParams();
+
     const [isLeader, setLeader] = useState(true);
+    const [city, setCity] = useState("");
+    const [district, setDistrict] = useState("");
     const [selectedRole, setRole] = useState("");
+    const [recruitNum, setrecruitNum] = useState(0);
     const [isAgree, setAgree] = useState(false); 
-
-    const {city, district} = useParams();
-    //출력 확인용 console.log(city,district);
-
 
     const selectLeader = () => {
         setLeader(true);
-        console.log("리더형 선택");
+        
     };
     const selectSupporter = () => {
         setLeader(false);
-        console.log("서포터형 선택");
+        
     };
 
     const handleRole = (role) => {
         setRole(role)
-        console.log(role);
     }
 
     const handleRecruitNum = (e) => {
-        var recruit=e.target.value;
-        console.log("모집 인원", recruit);
+        setrecruitNum(e.target.value);
     }
 
     const handleCheck = () => {
         isAgree? (setAgree(false)):(setAgree(true));
 
-
-    }
-    console.log("동의 여부", isAgree);
-
-    const handleApply = () => {
-        isAgree? alert("매칭 신청 완료되었습니다."):alert("위의 사항을 확인하고 동의 후에 이용해주시기 바랍니다.");
     }
 
+    console.log("isLeader: ", isLeader);
+    console.log("city district: ",city, district);
+    console.log("role: ", selectedRole);
+    console.log("recruitNum: ", recruitNum);
+    console.log("agree: ", isAgree);
 
 
-    const DUMMY_ROLE_LIST = ["기획", "디자인", "프론트엔드", "백엔드"];
+    const handleCityChange = (selectedCity) => {
+        setCity(selectedCity);
+      };
+    
+      const handleDistrictChange = (selectedDistrict) => {
+        setDistrict(selectedDistrict);
+      };
+    
+
+    const handleApplyButton = async (e) => {
+        e.preventDefault();
+        if (!selectedRole || !city || !district || !isAgree) {
+          alert("모든 필드를 입력해주세요.");
+          return;
+        }
+        try {
+          console.log("compId, selectedRole,city, district, isLeader,recruitNum: ", compId, selectedRole,city, district, isLeader,recruitNum);
+          await setRandomTeam(compId, selectedRole,city, district, isLeader,recruitNum);
+          alert("매칭 신청 완료되었습니다.");
+        } catch (error) {
+          console.error("Error submitting application:", error);
+          alert("제출 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+      };
+
+
+
+    const ROLE_LIST = ["기획", "디자인", "프론트엔드", "백엔드"];
 
     return(
         <div className={styles.container}>
@@ -68,12 +94,12 @@ const RandomMatchingQuestion = () => {
         
                 <div className={styles.location}>
                     <div className={styles.locationquestion}>1.프로젝트 진행 중 활동할 수 있는 지역은 어디인가요?</div>
-                    <RegionSelector className={styles.regionselector}/>
+                    <RegionSelector className={styles.regionselector} onCityChange={handleCityChange} onDistrictChange={handleDistrictChange}/>
                 </div>
 
                 <div className={styles.roles}>
                     <div className={styles.rolequestion}>2. 이번 프로젝트에서 어떤 분야로 활동하고 싶나요?</div>
-                    {DUMMY_ROLE_LIST.map((role, index) => (
+                    {ROLE_LIST.map((role, index) => (
                         <button className={selectedRole === role ? `${styles.rolebtn} ${styles.active}` : styles.rolebtn} key={index} onClick={() => handleRole(role)}>{role}</button>
 
                     ))}
@@ -96,7 +122,7 @@ const RandomMatchingQuestion = () => {
 
             </div>
 
-            <button className={styles.applybtn} onClick={handleApply}>매칭 시작</button>
+            <button className={styles.applybtn} onClick={handleApplyButton}>매칭 시작</button>
         
 
         </div>
