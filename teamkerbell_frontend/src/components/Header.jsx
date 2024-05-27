@@ -1,8 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Header.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getUserProfile } from "../api/user";
 
 const Header = () => {
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      const fetchUsername = async () => {
+        try {
+          const response = await getUserProfile(userId);
+          if (response.status === 200) {
+            setUsername(response.data.nickname);
+          } else {
+            console.error("사용자 정보를 가져오는데 실패했습니다.");
+          }
+        } catch (error) {
+          console.error("오류 발생:", error);
+        }
+      };
+
+      fetchUsername();
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    setUsername("");
+    navigate("/login");
+  };
+
   return (
     <header>
       <div className={styles.header}>
@@ -15,10 +45,18 @@ const Header = () => {
         </Link>
 
         <div className={styles.welcomeNLogout}>
-          <p className={styles.welcomeMessage}>홍규진님 반갑습니다! </p>
-          <Link to="/login" className={styles.logoutLink}>
-            <button className={styles.logoutButton}>로그아웃</button>
-          </Link>
+          {username ? (
+            <>
+              <p className={styles.welcomeMessage}>{username}님 반갑습니다! </p>
+              <button className={styles.logoutButton} onClick={handleLogout}>
+                로그아웃
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className={styles.loginLink}>
+              <button className={styles.loginButton}>로그인</button>
+            </Link>
+          )}
         </div>
       </div>
 

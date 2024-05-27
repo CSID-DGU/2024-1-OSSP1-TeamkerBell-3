@@ -51,7 +51,8 @@ def loginView(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return JsonResponse({'message': 'Login successful'})
+            return JsonResponse({'message': 'Login successful',
+                                 'userId': user.id})
         else:
             return JsonResponse({'error': 'Invalid email or password'}, status=401)
 

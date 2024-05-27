@@ -23,11 +23,11 @@ export const getUserProfile = (userId) =>
   sendRequest(userInstance, "get", `/${userId}/mypage`);
 
 //프로필 편집하기
-export const patchUserProfile = (userId, email, nickname, phone, img) =>
+export const patchUserProfile = (userId, nickname, phone, email, img) =>
   sendRequest(userInstance, "put", `/${userId}/mypage/`, {
-    email: email,
     nickname: nickname,
     phone: phone,
+    email: email,
     img: img,
   });
 
