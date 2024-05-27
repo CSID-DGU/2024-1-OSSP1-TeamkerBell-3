@@ -50,7 +50,7 @@ def CompInfo(request, comp_id):
     except Comp.DoesNotExist:
         return Response({'error': {'code': 404, 'message': "comp not found!"}}, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
-        teams = Team.objects.filter(comp = comp)
+        teams = Team.objects.filter(comp = comp, isRandom=False, isDone=False)
         serializer1 = CompSerializer(comp)
         reviews=CompReview.objects.filter(comp=comp).values_list('review', flat=True)
         serializer3 = TeamforMainSerializer(teams, many=True)

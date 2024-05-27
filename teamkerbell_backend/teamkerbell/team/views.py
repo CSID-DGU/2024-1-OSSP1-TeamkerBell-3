@@ -88,7 +88,7 @@ def mutualReview(request, team_id):
             teammates = team.teammates.filter(isTeam=True)
             users = [teammate.user for teammate in teammates]
             serializer = MemberListSerializer(users, many=True)
-            return Response(serializer.data)
+            return Response({"memberList":serializer.data, "isEnd":True})
         else:
             return Response({"isEnd": False})
     elif request.method == 'POST':

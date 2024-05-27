@@ -223,7 +223,7 @@ def getMyAchievement(request, user_id):
             "statusCode": status.HTTP_200_OK,
             "statusMessage": "OK",
         },
-        "temp": 36.5,  # 이 값은 예시입니다. 실제로는 다른 방식으로 계산하거나 데이터를 가져와야 합니다.
+        "temp": user.score,  # 이 값은 예시입니다. 실제로는 다른 방식으로 계산하거나 데이터를 가져와야 합니다.
         "complimentTag": complimentTagsList,
         "improvementPoint": list(improvementPoints),
         "rudeness": list(rudenessPoints),
