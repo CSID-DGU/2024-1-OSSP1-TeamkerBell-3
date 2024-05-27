@@ -223,7 +223,7 @@ def getMyAchievement(request, user_id):
             "statusCode": status.HTTP_200_OK,
             "statusMessage": "OK",
         },
-        "temp": 36.5,  # 이 값은 예시입니다. 실제로는 다른 방식으로 계산하거나 데이터를 가져와야 합니다.
+        "temp": user.score,  # 이 값은 예시입니다. 실제로는 다른 방식으로 계산하거나 데이터를 가져와야 합니다.
         "complimentTag": complimentTagsList,
         "improvementPoint": list(improvementPoints),
         "rudeness": list(rudenessPoints),
@@ -348,10 +348,11 @@ def resumeList(request, user_id, team_id):
     except BasicUser.DoesNotExist:
         return Response({'error' : {'code' : 404, 'message' : "User not found!"}}, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
+        teaminfo=TeamAndCompNameSerializer(team)
         resumeId = TeamMate.objects.filter(team=team, isTeam=False).values_list('resume', flat=True)
         resumeList = Resume.objects.filter(id__in=resumeId)
         serializer = ResumeAndRoleAndTagAndImgSerializer(resumeList, many=True, context={'team': team})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"resumeList":serializer.data, "teamInfo":teaminfo.data}, status=status.HTTP_200_OK)
         
 
 @swagger_auto_schema(method='GET', tags=["이력서 세부사항 가져오기"])
