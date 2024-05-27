@@ -68,17 +68,30 @@ const DUMMY_Portfolio = [
 const ResumesPage = () => {
   const setCategoryState = useSetRecoilState(categoryState);
   const navigate = useNavigate();
-  const { userId } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [resumes, setResumes] = useState([]);
+  const localStorageUserId = localStorage.getItem("userId"); // localStorage에서 userId 가져옴
+  const { userId } = useParams();
+
   const handleResumeButton = () => {
-    navigate(`/user/${userId}/mypage/resumeMaking`);
+    navigate(`/user/${localStorageUserId}/mypage/resumeMaking`); // localStorageUserId 사용
   };
   useEffect(() => {
-    setCategoryState(2); // Set the appropriate category state
+    if (!localStorageUserId) {
+      // 로그인되어 있지 않으면 로그인 페이지로 이동
+      navigate("/login");
+      return;
+    }
 
+    if (localStorageUserId !== userId) {
+      // userId 불일치 시 로그인 페이지로 이동
+      navigate("/login");
+      return;
+    }
+
+    setCategoryState(2);
     const fetchUserResumes = async () => {
       try {
         const response = await getUserResumes(userId);

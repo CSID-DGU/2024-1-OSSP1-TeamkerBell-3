@@ -6,9 +6,9 @@ import { getUserProfile } from "../api/user";
 const Header = () => {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
     if (userId) {
       const fetchUsername = async () => {
         try {
@@ -25,7 +25,7 @@ const Header = () => {
 
       fetchUsername();
     }
-  }, []);
+  }, [userId]);
 
   const handleLogout = () => {
     localStorage.removeItem("userId");
@@ -68,7 +68,7 @@ const Header = () => {
         </Link>
 
         <button className={styles.headerButton}>팀찾기</button>
-        <Link to="/user/1/mypage/editProfile">
+        <Link to={`/user/${userId}/mypage/editProfile`}>
           <button className={styles.headerButton}>마이페이지</button>
         </Link>
 
