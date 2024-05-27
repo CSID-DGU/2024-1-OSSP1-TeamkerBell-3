@@ -93,7 +93,7 @@ export const setRandomTeam = (
 
 //공모전 내용/후기
 export const getReviewList = (compId) =>
-  sendRequest(compInstance, "get", `/${compId}/teamList/reviewList`);
+  sendRequest(compInstance, "get", `/${compId}/reviewList`);
 
 //팀 상세/설명
 export const getTeamDetail = (compId, teamId) =>

@@ -33,6 +33,7 @@ import ProjectsPage from "./pages/projects";
 import ResumeMakingPage from "./pages/resumeMaking";
 import CompRegister from "./pages/compRegister";
 import BtnUpload from "./pages/uploadImage";
+import FindAllTeam from "./pages/findingteam";
 
 function App() {
   return (
@@ -77,6 +78,11 @@ function App() {
           element={<Mypage />}
         />
 
+        <Route
+          path="/team/teamlist"
+          element={<FindAllTeam/>}
+        />
+
         <Route path="/team/:tid" element={<Team />} />
         <Route path="/team/:tid/tools" element={<Tools />} />
         <Route path="/team/:tid/guidelines1" element={<TeamToolW2M />} />
@@ -91,7 +97,7 @@ function App() {
 
 
         <Route path="/comp/:compId" element={<CompMatching />} />
-        <Route path="/comp/:compId/teamList/reviewList" element={<CompReviews />} />
+        <Route path="/comp/:compId/reviewList" element={<CompReviews />} />
         <Route
           path="/comp/:compId/teamList/:teamId/detail"
           element={<TeamDetail />}
