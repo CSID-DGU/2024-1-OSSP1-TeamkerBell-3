@@ -348,10 +348,11 @@ def resumeList(request, user_id, team_id):
     except BasicUser.DoesNotExist:
         return Response({'error' : {'code' : 404, 'message' : "User not found!"}}, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
+        teaminfo=TeamAndCompNameSerializer(team)
         resumeId = TeamMate.objects.filter(team=team, isTeam=False).values_list('resume', flat=True)
         resumeList = Resume.objects.filter(id__in=resumeId)
         serializer = ResumeAndRoleAndTagAndImgSerializer(resumeList, many=True, context={'team': team})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"resumeList":serializer.data, "teamInfo":teaminfo.data}, status=status.HTTP_200_OK)
         
 
 @swagger_auto_schema(method='GET', tags=["이력서 세부사항 가져오기"])
