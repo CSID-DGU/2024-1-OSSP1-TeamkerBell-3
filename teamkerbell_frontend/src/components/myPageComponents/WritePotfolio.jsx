@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./WritePotfolio.module.css";
 import { useParams } from "react-router-dom";
 import { uploadS3 } from "../../utils/uploadS3";
+import { setUserResume } from "../../api/user";
 
 const WritePortfolio = () => {
   const [name, setName] = useState("");
@@ -27,11 +28,7 @@ const WritePortfolio = () => {
   const { userId } = useParams();
   // useEffect를 사용하여 data 변경 시 컴포넌트 상태 업데이트
   useEffect(() => {
-    setNickname("");
-    setEmail("");
-    setPhone("");
     setImageSrc(null);
-    console.log("[UseEffect] :", nickname, email, phone, imageSrc);
   }, []); // data 추가
 
   const handleFileChange = (event) => {
@@ -67,42 +64,43 @@ const WritePortfolio = () => {
       alert("S3 업로드 에러가 났습니다! 다시 시도해주세요!");
     } finally {
       setIsUploading(false);
-      await console.log(
-        "수정 완료: ",
-        userId,
-        name,
-        email,
-        phone,
-        baeckjoonId,
-        introduction,
-        skill,
-        projectExperience,
-        github,
-        sns,
-        city,
-        dong
-      );
-      /* id = models.AutoField(primary_key=True,null=False)
-    user = models.ForeignKey(BasicUser, related_name='resumes', on_delete=models.CASCADE)
-    name = models.CharField(null=False,max_length=50)
-    email = models.CharField(null=False,max_length=50)
-    phone = models.CharField(null=False,max_length=50)
-    tier = models.CharField(null=True,max_length=50)
-    userIntro = models.CharField(null=True,max_length=500)
-    skill = models.CharField(null=True,max_length=500)
-    experience = models.CharField(null=True,max_length=500)
-    githubLink = models.CharField(null=True,max_length=100)
-    snsLink = models.CharField(null=True,max_length=200)
-    city = models.CharField(null=True,max_length=20)
-    dong = models.CharField(null=True,max_length=20) */
     }
   };
 
   const handleSave = () => {
     // Implement save logic here
     console.log("Save button clicked");
+    setUserResume(
+      userId,
+      name,
+      email,
+      phone,
+      baeckjoonId,
+      introduction,
+      skill,
+      projectExperience,
+      github,
+      sns,
+      city,
+      dong
+    );
   };
 
+  /*
+  export const setUserResume = (
+  userId,
+  name,
+  email,
+  phone,
+  tier,
+  userIntro,
+  skill,
+  experience,
+  githubLik,
+  snsLink,
+  city,
+  dong
+) => */
   const handleCancel = () => {
     // Implement cancel logic here
     console.log("Cancel button clicked");
@@ -191,8 +189,8 @@ const WritePortfolio = () => {
             <form>
               <input
                 placeholder="ex) 010-5820-4625"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
               />
             </form>
           </div>

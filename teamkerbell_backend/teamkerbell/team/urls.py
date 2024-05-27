@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from .views import teamCompInfo, teamScheduleAndCommit, teamMateList, reportUser,mutualReview, KickUser, RunUser, manageTeam, teamEndVote, plusMatching
+from .views import teamCompInfo, teamScheduleAndCommit, teamMateList, reportUser,mutualReview, KickUser, RunUser, manageTeam, teamEndVote, plusMatching, allTeamList
 
 urlpatterns = [
     
@@ -16,4 +16,5 @@ urlpatterns = [
     path('<int:team_id>/kick', KickUser),
     path('<int:team_id>/run', RunUser),
     path('<int:team_id>/compinfo', teamCompInfo),
+    path('teamList', allTeamList),
 ]

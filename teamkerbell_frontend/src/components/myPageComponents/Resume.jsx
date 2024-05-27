@@ -33,10 +33,6 @@ const Resume = ({ resume }) => {
           <span>{resume.phone}</span>
         </li>
         <li>
-          <span className={styles.label}>설명:</span>{" "}
-          <span>{resume.occupation}</span>
-        </li>
-        <li>
           <span className={styles.label}>기술:</span>{" "}
           <span>{resume.skill}</span>
         </li>

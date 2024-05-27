@@ -65,7 +65,7 @@ const EditProfile = ({ data }) => {
         phone,
         finalImageUrl
       );
-      await patchUserProfile(userId, nickname, email, phone, finalImageUrl);
+      await patchUserProfile(userId, nickname, phone, email, finalImageUrl);
     }
   };
 

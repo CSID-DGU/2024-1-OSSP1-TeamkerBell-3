@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from .models import PreviousWinning, Team, TeamEndVote, TeamRole, TeamMate, OutReason
-from .serializers import PreviousWinningSerializer,ScheduleAndCommitSerializer, ScheduleSerializer,TeamMateSerializer, ResumeAndRoleAndImgSerializer,  MemberListSerializer, ReportSerializer, KickAndRunSerializer, CombinedSerializer, IdSerializer, PlusMatchingSerializer, ScoreTagSerializer, ImprovementSerializer, ReviewSerializer
+from .serializers import TeamforMainSerializer, PreviousWinningSerializer,ScheduleAndCommitSerializer, ScheduleSerializer,TeamMateSerializer, ResumeAndRoleAndImgSerializer,  MemberListSerializer, ReportSerializer, KickAndRunSerializer, CombinedSerializer, IdSerializer, PlusMatchingSerializer, ScoreTagSerializer, ImprovementSerializer, ReviewSerializer
 from comp.models import RandomMatching, CompReview, Comp
 from user.models import BasicUser, Resume, Tag, Rude
 import random
@@ -88,7 +88,7 @@ def mutualReview(request, team_id):
             teammates = team.teammates.filter(isTeam=True)
             users = [teammate.user for teammate in teammates]
             serializer = MemberListSerializer(users, many=True)
-            return Response(serializer.data)
+            return Response({"memberList":serializer.data, "isEnd":True})
         else:
             return Response({"isEnd": False})
     elif request.method == 'POST':
@@ -356,3 +356,12 @@ def teamCompInfo(requset, team_id):
         winning = PreviousWinning.objects.filter(comp=team.comp)
         winningserializer = PreviousWinningSerializer(winning, many=True)
         return Response({"compInfo":serializer.data, "priviousWinningList":winningserializer.data}, status=status.HTTP_200_OK)
+
+
+@swagger_auto_schema(method='get', tags=["모든 팀 리스트 모아보기"])
+@api_view(['GET'])
+def allTeamList(requset):
+    if requset.method == 'GET':
+        teamList=Team.objects.filter(isDone=False, isRandom=False)
+        serializer = TeamforMainSerializer(teamList, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

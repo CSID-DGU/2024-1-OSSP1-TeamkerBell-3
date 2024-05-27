@@ -23,11 +23,11 @@ export const getUserProfile = (userId) =>
   sendRequest(userInstance, "get", `/${userId}/mypage`);
 
 //프로필 편집하기
-export const patchUserProfile = (userId, email, nickname, phone, img) =>
+export const patchUserProfile = (userId, nickname, phone, email, img) =>
   sendRequest(userInstance, "put", `/${userId}/mypage/`, {
-    email: email,
     nickname: nickname,
     phone: phone,
+    email: email,
     img: img,
   });
 
@@ -78,7 +78,7 @@ export const setUserResume = (
   city,
   dong
 ) =>
-  sendRequest(userInstance, "post", `/${userId}/mypage/writeResume`, {
+  sendRequest(userInstance, "post", `/${userId}/mypage/resumes`, {
     userId,
     name,
     email,
@@ -120,13 +120,13 @@ export const deleteUserDetailResume = (userId, resumeId) =>
 
 //찜한 공모전 모아보기
 export const getCompLiked = (userId) =>
-  sendRequest(userInstance, "get", `/${userId}/mypage/compLiked`);
+  sendRequest(userInstance, "get", `/${userId}/mypage/compLike`);
 
 //공모전 찜하기
 export const setCompLiked = (userId, compId) =>
-  sendRequest(userInstance, "get", `/${userId}/mypage/compLike/${compId}`);
+  sendRequest(userInstance, "post", `/${userId}/compLike/${compId}`);
 
-//팀 관리 정보 가져오기
+  //팀 관리 정보 가져오기
 export const getMyTeams = (userId, teamId) =>
   sendRequest(userInstance, "delete", `/${userId}/mypage/team/${teamId}/teams`);
 
