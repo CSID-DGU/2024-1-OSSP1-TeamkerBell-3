@@ -8,21 +8,15 @@ import { getCompDetail, getMyResume, getMyResumeForCreateTeam, setSelectTeam } f
 import { useParams } from "react-router-dom";
 
 const CreateTeam = () => {
-    const {compId, userId, teamId} = useParams();
+    const {compId, userId} = useParams();
     const [compDetail, setCompDetail] = useState({}); //공모전 상세 정보
     const [myResumes, setMyResumes] = useState([]);
-
-
 
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-
     const METHOD_LIST = ["대면","비대면","대면/비대면", "상관 없음"];
-
-  
-
 
     //사용자 입력용 상태
     const [title, setTitle] = useState("");

@@ -31,9 +31,15 @@
     font-size:1.5rem;
 }
 
-.image{
-    margin:0px;
+.image {
+    margin: 0;
+    width: 90%;
+    height: 200px; 
+    object-fit:contain;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
+
 
 .writer {
     margin:0px;

@@ -79,7 +79,7 @@ function App() {
         />
 
         <Route
-          path="/team/teamlist"
+          path="/team/teamList"
           element={<FindAllTeam/>}
         />
 

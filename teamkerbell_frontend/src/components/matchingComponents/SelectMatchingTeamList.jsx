@@ -5,7 +5,9 @@ import {Link, useParams} from 'react-router-dom';
 
 const SelectMatchingTeamList = (teamlist) => {
     
-    const { compId, userId } = useParams();    
+    const { compId } = useParams();
+    const userId = localStorage.getItem("userId");
+
     
     return(
         <div className={styles.SelectMatchingTeamListContainer}>

@@ -1,84 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./findingteam.module.css"
 import { Link, useParams } from "react-router-dom";
 import TeamCard from "../components/matchingComponents/TeamCard";
+import { getAllTeamList } from "../api/team";
 
 const FindAllTeam = () => {
 
-    const { compId } = useParams();    
+    const { compId } = useParams();   
+    
+    const [teamList, setTeamList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
 
-        // 팀 목록 데이터
-    const DUMMY_TEAMLIST = [
-            {
-              id: 0,
-              image: "../../Male User.png",
-              title: "교보생명 대학생 디자인 공모전 팀원 구합니다!",
-              writer: "danny",
-              membernum: 4,
-              startdate:"24.04.21",
-              dday:1,
-              jobs: "프론트엔드, 백엔드, 기획, 디자인",
-              languages: "HTML, CSS, Django"
-            },
+    useEffect(() => {
+        const fetchAllTeamList = async () => {
+          try {
+            const response = await getAllTeamList();
+            console.log(response.data);
+            setTeamList(response.data);
+
+            
     
-            {
-                id: 1,
-                image: "../../Male User.png",
-                title: "교보생명 대학생 디자인 공모전 팀원 구합니다!",
-                writer: "danny",
-                membernum: 4,
-                startdate:"24.04.21",
-                dday:1,
-                jobs: "프론트엔드, 백엔드, 기획, 디자인",
-                languages: "HTML, CSS, Django"
-            },
+            setIsLoading(false);
+          } catch (error) {
+            if (error.response && error.response.status === 404) {
+              setIsError(true);
+              setErrorMessage("현재 모집 중인 공모전 팀이 없어요!");
+            } else {
+              setIsError(true);
+              setErrorMessage("An unexpected error occurred.");
+            }
+            setIsLoading(false);
+          }
+        };
     
-            {
-                id: 2,
-                image: "../../Male User.png",
-                title: "교보생명 대학생 디자인 공모전 팀원 구합니다!",
-                writer: "danny",
-                membernum: 4,
-                startdate:"24.04.21",
-                dday:1,
-                jobs: "프론트엔드, 백엔드, 기획, 디자인",
-                languages: "HTML, CSS, Django"
-            },
+        fetchAllTeamList();
     
-            {
-                id: 3,
-                image: "../../Male User.png",
-                title: "교보생명 대학생 디자인 공모전 팀원 구합니다!",
-                writer: "danny",
-                membernum: 4,
-                startdate:"24.04.21",
-                dday:1,
-                jobs: "프론트엔드, 백엔드, 기획, 디자인",
-                languages: "HTML, CSS, Django"
-            },
+      });
     
-            {
-                id: 4,
-                image: "../../Male User.png",
-                title: "교보생명 대학생 디자인 공모전 팀원 구합니다!",
-                writer: "danny",
-                membernum: 4,
-                startdate:"24.04.21",
-                dday:1,
-                jobs: "프론트엔드, 백엔드, 기획, 디자인",
-                languages: "HTML, CSS, Django"
-            },
     
-        ];
 
     return(
         <div className = {styles.container}>
                 <div className={styles.title}>빠른 팀 찾기</div>
 
                 <div className={styles.list}>
-                    {DUMMY_TEAMLIST.map((team, index) => (
-                      <Link to={`/comp/${compId}/teamList/${team.id}/detail`} className={styles.teamlist}>
+                    {teamList.map((team, index) => (
+                      <Link to={`/comp/${team.comp}/teamList/${team.id}/detail`} className={styles.teamlist}>
                         <TeamCard
                           key={index}
                           image={team.writerImg}

@@ -6,8 +6,10 @@ import { Link, useParams } from "react-router-dom";
 import { getTeamDetail } from "../api/comp";
 
 const TeamDetail = () => {
-  const { compId, teamId, userId } = useParams();
+  const { compId, teamId } = useParams();
   const [teamDetail, setTeamDetail] = useState({});
+  const userId = localStorage.getItem("userId");
+
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");

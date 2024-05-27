@@ -7,6 +7,8 @@ import { setRandomTeam } from "../../api/comp";
 const RandomMatchingQuestion = () => {
 
     const { compId } = useParams();
+    const userId = localStorage.getItem("userId");
+
 
     const [isLeader, setLeader] = useState(true);
     const [city, setCity] = useState("");
@@ -61,7 +63,7 @@ const RandomMatchingQuestion = () => {
         }
         try {
           console.log("compId, selectedRole,city, district, isLeader,recruitNum: ", compId, selectedRole,city, district, isLeader,recruitNum);
-          await setRandomTeam(compId, selectedRole,city, district, isLeader,recruitNum);
+          await setRandomTeam(compId, userId, selectedRole,city, district, isLeader,recruitNum);
           alert("매칭 신청 완료되었습니다.");
         } catch (error) {
           console.error("Error submitting application:", error);

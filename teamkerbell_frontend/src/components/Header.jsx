@@ -66,8 +66,9 @@ const Header = () => {
         <Link to="/">
           <button className={styles.headerButton}>공모전</button>
         </Link>
-
-        <button className={styles.headerButton}>팀찾기</button>
+        <Link to="/team/teamList">
+          <button className={styles.headerButton}>팀찾기</button>
+        </Link>
         <Link to={`/user/${userId}/mypage/editProfile`}>
           <button className={styles.headerButton}>마이페이지</button>
         </Link>
