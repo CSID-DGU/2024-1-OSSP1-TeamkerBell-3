@@ -13,6 +13,7 @@ const CompCard = ({ id, image, title, description, jobs }) => {
   const compTitle = title || "";
   const compDescription = description || "";
   const compJobs = jobs || [];
+  
   function handleHeartClick() {
     setHeartActive(!heartActive);
     console.log("userId", parseInt(localStorageUserId), "compId", id);

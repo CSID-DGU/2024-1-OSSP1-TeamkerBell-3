@@ -125,9 +125,8 @@ export const getCompLiked = (userId) =>
 //공모전 찜하기
 export const setCompLiked = (userId, compId) =>
   sendRequest(userInstance, "post", `/${userId}/compLike/${compId}`);
-//'<int:user_id>/compLike/<int:comp_id>'
 
-//팀 관리 정보 가져오기
+  //팀 관리 정보 가져오기
 export const getMyTeams = (userId, teamId) =>
   sendRequest(userInstance, "delete", `/${userId}/mypage/team/${teamId}/teams`);
 

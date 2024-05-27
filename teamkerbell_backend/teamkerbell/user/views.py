@@ -154,12 +154,11 @@ def detailResume(request, user_id, resume_id):
 
 @swagger_auto_schema(methods=['POST'],tags=["공모전 찜하기/ 찜한 공모전 가져오기"])
 @api_view(['POST'])
-
-def compLike(request, userId, compId):
+def compLike(request, user_id, comp_id):
         #URL에 들어가는 user_id를 의미한다.
     try:
-        user = BasicUser.objects.get(id=userId)
-        comp = Comp.objects.get(id= compId)
+        user = BasicUser.objects.get(id=user_id)
+        comp = Comp.objects.get(id= comp_id)
     except BasicUser.DoesNotExist:
         return Response({'error': {'code': 404, 'message': "User not found!"}}, status=status.HTTP_404_NOT_FOUND)
     except Comp.DoesNotExist:
