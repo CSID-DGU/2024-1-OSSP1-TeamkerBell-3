@@ -1,15 +1,15 @@
+import ApplyingResume from "./ApplyingResume";
 import styles from "./ManageProject.module.css";
-import RecruitingProjectCard from "./RecruitingProjectCard";
-import Resume from "./Resume";
+import TeamInfoCard from "./TeamInfoCard";
 
-const LookingUpResume = ({ recruitingProjects, resumes }) => {
+const LookingUpResume = ({ teamInfo, resumes }) => {
   // 공모전 카테고리 목록
   return (
     <div>
-      <RecruitingProjectCard recruitingProjects={recruitingProjects} />
+      <TeamInfoCard TeamInfo={teamInfo} />
       <div className={styles.resumeContainer}>
         {resumes.map((resume, index) => (
-          <Resume key={index} resume={resume} />
+          <ApplyingResume key={index} resume={resume} />
         ))}
       </div>
     </div>

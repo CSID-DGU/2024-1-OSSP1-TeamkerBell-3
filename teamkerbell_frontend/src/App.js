@@ -33,6 +33,8 @@ import ProjectsPage from "./pages/projects";
 import ResumeMakingPage from "./pages/resumeMaking";
 import CompRegister from "./pages/compRegister";
 import BtnUpload from "./pages/uploadImage";
+import LookingUpResumePage from "./pages/lookingUpResume";
+import ApproveResumeDetailPage from "./pages/approveResumeDetail";
 
 function App() {
   return (
@@ -67,15 +69,20 @@ function App() {
           element={<ProjectsPage />}
         />
         <Route
+          path="/user/:userId/mypage/team/:tid/resume/:resumeId"
+          element={<ApproveResumeDetailPage />}
+        />
+         <Route
+          path="/user/:userId/mypage/team/:tid"
+          element={<LookingUpResumePage />}
+        />
+        <Route
           path="/user/:userId/mypage/myAchieve"
           element={<MyAchievementPage />}
         />
 
         {/* 이력서 수정 페이지로 수정 필요 */}
-        <Route
-          path="/user/:userId/resume/:resumeId"
-          element={<Mypage />}
-        />
+        <Route path="/user/:userId/resume/:resumeId" element={<Mypage />} />
 
         <Route path="/team/:tid" element={<Team />} />
         <Route path="/team/:tid/tools" element={<Tools />} />
@@ -89,9 +96,11 @@ function App() {
         <Route path="/team/:tid/report" element={<Report />} />
         <Route path="/team/:tid/teamManage" element={<TeamManage />} />
 
-
         <Route path="/comp/:compId" element={<CompMatching />} />
-        <Route path="/comp/:compId/teamList/reviewList" element={<CompReviews />} />
+        <Route
+          path="/comp/:compId/teamList/reviewList"
+          element={<CompReviews />}
+        />
         <Route
           path="/comp/:compId/teamList/:teamId/detail"
           element={<TeamDetail />}
@@ -104,7 +113,10 @@ function App() {
           path="/comp/:compId/teamList/:teamId/leaderResume"
           element={<LeaderResume />}
         />
-        <Route path="/comp/:compId/createTeam/:userId" element={<CreateTeam />} />
+        <Route
+          path="/comp/:compId/createTeam/:userId"
+          element={<CreateTeam />}
+        />
       </Routes>
     </BrowserRouter>
   );
