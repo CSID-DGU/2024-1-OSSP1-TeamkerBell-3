@@ -8,7 +8,10 @@ import { getLeaderResume } from "../api/comp";
 const LeaderResume = () => {
 
     const { compId, teamId } = useParams();
-    const [leaderResume, setLeaderResume] = useState();
+
+    const [leaderResume, setLeaderResume] = useState({});
+    const [postTitle, setPostTitle] = useState("");
+    const ROLE = "팀장"
 
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
@@ -42,12 +45,13 @@ const LeaderResume = () => {
 
     }
 
-    // INTERNAL SERVER ERROR
     useEffect(() => {
         const fetchLeaderResume = async () => {
           try {
             const response = await getLeaderResume(compId, teamId);
-            console.log(response);
+            console.log("response: ",response);
+            setLeaderResume(response.data.resumeInfo);
+            setPostTitle(response.data.postTitle);
     
             setIsLoading(false);
           } catch (error) {
@@ -64,7 +68,7 @@ const LeaderResume = () => {
     
         fetchLeaderResume();
     
-      }, [compId]);
+      }, [compId, teamId]);
 
 
 
@@ -78,37 +82,38 @@ const LeaderResume = () => {
                 </Link>
             </div>
 
-            <div className={styles.title}>{DUMMY_RESUME_INFO.title}</div>
+            <div className={styles.title}>{postTitle}</div>
 
             <ResumeSummary
-                content={DUMMY_MEMBERSUMMARY}
+                content={leaderResume}
+                role={"팀장"}
             />
             
             <div className={styles.box}>
 
                 <div className={styles.introduction}>
                     <div className={styles.text}>자기 소개</div>
-                    <div className={styles.content}>{DUMMY_RESUME_INFO.introduce}</div>
+                    <div className={styles.content}>{leaderResume.userIntro}</div>
                 </div>
 
                 <div className={styles.stack}>
                     <div className={styles.text}>기술 스택</div>
-                    <div className={styles.content}>{DUMMY_RESUME_INFO.stack}</div>
+                    <div className={styles.content}>{leaderResume.skill}</div>
                 </div>
 
                 <div className={styles.history}>
                     <div className={styles.text}>프로젝트 경험</div>
-                    <div className={styles.content}>{DUMMY_RESUME_INFO.history}</div>
+                    <div className={styles.content}>{leaderResume.experience}</div>
                 </div>
 
                 <div className={styles.github}>
                     <div className={styles.text}>Github</div>
-                    <div className={styles.content}>{DUMMY_RESUME_INFO.git}</div>
+                    <div className={styles.content}>{leaderResume.githubLink}</div>
                 </div>
 
                 <div className={styles.sns}>
                     <div className={styles.text}>기타 SNS(Instagram, Facebook, T-story 등)</div>
-                    <div className={styles.content}>{DUMMY_RESUME_INFO.sns}</div>
+                    <div className={styles.content}>{leaderResume.snsLink}</div>
                 </div>
 
             </div>  

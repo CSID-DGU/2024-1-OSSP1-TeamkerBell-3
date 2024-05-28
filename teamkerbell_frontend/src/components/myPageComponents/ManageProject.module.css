@@ -42,27 +42,54 @@
   font-size: 15px;
 }
 
+.buttons {
+  display: flex;
+  width: 90%;
+  margin-top: 40px;
+  justify-content: space-between;
+}
 .buttons button {
-  width: 40%;
-  font-size: 17px;
-  padding: 7px 0px;
+  width: 50%;
+  font-size: 20px;
+  padding: 11px 0px;
   font: bold;
-  justify-content: space-evenly;
   border: 2px solid #006322;
   border-radius: 6px;
   background-color: white;
   color: #006322;
-  margin-left: 10px;
 }
 
 .buttons button:hover {
-  width: 40%;
-  font-size: 17px;
+  width: 50%;
+  font-size: 20px;
   font: bold;
-  justify-content: space-evenly;
+
   border: 2px solid white;
   border-radius: 6px;
   background-color: #006322;
   color: white;
   margin-left: 10px;
+}
+.soloButtonContainer {
+  width: 90%;
+}
+.endButton {
+  margin-top: 10px;
+  width: 100%;
+  font-size: 20px;
+  padding: 14px 0px;
+  font: bold;
+  border: 2px solid #006322;
+  border-radius: 6px;
+  background-color: white;
+  color: #006322;
+}
+.endButton:hover {
+  width: 100%;
+  font-size: 20px;
+  font: bold;
+  border: 2px solid white;
+  border-radius: 6px;
+  background-color: #006322;
+  color: white;
 }

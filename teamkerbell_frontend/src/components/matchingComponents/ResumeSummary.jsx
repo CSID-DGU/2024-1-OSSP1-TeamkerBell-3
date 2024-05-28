@@ -3,7 +3,7 @@ import styles from "./ResumeSummary.module.css";
 
 
 
-const ResumeSummary = ({content}) => {
+const ResumeSummary = ({content, role}) => {
   return (
     <div className={styles.main}>
       
@@ -13,7 +13,7 @@ const ResumeSummary = ({content}) => {
             <div className={styles.baseInfo}>
               <h3 className={styles.name}>{content.name}</h3>
               <div className={styles.info}>
-                {content.age} / {content.gender}
+                {content.score}
               </div>
             </div>
           </div>
@@ -22,11 +22,11 @@ const ResumeSummary = ({content}) => {
             <ul className={styles.boxdescrip}>
               <li>
                 <strong>역할: </strong>
-                {content.role.team}/{content.role.department}
+                {role}
               </li>
               <li>
-                <strong>기술 스택: </strong>
-                {content.stack}
+                <strong>지역: </strong>
+                {content.city+" "+content.dong}
               </li>
               <li>
                 <strong>이메일: </strong>

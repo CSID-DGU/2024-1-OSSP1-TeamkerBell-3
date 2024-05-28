@@ -80,7 +80,7 @@ const CompMatching = () => {
       <div className={styles.reviewContainer}>
         <div className={styles.reviewHeader}>
           <h2 className={styles.reviewTitle}>공모전 후기</h2>
-          <Link to={`/comp/${compId}/teamList/reviewList`} className={styles.moreReviews}>
+          <Link to={`/comp/${compId}/reviewList`} className={styles.moreReviews}>
             더보기
           </Link>
         </div>

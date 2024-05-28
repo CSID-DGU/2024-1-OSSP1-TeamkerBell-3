@@ -13,10 +13,8 @@ const TeamSpecificDetail = ({intro, experience,baekjoontier, requiredmajor,meeti
             <div className={styles.qualificationcontainer}>
                 <div className={styles.qualificationtitle}>자격 조건</div>
                 <div className={styles.contents}>
-                    <div className={styles.experience}>참여 이력: {experience}</div>
-                    <div className={styles.baekjoontier}>백준 티어: {baekjoontier}</div>
-                    <div className={styles.requiredmajor}>전공 유무: {requiredmajor}</div>
-                    <div className={styles.meetingtime}>회의 시간: {meetingtime}</div>
+                    <div className={styles.experience}>{experience}</div>
+                    
                 </div>
                 
             </div>

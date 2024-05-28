@@ -11,6 +11,12 @@ import { teamInstance } from "./instance";
 export const teamProgress = (teamId) =>
   sendRequest(teamInstance, "post", `/${teamId}/progress`);
 
+
+//공모전 모든 팀 리스트 정보 조회
+export const getAllTeamList = () =>
+  sendRequest(teamInstance, "get", `/teamList`);
+
+
 //공모전 정보 받아오기
 export const getTeamCompDetail = (teamId) =>
   sendRequest(teamInstance, "get", `/${teamId}/compinfo`);

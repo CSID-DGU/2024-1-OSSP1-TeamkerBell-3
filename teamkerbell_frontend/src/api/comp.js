@@ -68,33 +68,41 @@ export const setSelectTeam = (
     resumeId: resumeId,
   });
 
+//선택 팀에서 자신의 이력서 가져오기
+export const getMyResumeForCreateTeam = (compId, userId) =>
+  sendRequest(compInstance, "get", `/${compId}/createTeam/${userId}`);
+
+
+
 //랜덤 팀 생성
 export const setRandomTeam = (
   compId,
+  user,
   role,
   city,
   dong,
   isLeader,
-  recruitNumber
+  recruitNum
 ) =>
-  sendRequest(compInstance, "post", `/${compId}`, {
+  sendRequest(compInstance, "post", `/${compId}/createRandomTeam/`, {
+    user:user,
     role: role,
     city: city,
     dong: dong,
     isLeader: isLeader,
-    recruitNumber: recruitNumber,
+    recruitNum: recruitNum,
   });
 
 //공모전 내용/후기
 export const getReviewList = (compId) =>
-  sendRequest(compInstance, "get", `/${compId}/teamList/reviewList`);
+  sendRequest(compInstance, "get", `/${compId}/reviewList`);
 
 //팀 상세/설명
 export const getTeamDetail = (compId, teamId) =>
   sendRequest(compInstance, "get", `/${compId}/teamList/${teamId}/detail`);
 
 
-//팀 상세/설명, 지원서 제출(이력서 전달) -> 매개 변수 개수 다름, compId 빼도 괜찮을지
+//팀 상세/설명, 지원서 제출(이력서 전달)
 export const setApplyResume = (
   compId,
   teamId,

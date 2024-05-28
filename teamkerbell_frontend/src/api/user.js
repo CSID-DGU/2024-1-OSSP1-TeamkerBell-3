@@ -150,6 +150,13 @@ export const breakeTeam = (userId, teamId) =>
     `/${userId}/mypage/team/${teamId}/breakteam`
   );
 
+export const cancelApplying = (user_id, team_id) =>
+  sendRequest(
+    userInstance,
+    "delete",
+    `/${user_id}/mypage/team/${team_id}/cancel`
+  );
+
 //나의 성취 가져오기
 export const getMyAchievements = (userId) =>
   sendRequest(userInstance, "get", `/${userId}/mypage/myachievements`);
@@ -175,9 +182,9 @@ export const getTeamRecruitedResumeDetail = (userId, teamId, resumeId) =>
     `/${userId}/mypage/team/${teamId}/resume/${resumeId}`
   );
 
-export const setTeamRecruitedResumeApprove = (userId, teamId, resumeId) =>
+export const setTeamRecruitedResumeEnd = (userId, teamId, resumeId, isAccept) =>
   sendRequest(
     userInstance,
     "post",
-    `/${userId}/mypage/team/${teamId}/resume/${resumeId}`
+    `/${userId}/mypage/team/${teamId}/resume/${resumeId}`, {accept: isAccept}
   );
