@@ -6,17 +6,17 @@ import { Link } from "react-router-dom";
 //가이드라인 데이터
 const GuideDummy = [
   {
-    image: "../../comp_example.jpeg",
+    image: "../../w2mImg.png",
     title: "When2Meet",
     description: ["When2Meet 설명", "용도 사용법"],
   },
   {
-    image: "../../comp_example.jpeg",
+    image: "../../githubImg.png",
     title: "Github",
     description: ["깃허브 설명", "용도 사용법"],
   },
   {
-    image: "../../comp_example.jpeg",
+    image: "../../slackImg.png",
     title: "Slack",
     description: ["슬랙 설명", "용도 사용법"],
   },
@@ -47,8 +47,10 @@ const CoopTool = () => {
               <hr className={styles.boxline} />
 
               <ul className={styles.boxdescrip}>
-                {guide.description.map((desc) => (
-                  <li className={styles.boxdescrip}>{desc}</li>
+                {guide.description.map((desc, descIndex) => (
+                  <li key={descIndex} className={styles.boxdescrip}>
+                    {desc}
+                  </li>
                 ))}
               </ul>
             </div>

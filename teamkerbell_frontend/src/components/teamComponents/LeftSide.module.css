@@ -18,6 +18,7 @@
   flex-basis: 100%;
   list-style: none;
   display: block; /* 버튼 가운데 정렬*/
+  border-right: 3px solid #858585;
 }
 
 .unclicked {

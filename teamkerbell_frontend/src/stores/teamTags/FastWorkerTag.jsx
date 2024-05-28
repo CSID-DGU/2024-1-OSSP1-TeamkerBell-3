@@ -1,5 +1,5 @@
 import styles from "./tags.module.css";
-const FastManTag = () => {
+const FastWorker = () => {
   return (
     <div className={styles.tags}>
       <p># 일 처리가 빨라요 👣</p>
@@ -7,4 +7,4 @@ const FastManTag = () => {
   );
 };
 
-export default FastManTag;
+export default FastWorker;
