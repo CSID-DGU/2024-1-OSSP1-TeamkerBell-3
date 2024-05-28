@@ -46,12 +46,20 @@ const LastAfter = (myreview) => {
     console.log("score_tags: ", scoreTags);
     console.log("review:", review);
   };
+  const handleScoreChange = (updatedScores) => {
+    setScoreTags(updatedScores);
+  };
 
   return (
     <div className={styles.main}>
       <h2 className={styles.title}>마무리</h2>
       <hr className={styles.line} />
-      {<Evaluate DUMMY_memberList={DUMMY_memberList} />}
+      {
+        <Evaluate
+          DUMMY_memberList={DUMMY_memberList}
+          onScoreChange={handleScoreChange}
+        />
+      }
       <div>
         <h2 className={styles.title}>공모전 후기</h2>
         <hr className={styles.line} />

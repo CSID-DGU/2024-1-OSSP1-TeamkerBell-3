@@ -1,39 +1,67 @@
-.container{
-    margin: 50px 100px;
+.container {
+  margin: 50px 100px;
 }
 
-
-.backBtn{
-    display:flex;
-    align-items: center;
-  }
-
-.backwords{
-    text-decoration: none;
-    font-family: "NanumSquareRoundB";
-    font-size:1.5rem;
-    margin-right: 150px; 
-    color: #044018;
+.backBtn {
+  display: flex;
+  align-items: center;
 }
 
-.title{
-    font-weight: bold;
-    font-size: 1.8rem;
-    text-align: center;
+.backwords {
+  text-decoration: none;
+  font-family: "NanumSquareRoundB";
+  font-size: 1.5rem;
+  margin-right: 150px;
+  color: #044018;
 }
 
-.box{
-    margin: 50px 20px;
-}
-.text{
-    font-weight: bold;
-    font-size:1.4rem;
-    margin-bottom: 10px;
-    
+.title {
+  font-weight: bold;
+  font-size: 1.8rem;
+  text-align: center;
 }
 
-.content{
-    color: #858585;
-    font-size:1rem;
-    margin-bottom: 20px;
+.box {
+  margin: 50px 20px;
+}
+.text {
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.content {
+  color: #858585;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  margin-top: 40px;
+  justify-content: space-evenly;
+}
+.buttons button {
+  width: 40%;
+  font-size: 20px;
+  padding: 14px 0px;
+  font: bold;
+  justify-content: space-evenly;
+  border: 2px solid #006322;
+  border-radius: 6px;
+  background-color: white;
+  color: #006322;
+  margin-left: 10px;
+}
+
+.buttons button:hover {
+  width: 40%;
+  font-size: 17px;
+  font: bold;
+  justify-content: space-evenly;
+  border: 2px solid white;
+  border-radius: 6px;
+  background-color: #006322;
+  color: white;
+  margin-left: 10px;
 }

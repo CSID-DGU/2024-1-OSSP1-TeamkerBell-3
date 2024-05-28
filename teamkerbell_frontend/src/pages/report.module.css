@@ -10,18 +10,28 @@
 @font-face {
   font-family: "NanumSquareNeo-cBd"; /* Bold */
   font-weight: normal;
-  src: url("../../../public/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
+  src: url("../../public/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.left {
+  display: flex;
+  flex-flow: row;
+  flex-basis: 20%;
 }
 
 .main {
-  width: 100%;
-  font-size: 15px;
   display: flex;
   flex-flow: column;
-  margin-left: 10%;
-  margin-right: 10%;
+  padding-left: 10%;
+  font-size: 15px;
   margin-top: 3%;
   margin-bottom: 1px;
+  width: 60%;
 }
 
 .title {

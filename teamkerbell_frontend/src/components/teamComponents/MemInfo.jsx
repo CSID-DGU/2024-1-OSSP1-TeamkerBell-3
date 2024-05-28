@@ -3,66 +3,8 @@
 import React from "react";
 import styles from "./MemInfo.module.css";
 
-const DUMMY_MEMBERINFO = [
-  {
-    img: "../../memImg.png",
-    name: "김동국",
-    age: "10",
-    gender: "남",
-    role: {
-      team: "팀장",
-      department: "프론트엔드",
-    },
-    skill: "React",
-    email: "dongguk@dongguk.edu",
-    github: "dongguk.git",
-    baekjoon: "Gold",
-  },
-  {
-    img: "../../memImg.png",
-    name: "이동국",
-    age: "20",
-    gender: "여",
-    role: {
-      team: "팀원",
-      department: "프론트엔드",
-    },
-    skill: "React",
-    email: "dongguk@dongguk.edu",
-    github: "dongguk.git",
-    baekjoon: "Gold",
-  },
-  {
-    img: "../../memImg.png",
-    name: "최동국",
-    age: "30",
-    gender: "남",
-    role: {
-      team: "팀원",
-      department: "프론트엔드",
-    },
-    skill: "React",
-    email: "dongguk@dongguk.edu",
-    github: "dongguk.git",
-    baekjoon: "Gold",
-  },
-  {
-    img: "../../memImg.png",
-    name: "박동국",
-    age: "40",
-    gender: "여",
-    role: {
-      team: "팀원",
-      department: "프론트엔드",
-    },
-    skill: "React",
-    email: "dongguk@dongguk.edu",
-    github: "dongguk.git",
-    baekjoon: "Gold",
-  },
-];
-
-const MemInfo = () => {
+const MemInfo = ({ meminfo }) => {
+  console.log("meminfo:", meminfo);
   return (
     <div className={styles.main}>
       <div className={styles.title}>
@@ -70,22 +12,20 @@ const MemInfo = () => {
       </div>
       <hr className={styles.line} />
 
-      {DUMMY_MEMBERINFO.map((content, index) => (
+      {meminfo.map((content, index) => (
         <div className={styles.box} key={index}>
           <div className={styles.boxleft}>
             <img className={styles.memImg} src={content.img} />
             <div className={styles.baseInfo}>
               <div>
-                {index === 0 ? (
+                {content.role === "팀장" ? (
                   <img className={styles.crown} src={"../../leadercrown.png"} />
                 ) : null}
               </div>
-              {/*index가 0(최상단의 팀장)에만 왕관사진, 나머지는 null*/}
+              {/*역할이 '팀장'이면 왕관사진, 나머지는 null*/}
 
               <h3 className={styles.name}>{content.name}</h3>
-              <div className={styles.info}>
-                {content.age} / {content.gender}
-              </div>
+              <div className={styles.info}>{content.score}도</div>
             </div>
           </div>
 
@@ -93,7 +33,7 @@ const MemInfo = () => {
             <ul className={styles.boxdescrip}>
               <li>
                 <strong>역할: </strong>
-                {content.role.team}/{content.role.department}
+                {content.role}
               </li>
               <li>
                 <strong>기술 스택: </strong>
@@ -105,11 +45,11 @@ const MemInfo = () => {
               </li>
               <li>
                 <strong>Github: </strong>
-                {content.github}
+                {content.githubLink}
               </li>
               <li>
                 <strong>백준 티어: </strong>
-                {content.baekjoon}
+                {content.tier}
               </li>
             </ul>
           </div>
