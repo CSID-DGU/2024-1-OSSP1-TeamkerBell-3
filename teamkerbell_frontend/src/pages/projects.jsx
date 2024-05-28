@@ -3,17 +3,20 @@ import React, { useEffect, useState } from "react";
 import styles from "./mypage.module.css";
 import LeftSide from "../components/myPageComponents/MypageLeftSide";
 import ManageProject from "../components/myPageComponents/ManageProject";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { categoryState } from "../atoms"; // Recoil에서 정의한 상태
 
 import { getMyProjects } from "../api/user";
 
 const ProjectsPage = () => {
-  const categoryStateValue = useRecoilValue(categoryState);
+  const [categoryStateValue, setCategoryStateValue] =
+    useRecoilState(categoryState);
   const localStorageUserId = localStorage.getItem("userId");
   const [progressingProjects, setProgressingProjects] = useState([]);
   const [recruitingProjects, setRecruitingProjects] = useState([]);
   const [applyingProjects, setApplyingProjects] = useState([]);
+
+  setCategoryStateValue(3);
 
   useEffect(() => {
     const fetchMyProjects = async () => {
