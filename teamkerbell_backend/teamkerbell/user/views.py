@@ -152,8 +152,8 @@ def detailResume(request, user_id, resume_id):
         return Response(serializer.data)
 
 
-@swagger_auto_schema(methods=['POST'],tags=["공모전 찜하기/ 찜한 공모전 가져오기"])
-@api_view(['POST'])
+@swagger_auto_schema(methods=['POST', 'DELETE'],tags=["공모전 찜하기/ 찜한 공모전 삭제하기"])
+@api_view(['POST','DELETE'])
 def compLike(request, user_id, comp_id):
         #URL에 들어가는 user_id를 의미한다.
     try:
@@ -173,6 +173,14 @@ def compLike(request, user_id, comp_id):
             serializer.save(user=user, comp=comp)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'DELETE':
+        bookmarks = Bookmark.objects.filter(user=user, comp=comp)
+        if bookmarks:
+            bookmark=bookmarks.first()
+            bookmark.delete()
+            return Response({'message': 'deleted successfully'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'BookMark not found!'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
