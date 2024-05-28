@@ -16,45 +16,6 @@ const CompLikedPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [comps, setComps] = useState([]);
 
-  const DUMMY_COMP = [
-    {
-      id: 0,
-      image: "/comp_example.jpeg",
-      title: "생성형 AI 이미지 활용 공모전",
-      description:
-        "공모전에 대한 설명: 생성형 AI로부터 만들 수 있는 이미지의 활용 방안에 대해 탐구한다.",
-      jobs: ["프론트엔드", "백엔드", "기획", "디자인"],
-      deadline: new Date("2024-05-10"),
-    },
-    {
-      id: 1,
-      image: "/comp_example.jpeg",
-      title: "생성형 AI 이미지 활용 공모전",
-      description:
-        "공모전에 대한 설명: 생성형 AI로부터 만들 수 있는 이미지의 활용 방안에 대해 탐구한다.",
-      jobs: ["프론트엔드", "백엔드", "기획", "디자인"],
-      deadline: new Date("2024-06-15"),
-    },
-    {
-      id: 2,
-      image: "/comp_example.jpeg",
-      title: "생성형 AI 이미지 활용 공모전",
-      description:
-        "공모전에 대한 설명: 생성형 AI로부터 만들 수 있는 이미지의 활용 방안에 대해 탐구한다.",
-      jobs: ["프론트엔드", "백엔드", "기획", "디자인"],
-      deadline: new Date("2024-07-20"),
-    },
-    {
-      id: 3,
-      image: "/comp_example.jpeg",
-      title: "생성형 AI 이미지 활용 공모전",
-      description:
-        "공모전에 대한 설명: 생성형 AI로부터 만들 수 있는 이미지의 활용 방안에 대해 탐구한다.",
-      jobs: ["프론트엔드", "백엔드", "기획", "디자인"],
-      deadline: new Date("2024-07-20"),
-    },
-  ];
-
   useEffect(() => {
     setCategoryState(1);
 
@@ -89,7 +50,7 @@ const CompLikedPage = () => {
         ) : isError ? (
           <ErrorComponent message={errorMessage} />
         ) : (
-          <FavoriteComp comps={comps.length > 0 ? comps : DUMMY_COMP} />
+          <FavoriteComp comps={comps} />
         )}
       </div>
     </div>
