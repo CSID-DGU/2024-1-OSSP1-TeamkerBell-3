@@ -33,6 +33,7 @@ import ProjectsPage from "./pages/projects";
 import ResumeMakingPage from "./pages/resumeMaking";
 import CompRegister from "./pages/compRegister";
 import BtnUpload from "./pages/uploadImage";
+import FindAllTeam from "./pages/findingteam";
 import LookingUpResumePage from "./pages/lookingUpResume";
 import ApproveResumeDetailPage from "./pages/approveResumeDetail";
 
@@ -84,6 +85,11 @@ function App() {
         {/* 이력서 수정 페이지로 수정 필요 */}
         <Route path="/user/:userId/resume/:resumeId" element={<Mypage />} />
 
+        <Route
+          path="/team/teamList"
+          element={<FindAllTeam/>}
+        />
+
         <Route path="/team/:tid" element={<Team />} />
         <Route path="/team/:tid/tools" element={<Tools />} />
         <Route path="/team/:tid/guidelines1" element={<TeamToolW2M />} />
@@ -97,10 +103,14 @@ function App() {
         <Route path="/team/:tid/teamManage" element={<TeamManage />} />
 
         <Route path="/comp/:compId" element={<CompMatching />} />
+
+        <Route path="/comp/:compId/reviewList" element={<CompReviews />} />
+
         <Route
           path="/comp/:compId/teamList/reviewList"
           element={<CompReviews />}
         />
+
         <Route
           path="/comp/:compId/teamList/:teamId/detail"
           element={<TeamDetail />}

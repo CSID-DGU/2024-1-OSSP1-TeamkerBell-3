@@ -28,9 +28,7 @@ const CompReviews = () => {
         
                 setCompDetail(response.data.compInfo);
                 setCompReview(response.data.reviewList);
-        
-        
-
+    
 
                 setIsLoading(false);
 

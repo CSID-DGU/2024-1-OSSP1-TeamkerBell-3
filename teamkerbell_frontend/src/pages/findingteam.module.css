@@ -1,0 +1,21 @@
+
+@font-face {
+    font-family: "NanumSquareRoundB"; /* Bold */
+    font-weight: normal;
+    src: url("../../public/fonts/NanumSquareRoundB.ttf") format("truetype");
+}
+
+.title{
+    font-size: 2.5rem;
+    font-family: "NanumSquareRoundEB";
+    margin: 50px;
+    text-align:center;
+    color: #044018;
+    
+}
+
+
+.teamlist {
+    text-decoration: none;
+    color:black;
+}

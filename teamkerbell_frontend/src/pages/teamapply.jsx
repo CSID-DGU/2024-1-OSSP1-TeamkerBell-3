@@ -130,7 +130,7 @@ const TeamApply = ( ) => {
 
       fetchSelectTeamApply();
 
-    }, [compId, teamId]);
+    }, [compId, teamId, userId]);
 
 
     const handleSelectRole = (e) => {
@@ -149,6 +149,13 @@ const TeamApply = ( ) => {
         return;
       }
       try {
+        console.log("Submitting application with:", {
+          compId,
+          teamId,
+          userId,
+          resumeId: selectedResumeId,
+          role: selectedRole,
+      });
         console.log("selectedResumeId, selectedRole: ", selectedResumeId, selectedRole);
         await setApplyResume(compId, teamId, userId, selectedResumeId, selectedRole);
         alert("제출 완료되었습니다.");

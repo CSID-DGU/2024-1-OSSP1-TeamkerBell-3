@@ -6,8 +6,10 @@ import { Link, useParams } from "react-router-dom";
 import { getTeamDetail } from "../api/comp";
 
 const TeamDetail = () => {
-  const { compId, teamId, userId } = useParams();
+  const { compId, teamId } = useParams();
   const [teamDetail, setTeamDetail] = useState({});
+  const userId = localStorage.getItem("userId");
+
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -69,7 +71,6 @@ const TeamDetail = () => {
       <div className={styles.teamoutline}>
         <TeamOutline
           title={teamDetail.name}
-          profileimg={DUMMY_TEAM_OUTLINE.profileimg} //프로필 이미지
           writer={teamDetail.leader}
           uploaddate={teamDetail.createdAt}
           meetingway={teamDetail.method}
@@ -77,18 +78,15 @@ const TeamDetail = () => {
           startdate={teamDetail.startDate}
           recruitjobs={teamDetail.role}
           languages={teamDetail.language}
-          location={DUMMY_TEAM_OUTLINE.location} //활동 지역
+          location={teamDetail.city+" "+teamDetail.dong}
         />
       </div>
 
       <div className={styles.teamdetails}>
         <TeamSpecificDetail
           intro={teamDetail.intro}
-          //자격조건 세부 사항
-          experience={DUMMY_TEAM_DETAILS.experience}
-          baekjoontier={DUMMY_TEAM_DETAILS.baekjoontier}
-          requiredmajor={DUMMY_TEAM_DETAILS.requiredmajor}
-          meetingtime={DUMMY_TEAM_DETAILS.meetingtime}
+          experience={teamDetail.qualification}
+          
         />
       </div>
 
