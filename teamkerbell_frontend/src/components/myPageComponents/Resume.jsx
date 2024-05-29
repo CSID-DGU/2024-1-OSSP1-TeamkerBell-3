@@ -12,9 +12,9 @@ const tagComponents = {
   // 이런 식으로 필요한 만큼 추가할 수 있습니다.
 };
 
-const Resume = ({ resume }) => {
+const Resume = ({ onDoubleClcik, resume }) => {
   return (
-    <div className={styles.resumeItem}>
+    <div onDoubleClick={onDoubleClcik} className={styles.resumeItem}>
       <div className={styles.profileImgNName}>
         <img src={resume.img} alt="유저 이미지" />
         <div className={styles.nameNTemp}>

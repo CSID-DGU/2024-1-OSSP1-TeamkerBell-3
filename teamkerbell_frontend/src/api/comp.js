@@ -24,7 +24,6 @@ export const registerComp = (
     organization: organization,
     eligibillty: eligibillty,
     applicationMethod,
-    applicationMethod,
     context: context,
     reward: reward,
     contact: contact,
@@ -41,11 +40,10 @@ export const getCompDetail = (compId) =>
 export const getTeamList = (compId) =>
   sendRequest(compInstance, "get", `/${compId}`);
 
-
 //선택 팀 생성
 export const setSelectTeam = (
   compId,
-  userId, 
+  userId,
   recruitRole,
   recruitNumber,
   projectStartDate,
@@ -54,7 +52,7 @@ export const setSelectTeam = (
   method,
   language,
   qualification,
-  resumeId,
+  resumeId
 ) =>
   sendRequest(compInstance, "post", `/${compId}/createTeam/${userId}`, {
     recruitRole: recruitRole,
@@ -72,8 +70,6 @@ export const setSelectTeam = (
 export const getMyResumeForCreateTeam = (compId, userId) =>
   sendRequest(compInstance, "get", `/${compId}/createTeam/${userId}`);
 
-
-
 //랜덤 팀 생성
 export const setRandomTeam = (
   compId,
@@ -85,7 +81,7 @@ export const setRandomTeam = (
   recruitNum
 ) =>
   sendRequest(compInstance, "post", `/${compId}/createRandomTeam/`, {
-    user:user,
+    user: user,
     role: role,
     city: city,
     dong: dong,
@@ -101,25 +97,25 @@ export const getReviewList = (compId) =>
 export const getTeamDetail = (compId, teamId) =>
   sendRequest(compInstance, "get", `/${compId}/teamList/${teamId}/detail`);
 
-
 //팀 상세/설명, 지원서 제출(이력서 전달)
-export const setApplyResume = (
-  compId,
-  teamId,
-  userId,
-  resumeId,
-  role
-) =>
-  sendRequest(compInstance, "post", `/${compId}/teamList/${teamId}/apply/${userId}`, {
-    resumeId: resumeId,
-    role: role,
-  });
-
+export const setApplyResume = (compId, teamId, userId, resumeId, role) =>
+  sendRequest(
+    compInstance,
+    "post",
+    `/${compId}/teamList/${teamId}/apply/${userId}`,
+    {
+      resumeId: resumeId,
+      role: role,
+    }
+  );
 
 //팀 상세/설명, 지원서 제출(이력서 가져오기)
 export const getMyResume = (compId, teamId, userId) =>
-  sendRequest(compInstance, "get", `/${compId}/teamList/${teamId}/apply/${userId}`);
-
+  sendRequest(
+    compInstance,
+    "get",
+    `/${compId}/teamList/${teamId}/apply/${userId}`
+  );
 
 //팀장 이력서 상세 보기
 export const getLeaderResume = (compId, teamId) =>

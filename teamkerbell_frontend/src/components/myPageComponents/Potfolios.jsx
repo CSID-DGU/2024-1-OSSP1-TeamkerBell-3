@@ -13,7 +13,10 @@ function Portfolios({ resumes }) {
   const writePortfoliohandler = () => {
     navigate(`/user/${localStorageUserId}/mypage/resumeMaking`); // localStorageUserId 사용
   };
-
+  const handleDoubleClick = (resumeId) => {
+    navigate(`/user/${localStorageUserId}/mypage/resumes/${resumeId}`);
+    ///user/:userId/resume/:resumeId
+  };
   return (
     <div className={styles.mainContainer}>
       <div className={styles.titleButton}>
@@ -23,7 +26,11 @@ function Portfolios({ resumes }) {
 
       <div className={styles.resumeContainer}>
         {resumes.map((resume, index) => (
-          <Resume key={index} resume={resume} />
+          <Resume
+            key={index}
+            onDoubleClcik={() => handleDoubleClick(resume.id)}
+            resume={resume}
+          />
         ))}
       </div>
     </div>
