@@ -4,6 +4,7 @@ import FireManTag from "../../stores/tags/FireManTag";
 import GoodListenerManTag from "../../stores/tags/GoodListenerManTag";
 import PlannerManTag from "../../stores/tags/PlannerManTag";
 import styles from "./Resume.module.css";
+import Resume from "./Resume";
 
 const tagComponents = {
   0: ComplimentManTag,
@@ -21,47 +22,7 @@ const ApplyingResume = ({ resume }) => {
     navigate(`/user/${userId}/mypage/team/${tid}/resume/${resume.id}`); // 이력서 상세 페이지로 이동
     //path="/user/:userId/mypage/team/:tid/resume/:resumeId"
   };
-  return (
-    <div className={styles.resumeItem} onDoubleClick={handleDoubleClick}>
-      <div className={styles.profileImgNName}>
-        <img src={resume.img} alt="유저 이미지" />
-        <div className={styles.nameNTemp}>
-          <h1>{resume.name}</h1>
-          <p>온도 : {resume.score}</p>
-        </div>
-      </div>
-      <p className={styles.resumeContent}>{resume.userIntro}</p>
-      <h3 className={styles.greenColor}>Details:</h3>
-      <ul>
-        <li>
-          <span className={styles.label}>이름:</span> <span>{resume.name}</span>
-        </li>
-        <li>
-          <span className={styles.label}>전화번호:</span>{" "}
-          <span>{resume.phone}</span>
-        </li>
-        <li>
-          <span className={styles.label}>기술:</span>{" "}
-          <span>{resume.skill}</span>
-        </li>
-        <li>
-          <span className={styles.label}>백준 티어:</span>{" "}
-          <span>{resume.tier}</span>
-        </li>
-        <li>
-          <span className={styles.label}>Github:</span>{" "}
-          <span>{resume.githubLink}</span>
-        </li>
-      </ul>
-      <div className={styles.tagContainer}>
-        {resume.tag.length > 0 &&
-          resume.tag.map((tag, index) => {
-            const TagComponent = tagComponents[tag];
-            return <TagComponent key={index} />;
-          })}
-      </div>
-    </div>
-  );
+  return <Resume onDoubleClcik={handleDoubleClick} resume={resume} />;
 };
 
 export default ApplyingResume;
