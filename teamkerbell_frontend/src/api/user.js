@@ -120,15 +120,19 @@ export const deleteUserDetailResume = (userId, resumeId) =>
 
 //찜한 공모전 모아보기
 export const getCompLiked = (userId) =>
-  sendRequest(userInstance, "get", `/${userId}/mypage/compLike`);
+  sendRequest(userInstance, "get", `/${userId}/mypage/compLiked`);
 
 //공모전 찜하기
 export const setCompLiked = (userId, compId) =>
   sendRequest(userInstance, "post", `/${userId}/compLike/${compId}`);
 
-  //팀 관리 정보 가져오기
+//프로젝트들 가져오기
+export const getMyProjects = (userId) =>
+  sendRequest(userInstance, "get", `/${userId}/mypage/teams`);
+
+//팀 관리 정보 가져오기
 export const getMyTeams = (userId, teamId) =>
-  sendRequest(userInstance, "delete", `/${userId}/mypage/team/${teamId}/teams`);
+  sendRequest(userInstance, "get", `/${userId}/mypage/team/${teamId}/teams`);
 
 //투표 종료투표
 export const endProject = (userId, teamId) =>
@@ -159,13 +163,21 @@ export const compliteTeamMatching = (userId, teamId) =>
   );
 
 //지원자 이력서들 보기
-export const getTeamRecruitedResumes = (userId) =>
-  sendRequest(userInstance, "get", `/${userId}/mypage/team/`);
-
+export const getTeamRecruitedResumes = (userId, teamId) =>
+  sendRequest(userInstance, "get", `/${userId}/mypage/team/${teamId}/resume`);
+//<int:user_id>/mypage/team/<int:team_id>/resume
 //지원자 이력서 상세보기
+
 export const getTeamRecruitedResumeDetail = (userId, teamId, resumeId) =>
   sendRequest(
     userInstance,
     "get",
+    `/${userId}/mypage/team/${teamId}/resume/${resumeId}`
+  );
+
+export const setTeamRecruitedResumeApprove = (userId, teamId, resumeId) =>
+  sendRequest(
+    userInstance,
+    "post",
     `/${userId}/mypage/team/${teamId}/resume/${resumeId}`
   );

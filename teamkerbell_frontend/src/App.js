@@ -33,7 +33,10 @@ import ProjectsPage from "./pages/projects";
 import ResumeMakingPage from "./pages/resumeMaking";
 import CompRegister from "./pages/compRegister";
 import BtnUpload from "./pages/uploadImage";
+import LookingUpResumePage from "./pages/lookingUpResume";
+import ApproveResumeDetailPage from "./pages/approveResumeDetail";
 import FindAllTeam from "./pages/findingteam";
+
 
 function App() {
   return (
@@ -68,6 +71,14 @@ function App() {
           element={<ProjectsPage />}
         />
         <Route
+          path="/user/:userId/mypage/team/:tid/resume/:resumeId"
+          element={<ApproveResumeDetailPage />}
+        />
+         <Route
+          path="/user/:userId/mypage/team/:tid"
+          element={<LookingUpResumePage />}
+        />
+        <Route
           path="/user/:userId/mypage/myAchieve"
           element={<MyAchievementPage />}
         />
@@ -79,9 +90,9 @@ function App() {
         />
 
         <Route
-          path="/team/teamList"
-          element={<FindAllTeam/>}
-        />
+                  path="/team/teamList"
+                  element={<FindAllTeam/>}
+                />
 
         <Route path="/team/:tid" element={<Team />} />
         <Route path="/team/:tid/tools" element={<Tools />} />
@@ -95,10 +106,11 @@ function App() {
         <Route path="/team/:tid/report" element={<Report />} />
         <Route path="/team/:tid/teamManage" element={<TeamManage />} />
 
-
         <Route path="/comp/:compId" element={<CompMatching />} />
-        <Route path="/comp/:compId/reviewList" element={<CompReviews />} />
         <Route
+          path="/comp/:compId/teamList/reviewList"
+          element={<CompReviews />}
+        />        <Route
           path="/comp/:compId/teamList/:teamId/detail"
           element={<TeamDetail />}
         />
@@ -110,7 +122,10 @@ function App() {
           path="/comp/:compId/teamList/:teamId/leaderResume"
           element={<LeaderResume />}
         />
-        <Route path="/comp/:compId/createTeam/:userId" element={<CreateTeam />} />
+        <Route
+          path="/comp/:compId/createTeam/:userId"
+          element={<CreateTeam />}
+        />
       </Routes>
     </BrowserRouter>
   );
