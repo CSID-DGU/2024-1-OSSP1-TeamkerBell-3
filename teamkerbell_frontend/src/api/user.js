@@ -111,9 +111,36 @@ export const getUserDetailResume = (userId, resumeId) =>
   sendRequest(userInstance, "get", `/${userId}/mypage/resume/${resumeId}`);
 
 //세부 이력서 수정하기
-export const patchUserDetailResume = (userId, resumeId) =>
-  sendRequest(userInstance, "patch", `/${userId}/mypage/resume/${resumeId}`);
+export const patchUserDetailResume = (
+  userId,
+  resumeId,
+  name,
+  email,
+  phone,
+  tier,
+  userIntro,
+  skill,
+  experience,
+  githubLik,
+  snsLink,
+  city,
+  dong
+) =>
+  sendRequest(userInstance, "patch", `/${userId}/mypage/resume/${resumeId}`, {
 
+    name,
+    email,
+    phone,
+    tier,
+    userIntro,
+    skill,
+    experience,
+    githubLik,
+    snsLink,
+    city,
+    dong,
+  });
+//<int:user_id>/mypage/resume/<int:resume_id>
 //세부 이력서 삭제하기
 export const deleteUserDetailResume = (userId, resumeId) =>
   sendRequest(userInstance, "delete", `/${userId}/mypage/resume/${resumeId}`);
@@ -150,6 +177,13 @@ export const breakeTeam = (userId, teamId) =>
     `/${userId}/mypage/team/${teamId}/breakteam`
   );
 
+export const cancelApplying = (user_id, team_id) =>
+  sendRequest(
+    userInstance,
+    "delete",
+    `/${user_id}/mypage/team/${team_id}/cancel`
+  );
+
 //나의 성취 가져오기
 export const getMyAchievements = (userId) =>
   sendRequest(userInstance, "get", `/${userId}/mypage/myachievements`);
@@ -175,9 +209,10 @@ export const getTeamRecruitedResumeDetail = (userId, teamId, resumeId) =>
     `/${userId}/mypage/team/${teamId}/resume/${resumeId}`
   );
 
-export const setTeamRecruitedResumeApprove = (userId, teamId, resumeId) =>
+export const setTeamRecruitedResumeEnd = (userId, teamId, resumeId, isAccept) =>
   sendRequest(
     userInstance,
     "post",
-    `/${userId}/mypage/team/${teamId}/resume/${resumeId}`
+    `/${userId}/mypage/team/${teamId}/resume/${resumeId}`,
+    { accept: isAccept }
   );

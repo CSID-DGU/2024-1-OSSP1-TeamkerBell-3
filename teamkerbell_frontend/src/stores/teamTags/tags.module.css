@@ -1,0 +1,20 @@
+.tags {
+  display: inline-block;
+  background-color: #f8f8f8;
+  font-size: 15px;
+  color: #7a7a7a;
+  margin-left: 10px;
+  margin-top: 4px;
+  padding: 0px 15px;
+  border-radius: 15px;
+  border: 1px solid #7a7a7a;
+}
+.tags p {
+  padding: 0px;
+  margin: 5px;
+}
+
+.borderGreen {
+  border-color: #006322;
+  color: #006322;
+}

@@ -12,9 +12,9 @@ const tagComponents = {
   // 이런 식으로 필요한 만큼 추가할 수 있습니다.
 };
 
-const Resume = ({ resume }) => {
+const Resume = ({ onDoubleClcik, resume }) => {
   return (
-    <div className={styles.resumeItem}>
+    <div onDoubleClick={onDoubleClcik} className={styles.resumeItem}>
       <div className={styles.profileImgNName}>
         <img src={resume.img} alt="유저 이미지" />
         <div className={styles.nameNTemp}>
@@ -26,23 +26,21 @@ const Resume = ({ resume }) => {
       <h3 className={styles.greenColor}>Details:</h3>
       <ul>
         <li>
-          <span className={styles.label}>이름:</span> <span>{resume.name}</span>
+          <span className={styles.label}>이름:</span>{" "}
+          <span className={styles.innerContent}>{resume.name}</span>
         </li>
         <li>
           <span className={styles.label}>전화번호:</span>{" "}
-          <span>{resume.phone}</span>
+          <span className={styles.innerContent}>{resume.phone}</span>
         </li>
         <li>
           <span className={styles.label}>기술:</span>{" "}
-          <span>{resume.skill}</span>
+          <span className={styles.innerContent}>{resume.skill}</span>
         </li>
-        <li>
-          <span className={styles.label}>백준 티어:</span>{" "}
-          <span>{resume.tier}</span>
-        </li>
+
         <li>
           <span className={styles.label}>Github:</span>{" "}
-          <span>{resume.githubLink}</span>
+          <span className={styles.innerContent}>{resume.githubLink}</span>
         </li>
       </ul>
       <div className={styles.tagContainer}>
@@ -51,6 +49,13 @@ const Resume = ({ resume }) => {
             const TagComponent = tagComponents[tag];
             return <TagComponent key={index} />;
           })}
+      </div>
+      <div className={styles.baekjoonCard}>
+        <span className={styles.label}>백준 티어:</span> <br />
+        <img
+          src={`https://mazassumnida.wtf/api/v2/generate_badge?boj=${resume.tier}`}
+          alt="백준 티어 이미지"
+        ></img>
       </div>
     </div>
   );

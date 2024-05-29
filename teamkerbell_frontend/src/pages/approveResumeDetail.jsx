@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ResumeSummary from "../components/matchingComponents/ResumeSummary";
 import styles from "./leaderresume.module.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getLeaderResume } from "../api/comp";
-import { getTeamRecruitedResumeDetail } from "../api/user";
+import {
+  getTeamRecruitedResumeDetail,
+  setTeamRecruitedResumeEnd,
+} from "../api/user";
 
 const ApproveResumeDetailPage = () => {
   const { tid, resumeId } = useParams();
@@ -13,6 +16,7 @@ const ApproveResumeDetailPage = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
   const DUMMY_MEMBERSUMMARY = {
     img: "/memImg.png",
     name: "김동국",
@@ -65,6 +69,29 @@ const ApproveResumeDetailPage = () => {
     fetchResumeDetail();
   }, [resumeId]);
 
+  const RecruitedResumeEndHandler = async (isAccept) => {
+    const action = isAccept ? "승인" : "거절";
+    if (window.confirm(`정말로 이력서를 ${action}하시겠습니까?`)) {
+      try {
+        const response = await setTeamRecruitedResumeEnd(
+          userId,
+          tid,
+          resumeDetail.id,
+          isAccept
+        );
+        if (response.status === 200) {
+          alert(`${action}되었습니다.`);
+          navigate(`/user/${userId}/mypage/team/${tid}`); // 뒤로 가기
+        } else {
+          alert(`${action}에 실패했습니다.`);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("오류가 발생했습니다.");
+      }
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.backBtn}>
@@ -112,8 +139,20 @@ const ApproveResumeDetailPage = () => {
         </div>
       </div>
       <div className={styles.buttons}>
-        <button>거절</button>
-        <button>승인</button>
+        <button
+          onClick={() => {
+            RecruitedResumeEndHandler(false);
+          }}
+        >
+          거절
+        </button>
+        <button
+          onClick={() => {
+            RecruitedResumeEndHandler(true);
+          }}
+        >
+          승인
+        </button>
       </div>
     </div>
   );

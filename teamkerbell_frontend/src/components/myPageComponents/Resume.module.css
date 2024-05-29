@@ -16,6 +16,7 @@
   border: 1px solid #66a97c; /* 테두리 스타일 및 색상 지정 */
   border-radius: 15px;
   box-sizing: border-box; /* 패딩과 테두리를 포함한 전체 너비로 계산 */
+  overflow: hidden;
 }
 
 .profileImgNName {
@@ -52,9 +53,27 @@
 
 .resumeItem ul li {
   margin-bottom: 5px;
+  display: flex; /* Flexbox 레이아웃 적용 */
+  align-items: center; /* 수직 정렬 추가 (선택 사항) */
 }
 
+.innerContent {
+  font: bold;
+  border-left: 1px solid black;
+  padding-left: 10px;
+}
 .tagContainer {
   display: flex;
   flex-wrap: wrap;
 }
+
+.baekjoonCard {
+  border-top: 1px solid #66a97c;
+  margin-top: 20px;
+  padding-top: 20px;
+  width: 100%;
+}
+.fineContainer {
+  
+}
+

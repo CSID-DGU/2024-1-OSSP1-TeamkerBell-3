@@ -7,15 +7,12 @@ import { setUserResume } from "../../api/user";
 
 const WritePortfolio = () => {
   const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [interest, setInterest] = useState("");
   const [baeckjoonId, setBaeckjoonId] = useState("");
   const [introduction, setIntroduction] = useState("");
   const [skill, setSkill] = useState("");
   const [projectExperience, setProjectExperience] = useState("");
   const [github, setGithub] = useState("");
   const [sns, setSns] = useState("");
-  const [nickname, setNickname] = useState(""); // data.nickname을 초기값으로 설정
   const [email, setEmail] = useState(""); // data.email을 초기값으로 설정
   const [phone, setPhone] = useState(""); // data.phoneNumber을 초기값으로 설정
   const [imageFile, setImageFile] = useState(null);
@@ -237,8 +234,8 @@ const WritePortfolio = () => {
       <div className={styles.baeckjoon}>
         <div className={styles.backjoonItem}>
           <div className={styles.infoName}>
-            <h3>백준 티어</h3>
-            <span className={styles.redColor}> *</span>
+            <h3>백준 아이디</h3>
+            <span className={styles.redColor}> </span>
           </div>
           <form>
             <input
@@ -309,7 +306,7 @@ const WritePortfolio = () => {
       <div className={styles.github}>
         <div className={styles.infoName}>
           <h3>기타 SNS ex.Instagram, Facebook, T-Stroy 등</h3>
-          <span className={styles.redColor}>*</span>
+          <span className={styles.redColor}></span>
         </div>
         <form>
           <input

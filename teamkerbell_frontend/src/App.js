@@ -33,11 +33,18 @@ import ProjectsPage from "./pages/projects";
 import ResumeMakingPage from "./pages/resumeMaking";
 import CompRegister from "./pages/compRegister";
 import BtnUpload from "./pages/uploadImage";
+<<<<<<< HEAD
 import LookingUpResumePage from "./pages/lookingUpResume";
 import ApproveResumeDetailPage from "./pages/approveResumeDetail";
 import FindAllTeam from "./pages/findingteam";
 import TeamkerBellIntro from "./pages/teamkerbellintro";
 
+=======
+import FindAllTeam from "./pages/findingteam";
+import LookingUpResumePage from "./pages/lookingUpResume";
+import ApproveResumeDetailPage from "./pages/approveResumeDetail";
+import ResumePatchingPage from "./pages/resumePatchingPage";
+>>>>>>> 31b1ed5630280f50d6c5937c5629605ecd1f1b41
 
 function App() {
   return (
@@ -64,7 +71,7 @@ function App() {
 
         <Route
           path="/user/:userId/mypage/resumes/:resumeId"
-          element={<ResumesPage />}
+          element={<ResumePatchingPage />}
         />
 
         <Route
@@ -75,7 +82,7 @@ function App() {
           path="/user/:userId/mypage/team/:tid/resume/:resumeId"
           element={<ApproveResumeDetailPage />}
         />
-         <Route
+        <Route
           path="/user/:userId/mypage/team/:tid"
           element={<LookingUpResumePage />}
         />
@@ -84,6 +91,7 @@ function App() {
           element={<MyAchievementPage />}
         />
 
+<<<<<<< HEAD
         {/* 이력서 수정 페이지로 수정 필요 */}
         <Route
           path="/user/:userId/resume/:resumeId"
@@ -94,6 +102,9 @@ function App() {
           path="/team/teamList"
           element={<FindAllTeam/>}
         />
+=======
+        <Route path="/team/teamList" element={<FindAllTeam />} />
+>>>>>>> 31b1ed5630280f50d6c5937c5629605ecd1f1b41
 
         <Route
           path="/intro"
@@ -115,10 +126,18 @@ function App() {
         <Route path="/team/:tid/teamManage" element={<TeamManage />} />
 
         <Route path="/comp/:compId" element={<CompMatching />} />
+<<<<<<< HEAD
+     
+=======
+
+        <Route path="/comp/:compId/reviewList" element={<CompReviews />} />
+
         <Route
           path="/comp/:compId/teamList/reviewList"
           element={<CompReviews />}
-        />        
+        />
+
+>>>>>>> 31b1ed5630280f50d6c5937c5629605ecd1f1b41
         <Route
           path="/comp/:compId/teamList/:teamId/detail"
           element={<TeamDetail />}

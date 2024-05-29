@@ -7,10 +7,10 @@ import { getComps } from "../api/comp";
 
 const MainPage = () => {
   const navigate = useNavigate();
-  const DUMMY_CAROUSEL_IMAGES = [
-    "../../comp_example.jpeg",
-    "../../comp_example.jpeg",
-    "../../comp_example.jpeg",
+  const CAROUSEL_IMAGES = [
+    "../../compImage1.png",
+    "../../compImage2.png",
+    "../../compImage3.png",
   ];
 
   // 공모전 목록 데이터 상태 관리
@@ -80,7 +80,7 @@ const MainPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.carouselContainer}>
-        <Carousel images={DUMMY_CAROUSEL_IMAGES} />
+        <Carousel images={CAROUSEL_IMAGES} />
       </div>
 
       <h2>IT 공모전 목록</h2>

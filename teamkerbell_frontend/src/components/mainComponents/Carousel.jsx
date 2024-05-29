@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Carousel.module.css";
+import { Link } from "react-router-dom";
 
 const Carousel = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -18,23 +19,34 @@ const Carousel = ({ images }) => {
     <div className={styles.carousel}>
       <div
         className={styles.slideContainer}
-        style={{ "--currentIndex": currentIndex }}
+        style={{
+          "--currentIndex": currentIndex,
+          width: `calc(100% * ${images.length})`, // 이미지 개수에 따른 너비 설정
+        }}
       >
         {images.map((image, index) => (
-          <div
+          <div // 외부 div 추가
             key={index}
             className={`${styles.slide} ${
               index === currentIndex ? styles.active : ""
             }`}
-            style={{ backgroundImage: `url(${image})` }}
-          />
+          >
+            <Link key={index + 1} to={`/comp/${index + 1}`}>
+              <img
+                src={image}
+                alt={`Slide ${index + 1}`}
+                style={{ width: "33%", height: "100%" }} // 이미지 크기 설정
+              />
+            </Link>
+          </div>
         ))}
       </div>
+
       <button className={styles.prevButton} onClick={goToPrevSlide}>
         {"<"}
       </button>
       <button className={styles.nextButton} onClick={goToNextSlide}>
-      {">"}
+        {">"}
       </button>
       <div className={styles.dots}>
         {images.map((_, index) => (
