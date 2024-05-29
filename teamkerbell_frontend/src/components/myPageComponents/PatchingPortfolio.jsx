@@ -2,8 +2,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "./WritePotfolio.module.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { uploadS3 } from "../../utils/uploadS3";
-import { patchUserDetailResume, setUserResume } from "../../api/user";
+import {
+  deleteUserDetailResume,
+  getUserProfile,
+  patchUserDetailResume,
+  setUserResume,
+} from "../../api/user";
 
 const PatchingPortfolio = ({ resumeData }) => {
   const [name, setName] = useState("");
@@ -11,24 +15,39 @@ const PatchingPortfolio = ({ resumeData }) => {
   const [introduction, setIntroduction] = useState("");
   const [skill, setSkill] = useState("");
   const [projectExperience, setProjectExperience] = useState("");
-  const [github, setGithub] = useState("");
+  const [githubLink, setGithub] = useState("");
   const [sns, setSns] = useState("");
   const [email, setEmail] = useState(""); // data.email을 초기값으로 설정
   const [phone, setPhone] = useState(""); // data.phoneNumber을 초기값으로 설정
-  const [imageFile, setImageFile] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [city, setCity] = useState("");
   const [districts, setDistricts] = useState([]);
   const [dong, setDong] = useState(""); // data.img를 초기값으로 설정
-  const [imageUrl, setImageUrl] = useState(null);
-  const [isUploading, setIsUploading] = useState(false);
-
   const { resumeId } = useParams();
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
   const navigate = useNavigate();
+
   const userId = localStorage.getItem("userId");
+
   // useEffect를 사용하여 data 변경 시 컴포넌트 상태 업데이트
   useEffect(() => {
-    setImageSrc(resumeData?.img || null);
+    const fetchImage = async () => {
+      setIsLoading(true); // Start loading
+
+      try {
+        const response = await getUserProfile(userId);
+        setImageSrc(response.data?.img || null);
+      } catch (error) {
+        console.error("Error loading image:", error);
+        // Optionally, set a default image or error placeholder
+      } finally {
+        setIsLoading(false); // Finish loading
+      }
+    };
+
+    fetchImage();
+
     setName(resumeData?.name || "");
     setBaeckjoonId(resumeData?.tier || "");
     setIntroduction(resumeData?.userIntro || "");
@@ -41,19 +60,7 @@ const PatchingPortfolio = ({ resumeData }) => {
     setCity(resumeData?.city || "");
     setDong(resumeData?.dong || "");
     setDistricts(regions[resumeData?.city] || []); // 지역 초기화
-  }, [resumeData]); // resumeData 변경 시에만 useEffect 실행
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageSrc(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  }, [resumeData, userId]); // resumeData 변경 시에만 useEffect 실행
 
   const handleSave = async () => {
     // Implement save logic here
@@ -68,36 +75,39 @@ const PatchingPortfolio = ({ resumeData }) => {
       introduction,
       skill,
       projectExperience,
-      github,
+      githubLink,
       sns,
       city,
       dong
     );
     if (response.status == 200) {
+      alert("이력서 수정이 완료됐습니다!");
       navigate(`/user/${userId}/mypage/resumes`);
     }
   };
-
-  /*
-  export const setUserResume = (
-  userId,
-  name,
-  email,
-  phone,
-  tier,
-  userIntro,
-  skill,
-  experience,
-  githubLik,
-  snsLink,
-  city,
-  dong
-) => */
   const handleCancel = () => {
     // Implement cancel logic here
     console.log("Cancel button clicked");
+    navigate(`/user/${userId}/mypage/resumes`);
   };
-
+  const handleDeleteButton = async () => {
+    if (window.confirm("정말 이력서를 삭제하시겠습니까?")) {
+      try {
+        const response = await deleteUserDetailResume(userId, resumeId);
+        if (response.status === 204) {
+          // 상태 코드 확인
+          alert("삭제가 완료됐습니다!");
+          navigate(`/user/${userId}/mypage/resumes`);
+        } else {
+          // 삭제 실패 시 에러 처리 (예: 알림 메시지 표시)
+          console.error("Error deleting resume:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error deleting resume:", error);
+        // 예외 처리 (예: 네트워크 오류)
+      }
+    }
+  };
   const regions = {
     서울특별시: ["강남구", "서초구", "종로구"],
     부산광역시: ["해운대구", "남구", "동래구"],
@@ -119,7 +129,13 @@ const PatchingPortfolio = ({ resumeData }) => {
 
   return (
     <div className={styles.title}>
-      <h1>이력서 작성하기</h1>
+      <div className={styles.titleButton}>
+        <h1>이력서 수정하기</h1>
+        <button className={styles.deleteButton} onClick={handleDeleteButton}>
+          이력서 삭제하기
+        </button>
+      </div>
+
       <div className={styles.basicInfo}>
         <div className={styles.imageContainer}>
           <div className={styles.profileImageContainer}>
@@ -131,19 +147,7 @@ const PatchingPortfolio = ({ resumeData }) => {
                   className={styles.profileImage}
                 />
               )}
-              <div className={styles.overlay}>
-                <div className={styles.text}>이미지 편집</div>
-              </div>
-              {/* Added the additional image */}
             </label>
-
-            <input
-              id="profileImage"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              style={{ display: "none" }}
-            />
           </div>
         </div>
         <div className={styles.nameToPhoneNumber}>
@@ -292,7 +296,7 @@ const PatchingPortfolio = ({ resumeData }) => {
         <form>
           <input
             placeholder="ex) https://github.com/username"
-            value={github}
+            value={githubLink}
             onChange={(e) => setGithub(e.target.value)}
           />
         </form>

@@ -1,9 +1,8 @@
 // src/team.js
 import React, { useState, useEffect } from "react";
 import styles from "./WritePotfolio.module.css";
-import { useParams } from "react-router-dom";
-import { uploadS3 } from "../../utils/uploadS3";
-import { setUserResume } from "../../api/user";
+import { getUserProfile, setUserResume } from "../../api/user";
+import { useNavigate } from "react-router-dom";
 
 const WritePortfolio = () => {
   const [name, setName] = useState("");
@@ -15,59 +14,40 @@ const WritePortfolio = () => {
   const [sns, setSns] = useState("");
   const [email, setEmail] = useState(""); // data.email을 초기값으로 설정
   const [phone, setPhone] = useState(""); // data.phoneNumber을 초기값으로 설정
-  const [imageFile, setImageFile] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [city, setCity] = useState("");
   const [districts, setDistricts] = useState([]);
   const [dong, setDong] = useState(""); // data.img를 초기값으로 설정
-  const [imageUrl, setImageUrl] = useState(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const { userId } = useParams();
+  const [data, setData] = useState();
+  const userId = localStorage.getItem("userId");
+  const [isLoading, setIsLoading] = useState(true); // Loading state
+  const navigate = useNavigate();
   // useEffect를 사용하여 data 변경 시 컴포넌트 상태 업데이트
   useEffect(() => {
-    setImageSrc(null);
-  }, []); // data 추가
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageSrc(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSubmit = async () => {
-    if (!imageFile && !imageSrc) {
-      alert("이미지를 선택해주세요!");
-      return;
-    }
-
-    setIsUploading(true);
-
-    let finalImageUrl = imageSrc; // 기본값으로 imageSrc 사용
-
-    try {
-      if (imageFile) {
-        const uploadedImageUrl = await uploadS3(imageFile);
-        finalImageUrl = uploadedImageUrl; // 이미지 파일이 선택되었다면, 업로드된 이미지 URL 사용
+    const fetchData = async () => {
+      try {
+        const response = await getUserProfile(userId);
+        setData(response.data);
+        setImageSrc(response.data.img || "");
+      } catch (error) {
+        // Handle error if fetching fails
+        console.error("Error fetching user profile:", error);
+      } finally {
+        setIsLoading(false); // Data fetching finished
       }
-      setImageUrl(finalImageUrl);
-    } catch (error) {
-      console.error("[S3 Upload Error]:", error);
-      alert("S3 업로드 에러가 났습니다! 다시 시도해주세요!");
-    } finally {
-      setIsUploading(false);
-    }
-  };
+    };
 
-  const handleSave = () => {
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading ...</div>; // Show loading indicator while fetching
+  }
+
+  const handleSave = async () => {
     // Implement save logic here
     console.log("Save button clicked");
-    setUserResume(
+    const response = await setUserResume(
       userId,
       name,
       email,
@@ -81,26 +61,18 @@ const WritePortfolio = () => {
       city,
       dong
     );
+    if (response.status == 201) {
+      alert("이력서 생성이 완료됐습니다!");
+      navigate(`/user/${userId}/mypage/resumes`);
+    } else {
+      alert("에러가 발생했습니다!");
+    }
   };
 
-  /*
-  export const setUserResume = (
-  userId,
-  name,
-  email,
-  phone,
-  tier,
-  userIntro,
-  skill,
-  experience,
-  githubLik,
-  snsLink,
-  city,
-  dong
-) => */
   const handleCancel = () => {
     // Implement cancel logic here
     console.log("Cancel button clicked");
+    navigate(`/user/${userId}/mypage/resumes`);
   };
 
   const regions = {
@@ -136,19 +108,8 @@ const WritePortfolio = () => {
                   className={styles.profileImage}
                 />
               )}
-              <div className={styles.overlay}>
-                <div className={styles.text}>이미지 편집</div>
-              </div>
               {/* Added the additional image */}
             </label>
-
-            <input
-              id="profileImage"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              style={{ display: "none" }}
-            />
           </div>
         </div>
         <div className={styles.nameToPhoneNumber}>

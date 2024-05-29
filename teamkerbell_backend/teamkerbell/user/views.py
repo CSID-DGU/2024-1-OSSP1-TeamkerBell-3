@@ -177,6 +177,7 @@ def compLike(request, user_id, comp_id):
     elif request.method == 'DELETE':
         serializer = BookmarkSerializer(data=request.data, context={'user': user, 'comp': comp})
         Bookmark.objects.filter(user=user, comp=comp).delete()
+        return Response(status.HTTP_200_OK)
 
 
 

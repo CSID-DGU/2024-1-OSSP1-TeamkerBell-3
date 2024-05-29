@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from "react";
 import styles from "./FavoriteComp.module.css";
-import CompCard from "../mainComponents/CompCard"; // CompCard 컴포넌트 import
+import CompCard from "../mainComponents/CompCard";
 import { Link } from "react-router-dom";
 
 const FavoriteComp = ({ comps }) => {
-  // 공모전 목록 데이터
   const [filteredComps, setFilteredComps] = useState([]);
+
   useEffect(() => {
     const currentTime = new Date();
 
     const tempFilteredComps = comps.map((comp) => {
-      // endDate가 유효한 Date 객체인지 확인
       const endDate = new Date(comp.endDate);
       if (isNaN(endDate)) {
-        // endDate가 유효하지 않으면 daysLeft를 -1로 설정 (또는 다른 처리)
         return { ...comp, daysLeft: -1 };
       }
 
       const timeDiff = endDate.getTime() - currentTime.getTime();
-
-      // timeDiff가 음수인 경우 (이미 종료된 공모전) daysLeft를 0으로 설정
       const daysLeft =
         timeDiff < 0 ? 0 : Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
       return { ...comp, daysLeft };
     });
 
-    setFilteredComps(tempFilteredComps);
+    // Filter out competitions with daysLeft less than 0 and sort
+    const filteredAndSortedComps = tempFilteredComps
+      .filter((comp) => comp.daysLeft > 0)
+      .sort((a, b) => a.daysLeft - b.daysLeft);
+
+    setFilteredComps(filteredAndSortedComps);
   }, [comps]);
 
   return (

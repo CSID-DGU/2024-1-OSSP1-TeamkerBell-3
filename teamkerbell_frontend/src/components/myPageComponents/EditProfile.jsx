@@ -57,15 +57,16 @@ const EditProfile = ({ data }) => {
       alert("S3 업로드 에러가 났습니다! 다시 시도해주세요!");
     } finally {
       setIsUploading(false);
-      await console.log(
-        "수정 완료: ",
+      const response = await patchUserProfile(
         userId,
         nickname,
-        email,
         phone,
+        email,
         finalImageUrl
       );
-      await patchUserProfile(userId, nickname, phone, email, finalImageUrl);
+      if (response.status == 200) {
+        alert("수정이 완료되었습니다!");
+      }
     }
   };
 
