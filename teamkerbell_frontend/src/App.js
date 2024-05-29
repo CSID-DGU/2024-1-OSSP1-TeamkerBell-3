@@ -36,6 +36,7 @@ import BtnUpload from "./pages/uploadImage";
 import LookingUpResumePage from "./pages/lookingUpResume";
 import ApproveResumeDetailPage from "./pages/approveResumeDetail";
 import FindAllTeam from "./pages/findingteam";
+import TeamkerBellIntro from "./pages/teamkerbellintro";
 
 
 function App() {
@@ -90,9 +91,16 @@ function App() {
         />
 
         <Route
-                  path="/team/teamList"
-                  element={<FindAllTeam/>}
-                />
+          path="/team/teamList"
+          element={<FindAllTeam/>}
+        />
+
+        <Route
+          path="/intro"
+          element={<TeamkerBellIntro/>}
+        />
+
+
 
         <Route path="/team/:tid" element={<Team />} />
         <Route path="/team/:tid/tools" element={<Tools />} />
@@ -110,7 +118,8 @@ function App() {
         <Route
           path="/comp/:compId/teamList/reviewList"
           element={<CompReviews />}
-        />        <Route
+        />        
+        <Route
           path="/comp/:compId/teamList/:teamId/detail"
           element={<TeamDetail />}
         />
@@ -126,6 +135,9 @@ function App() {
           path="/comp/:compId/createTeam/:userId"
           element={<CreateTeam />}
         />
+
+
+
       </Routes>
     </BrowserRouter>
   );

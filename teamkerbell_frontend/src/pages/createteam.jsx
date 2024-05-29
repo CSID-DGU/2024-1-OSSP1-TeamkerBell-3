@@ -8,7 +8,9 @@ import { getCompDetail, getMyResume, getMyResumeForCreateTeam, setSelectTeam } f
 import { useParams } from "react-router-dom";
 
 const CreateTeam = () => {
-    const {compId, userId} = useParams();
+    const {compId} = useParams();
+    const userId = localStorage.getItem("userId");
+
     const [compDetail, setCompDetail] = useState({}); //공모전 상세 정보
     const [myResumes, setMyResumes] = useState([]);
 
