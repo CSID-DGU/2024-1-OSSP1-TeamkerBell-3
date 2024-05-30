@@ -1,18 +1,28 @@
 @font-face {
   font-family: "NanumSquareNeo-cBd"; /* Bold */
   font-weight: normal;
-  src: url("../../../public/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
+  src: url("../../public/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.left {
+  display: flex;
+  flex-flow: row;
+  flex-basis: 20%;
 }
 
 .main {
-  width: 100%;
-  font-size: 15px;
   display: flex;
   flex-flow: column;
-  margin-left: 10%;
-  margin-right: 10%;
+  padding-left: 10%;
+  font-size: 15px;
   margin-top: 3%;
   margin-bottom: 1px;
+  width: 60%;
 }
 
 .title {
@@ -147,4 +157,109 @@
 .row {
   display: flex;
   flex-direction: column;
+}
+
+.line {
+  width: 100%;
+}
+.box {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  background-color: #d9d9d9;
+  width: 300px;
+  height: 85px;
+  margin: auto;
+  margin-top: 3%;
+  margin-bottom: 5%;
+  align-items: center;
+  border-radius: 0%;
+  border-radius: 5%;
+}
+.agreeTitle {
+  display: flex;
+  flex-basis: 50%;
+  border-right: 2px solid #858585;
+  text-align: center;
+  display: block; /* 버튼 가운데 정렬*/
+  font-weight: 600;
+}
+.agreeDetail {
+  margin: auto;
+  font-weight: 600;
+}
+.btn {
+  background-color: #006322;
+  color: #ffffff;
+  border: none;
+  width: 120px;
+  height: 35px;
+  border-radius: 4px; /*둥글게*/
+  margin: auto;
+  margin-top: 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  margin-left: auto;
+}
+
+.box2 {
+  width: 100%;
+  height: 100px;
+  background-color: #f1f1f1;
+  border: 10px;
+  border-color: #000000;
+  border-radius: 10px;
+  margin: auto;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  padding-top: 10px;
+  padding-left: 10px;
+  text-align: left;
+  resize: none;
+}
+.box2:focus {
+  outline: none;
+}
+.agreeTitle {
+  display: flex;
+  flex-basis: 50%;
+  border-right: 2px solid #858585;
+  text-align: center;
+  display: block; /* 버튼 가운데 정렬*/
+  font-weight: 600;
+}
+.agreeDetail {
+  margin: auto;
+  font-weight: 600;
+}
+
+.matching {
+  display: flex;
+  flex-direction: row;
+  margin-right: 3px;
+}
+.btn {
+  background-color: #006322;
+  color: #ffffff;
+  border: none;
+  width: 120px;
+  height: 35px;
+  border-radius: 4px; /*둥글게*/
+  margin: auto;
+  margin-top: 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  margin-left: auto;
+}
+
+.plusbtn {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background-color: #006322;
+  color: #ffffff;
+  border: none;
+  margin-right: 1%;
+  cursor: pointer;
+  margin-top: 20px;
 }
