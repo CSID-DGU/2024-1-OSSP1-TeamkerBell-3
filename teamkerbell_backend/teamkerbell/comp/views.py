@@ -220,6 +220,8 @@ def applyTeam(request, team_id, comp_id, user_id):
         serializer = applyResumeSerializer(data=request.data)
         if serializer.is_valid():
             resume=serializer.validated_data.get('resumeId')
+            if team.leader==resume.user:
+                return Response({'message': 'you are leader'}, status=status.HTTP_400_BAD_REQUEST)
             TeamMate(resume=resume, user=user, team=team, isTeam=False, role=serializer.validated_data.get('role')).save()
             return Response({'message': 'apply successfully'}, status=status.HTTP_201_CREATED)
         else:

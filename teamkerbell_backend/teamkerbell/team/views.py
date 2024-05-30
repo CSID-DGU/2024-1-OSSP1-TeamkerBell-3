@@ -35,13 +35,14 @@ def teamScheduleAndCommit(request, team_id):
     elif request.method == 'POST':
         serializer = ScheduleAndCommitSerializer(data=request.data) 
         if serializer.is_valid():
-            scheduleList = ScheduleSerializer(serializer.validated_data.get('scheduleList'),many=True)
+            scheduledata = serializer.validated_data.get('schedule')
             repository = serializer.validated_data.get('repository')
-            if scheduleList:          
-                for schedule in scheduleList.data:
+            if scheduledata:
+                scheduleList=[scheduledata]          
+                for schedule in scheduleList:
                     schedule_serializer = ScheduleSerializer(data = schedule)
                     if schedule_serializer.is_valid():
-                        schedule_serializer.save()
+                        schedule_serializer.save(team=team)
                     else:
                         return Response(schedule_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                
@@ -142,6 +143,7 @@ def mutualReview(request, team_id):
             if review.is_valid():
                 compreview=CompReview(review=review.validated_data['review'], comp=team.comp)
                 compreview.save()
+            
             return Response({'message': 'review saved successfully'},status=status.HTTP_200_OK)
         else:
         # 유효성 검증 실패
