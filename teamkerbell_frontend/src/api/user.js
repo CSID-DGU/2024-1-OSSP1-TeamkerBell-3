@@ -152,6 +152,10 @@ export const getCompLiked = (userId) =>
 export const setCompLiked = (userId, compId) =>
   sendRequest(userInstance, "post", `/${userId}/compLike/${compId}`);
 
+//공모전 찜하기
+export const deleteCompLiked = (userId, compId) =>
+sendRequest(userInstance, "delete", `/${userId}/compLike/${compId}`);
+
 //프로젝트들 가져오기
 export const getMyProjects = (userId) =>
   sendRequest(userInstance, "get", `/${userId}/mypage/teams`);
@@ -215,3 +219,4 @@ export const setTeamRecruitedResumeEnd = (userId, teamId, resumeId, isAccept) =>
     `/${userId}/mypage/team/${teamId}/resume/${resumeId}`,
     { accept: isAccept }
   );
+

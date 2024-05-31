@@ -25,34 +25,34 @@ const LeftSide = () => {
   const [categoryNum, setCategoryNum] = useRecoilState(listState);
 
   const navigate = useNavigate(); // useNavigate 훅을 호출하여 navigate 함수를 가져옴
-
+  const localStorageTeamId = localStorage.getItem("tid");
   const onClick = (index) => {
     setCategoryNum(index);
     console.log("[Recoil]categoryNum :", categoryNum);
     /*누른 index로 categoryNum설정*/
     switch (index) {
       case 0:
-        navigate("/team/0/tools"); // 0번 index에 해당하는 링크로 이동
+        navigate(`/team/${localStorageTeamId}/tools`); // 0번 index에 해당하는 링크로 이동
         break;
       case 1:
-        navigate("/team/0/compinfo"); // 1번 index에 해당하는 링크로 이동
+        navigate(`/team/${localStorageTeamId}/compInfo`);
         break;
       case 2:
-        navigate("/team/0/members"); // 2번 index에 해당하는 링크로 이동
+        navigate(`/team/${localStorageTeamId}/members`);
         break;
       case 3:
-        navigate("/team/0/progress"); // 3번 index에 해당하는 링크로 이동
+        navigate(`/team/${localStorageTeamId}/progress`); // 3번 index에 해당하는 링크로 이동
         break;
       case 4:
-        navigate("/team/0/evaluation/end/"); // 1번 index에 해당하는 링크로 이동
+        navigate(`/team/${localStorageTeamId}/ends/`);
         break;
       case 5:
-        navigate("/team/0/report"); // 1번 index에 해당하는 링크로 이동
+        navigate(`/team/${localStorageTeamId}/report`);
         break;
       case 6:
-        navigate("/team/0/teamManage"); // 1번 index에 해당하는 링크로 이동
+        navigate(`/team/${localStorageTeamId}/teamManage`); // 1번 index에 해당하는 링크로 이동
         break;
-  
+
       default:
         break;
     }

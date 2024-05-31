@@ -50,9 +50,8 @@ const CompMatching = () => {
   
 
   return (
-    
-    <div className={styles.container}>
-      
+  
+    <div className={styles.container}>    
       {/* 공모전 상세 정보 */}
       <div className={styles.compDetailContainer}>
         {isLoading ? (
