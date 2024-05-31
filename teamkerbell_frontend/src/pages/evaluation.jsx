@@ -5,16 +5,16 @@ import LastBefore from "../components/teamComponents/LastBefore";
 import { useSetRecoilState } from "recoil";
 import { categoryState } from "../atoms"; // Recoil에서 정의한 상태
 
-import Fast from "../stores/tags/FastManTag";
-import Reply from "../stores/tags/GoodReplyManTag";
-import Respect from "../stores/tags/GoodRespectManTag";
-import Mood from "../stores/tags/MoodMakerManTag";
-import Listen from "../stores/tags/GoodListenerManTag";
-import Feedback from "../stores/tags/FeedbackManTag";
-import Lead from "../stores/tags/LeadershipManTag";
-import Compliment from "../stores/tags/ComplimentManTag";
-import Plan from "../stores/tags/PlannerManTag";
-import Passion from "../stores/tags/FireManTag";
+import Fast from "../stores/teamTags/FastManTag";
+import Reply from "../stores/teamTags/GoodReplyManTag";
+import Respect from "../stores/teamTags/GoodRespectManTag";
+import Mood from "../stores/teamTags/MoodMakerTag";
+import Listen from "../stores/teamTags/GoodListenerManTag";
+import Feedback from "../stores/teamTags/FeedbackManTag";
+import Lead from "../stores/teamTags/LeadershipManTag";
+import Compliment from "../stores/teamTags/ComplimentManTag";
+import Plan from "../stores/teamTags/PlannerManTag";
+import Passion from "../stores/teamTags/FireManTag";
 
 import { getEvaluate, sendEvaluate } from "../api/team";
 import { useParams } from "react-router-dom";
@@ -31,41 +31,6 @@ const Tags = [
   Compliment,
   Plan,
   Passion,
-];
-
-const DUMMY_memberList = [
-  {
-    id: "1",
-    name: "홍길동",
-    participation: 0,
-    contribution: 0,
-    attribution: 0,
-    tag: "",
-  },
-  {
-    id: "2",
-    name: "삼다수",
-    participation: 0,
-    contribution: 0,
-    attribution: 0,
-    tag: "",
-  },
-  {
-    id: "3",
-    name: "김연아",
-    participation: 0,
-    contribution: 0,
-    attribution: 0,
-    tag: "",
-  },
-  {
-    id: "4",
-    name: "이명박",
-    participation: 0,
-    contribution: 0,
-    attribution: 0,
-    tag: "",
-  },
 ];
 
 /* 메인 */
@@ -85,13 +50,8 @@ const Evaluation = () => {
 
       try {
         const responseGet = await getEvaluate(tid);
-        console.log("response", responseGet);
-        console.log("isEnd", responseGet.data.isEnd);
         setIsEnd(responseGet.data.isEnd);
-        setIsEnd(true); //test를 위해. 임의로 종료후로 설정
-
-        console.log("response.data", responseGet.data);
-        //setMemberInfo(responseGet.data);
+        setMemberInfo(responseGet.data.memberList);
       } catch (error) {
         setIsError(true);
         setErrorMessage("상호평가 기본정보를 불러오는 중 오류가 발생했습니다.");
@@ -106,13 +66,20 @@ const Evaluation = () => {
 
   const [improve, setImprove] = useState();
 
-  const [improves, setImproves] = useState(
-    DUMMY_memberList.map((member) => ({
-      id: member.id,
-      improvement: improve,
-      reporter: 3,
-    }))
-  );
+  const [improves, setImproves] = useState([]);
+
+  useEffect(() => {
+    console.log(improves);
+    if (memberInfo) {
+      setImproves(
+        memberInfo.map((member) => ({
+          id: member.id,
+          improvement: improve,
+          reporter: 3,
+        }))
+      );
+    }
+  }, [memberInfo]);
 
   const feedbackChange = (event) => {
     const updatedImproves = improves.map((i) => {
@@ -130,39 +97,45 @@ const Evaluation = () => {
     console.log("improvement:", event.target.value);
   };
 
-  const [review, setReview] = useState(""); // myreview 변수 초기화 필요
+  const [review, setReview] = useState();
+  const [reviews, setReviews] = useState([]); // myreview 변수 초기화 필요
 
   /* 후기 변경시 작동 */
   const reviewChange = (event) => {
-    setReview(event.target.value);
-    console.log(event.target.value);
+    const newReview = event.target.value;
+    setReview(newReview);
+    setReviews({ review: newReview }); // 배열에 단일 리뷰만 유지
+    console.log(newReview);
   };
-
   /* 버튼 클릭시 모든 정보 전송 */
   const send = () => {
     try {
-      const responseSend = sendEvaluate(tid, scores, improves, review);
+      const responseSend = sendEvaluate(tid, scores, improves, reviews);
       console.log("[Post]:", responseSend);
-      console.log("tid:", tid);
-
       console.log("score_tags: ", scores);
       console.log("improvements: ", improves);
-      console.log("review:", review);
+      console.log("review:", reviews);
     } catch (error) {
       console.error("Error sending team report:", error);
     }
   };
 
   const [id, setId] = useState();
-  const [scores, setScores] = useState(
-    DUMMY_memberList.map((member) => ({
-      id: member.id,
-      participation: 0,
-      contribution: 0,
-      attitude: 0,
-      tag: [],
-    }))
-  );
+  const [scores, setScores] = useState([]);
+
+  useEffect(() => {
+    if (memberInfo) {
+      setScores(
+        memberInfo.map((member) => ({
+          id: member.id,
+          participation: 0,
+          contribution: 0,
+          attitude: 0,
+          tag: [],
+        }))
+      );
+    }
+  }, [memberInfo]);
 
   const nameClicked = (event) => {
     console.log(event.target.value);
@@ -227,6 +200,7 @@ const Evaluation = () => {
 
     setScores(updatedScores); // 업데이트된 scores 배열로 상태 업데이트
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.left}>
@@ -248,7 +222,7 @@ const Evaluation = () => {
 
                 {/* 이름 버튼 */}
                 <div className={styles.name}>
-                  {DUMMY_memberList.map((name) => (
+                  {memberInfo.map((name) => (
                     <label key={name.id} className={styles.nameRadio}>
                       <input
                         type="radio"
@@ -256,7 +230,7 @@ const Evaluation = () => {
                         value={name.id}
                         onChange={nameClicked}
                       />
-                      <span>{name.name}</span>
+                      <span>{name.nickname}</span>
                     </label>
                   ))}
                 </div>
