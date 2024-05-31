@@ -69,3 +69,9 @@ class PreviousWinning(models.Model):
     comp = models.ForeignKey('comp.Comp', related_name= 'previouswinnings', on_delete=models.SET_NULL, null=True)
     title= models.CharField(null=False, max_length=100, default="default_value")
     interview = models.TextField(null=False)
+
+class FinalCheck(models.Model):
+    id = models.AutoField(primary_key=True, null=False)
+    user = models.ForeignKey('user.BasicUser',related_name="finalChecks",on_delete=models.SET_NULL, null=True)
+    reporter = models.ForeignKey('user.BasicUser',related_name="finalChecksReporters",on_delete=models.SET_NULL, null=True)
+    team = models.ForeignKey(Team, related_name="finalChecks", on_delete=models.CASCADE, null=False)

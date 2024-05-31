@@ -390,7 +390,7 @@ def resumeAccept(request, user_id, team_id, resume_id):
             try:
                 teamrole = TeamRole.objects.get(team=team, role=teammate.role)  
             except TeamRole.DoesNotExist:
-                return Response({'error' : {'code' : 404, 'message' : "TeamMate not found!"}}, status=status.HTTP_404_NOT_FOUND)
+                return Response({'error' : {'code' : 404, 'message' : "TeamRole not found!"}}, status=status.HTTP_404_NOT_FOUND)
 
             
             accept = serializer.validated_data['accept']

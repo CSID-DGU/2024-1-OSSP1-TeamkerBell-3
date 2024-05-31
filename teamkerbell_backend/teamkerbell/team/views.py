@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from .models import PreviousWinning, Team, TeamEndVote, TeamRole, TeamMate, OutReason
+from .models import PreviousWinning, Team, TeamEndVote, TeamRole, TeamMate, OutReason, FinalCheck, Schedule, ChooseTeam
 from .serializers import TeamforMainSerializer, PreviousWinningSerializer,ScheduleAndCommitSerializer, ScheduleSerializer,TeamMateSerializer, ResumeAndRoleAndImgSerializer,  MemberListSerializer, ReportSerializer, KickAndRunSerializer, CombinedSerializer, IdSerializer, PlusMatchingSerializer, ScoreTagSerializer, ImprovementSerializer, ReviewSerializer
 from comp.models import RandomMatching, CompReview, Comp
 from user.models import BasicUser, Resume, Tag, Rude
@@ -103,7 +103,7 @@ def mutualReview(request, team_id):
                     if improvement.is_valid():
                         user = BasicUser.objects.get(id=improvement.validated_data['id'].id)
                         reporter = BasicUser.objects.get(id=improvement.validated_data['reporter'].id)
-                        if Rude.objects.filter(user=user.id,reporter=reporter,isrude=False).exists():
+                        if FinalCheck.objects.filter(user=user,reporter=reporter,team=team).exists():
                             return Response({'message': 'report already saved '},status=status.HTTP_400_BAD_REQUEST)
                         else:
                             rude = Rude(user=user, rudeness=improvement.validated_data['improvement'], isrude=False, reporter=reporter)
@@ -143,7 +143,23 @@ def mutualReview(request, team_id):
             if review.is_valid():
                 compreview=CompReview(review=review.validated_data['review'], comp=team.comp)
                 compreview.save()
-            
+            improvement_serializerList =  ImprovementSerializer(data=request.data.get('improvements'), many=True)  
+            if improvement_serializerList.is_valid():
+                for improvement_serializer in improvement_serializerList.data:
+                    improvement = ImprovementSerializer(data=improvement_serializer)
+                    if improvement.is_valid():
+                        user = BasicUser.objects.get(id=improvement.validated_data['id'].id)
+                        reporter = BasicUser.objects.get(id=improvement.validated_data['reporter'].id)
+                        FinalCheck(user=user, reporter=reporter, team=team).save()  
+            if FinalCheck.objects.filter(team=team).count() == team.recruitNum*(team.recruitNum-1):
+                TeamMate.objects.filter(team=team).delete()
+                TeamRole.objects.filter(team=team).delete()
+                Schedule.objects.filter(team=team).delete()
+                TeamEndVote.objects.filter(team=team).delete()
+                FinalCheck.objects.filter(team=team).delete()
+                ChooseTeam.objects.filter(team=team).delete()
+                team.leader = None
+                team.save()
             return Response({'message': 'review saved successfully'},status=status.HTTP_200_OK)
         else:
         # 유효성 검증 실패
