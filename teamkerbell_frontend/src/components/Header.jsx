@@ -72,8 +72,9 @@ const Header = () => {
         <Link to={`/user/${userId}/mypage/editProfile`}>
           <button className={styles.headerButton}>마이페이지</button>
         </Link>
-
-        <button className={styles.headerButton}>팀커벨 소개</button>
+        <Link to={`/intro`}>
+          <button className={styles.headerButton}>팀커벨 소개</button>
+        </Link>
         <p></p>
         <p></p>
       </div>

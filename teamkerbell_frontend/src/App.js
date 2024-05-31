@@ -33,9 +33,11 @@ import ProjectsPage from "./pages/projects";
 import ResumeMakingPage from "./pages/resumeMaking";
 import CompRegister from "./pages/compRegister";
 import BtnUpload from "./pages/uploadImage";
-import FindAllTeam from "./pages/findingteam";
 import LookingUpResumePage from "./pages/lookingUpResume";
 import ApproveResumeDetailPage from "./pages/approveResumeDetail";
+import FindAllTeam from "./pages/findingteam";
+import TeamkerBellIntro from "./pages/teamkerbellintro";
+
 import ResumePatchingPage from "./pages/resumePatchingPage";
 
 function App() {
@@ -83,7 +85,26 @@ function App() {
           element={<MyAchievementPage />}
         />
 
+
+        {/* 이력서 수정 페이지로 수정 필요 */}
+        <Route
+          path="/user/:userId/resume/:resumeId"
+          element={<Mypage />}
+        />
+
+        <Route
+          path="/team/teamList"
+          element={<FindAllTeam/>}
+        />
+=======
         <Route path="/team/teamList" element={<FindAllTeam />} />
+
+        <Route
+          path="/intro"
+          element={<TeamkerBellIntro/>}
+        />
+
+
 
         <Route path="/team/:tid" element={<Team />} />
         <Route path="/team/:tid/tools" element={<Tools />} />
@@ -122,6 +143,9 @@ function App() {
           path="/comp/:compId/createTeam/:userId"
           element={<CreateTeam />}
         />
+
+
+
       </Routes>
     </BrowserRouter>
   );

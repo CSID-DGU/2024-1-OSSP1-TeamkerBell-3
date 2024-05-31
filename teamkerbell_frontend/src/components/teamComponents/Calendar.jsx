@@ -109,11 +109,12 @@ function CalendarComponent() {
         <p>일정이 없습니다.</p>
       )}
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
-        <h2>일정 설정</h2>
+        <h2 className={styles.title}>일정 설정</h2>
         <form onSubmit={handleSubmit}>
-          <label>
+          <label className={styles.date}>
             시작 날짜:
             <input
+              className={styles.input}
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
@@ -121,9 +122,10 @@ function CalendarComponent() {
             />
           </label>
           <br />
-          <label>
+          <label className={styles.date}>
             종료 날짜:
             <input
+              className={styles.input}
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
@@ -132,20 +134,21 @@ function CalendarComponent() {
           </label>
           <br />
           <input
+            className={styles.inputtodo}
             onChange={(e) => setSchedule(e.target.value)}
             placeholder="팀원들의 일정을 작성해보세요!"
           ></input>
-          <button type="submit">일정 저장</button>
+          <button className={styles.submit} type="submit">일정 저장</button>
         </form>
 
         <div>
-          <h3>선택한 날짜의 일정</h3>
+          <h2 className={styles.title}>선택한 날짜의 일정</h2>
           {selectedDateSchedules.length > 0 ? (
             selectedDateSchedules.map((schedule, index) => (
-              <div key={index}>{schedule}</div>
+              <div key={index} className={styles.todo}>{schedule}</div>
             ))
           ) : (
-            <p>일정이 없습니다.</p>
+            <p className={styles.todo}>일정이 없습니다.</p>
           )}
         </div>
       </Modal>

@@ -12,7 +12,8 @@ import { getMyResume, getTeamDetail, setApplyResume } from "../api/comp";
 
 const TeamApply = ( ) => {
 
-    const {compId, teamId, userId} = useParams();
+    const {compId, teamId} = useParams();
+    const userId = localStorage.getItem("userId");
     const [teamInfo, setTeamInfo] = useState({});
     const [memberRole, setMemberRole] = useState([]);
     const [myResumes, setMyResumes] = useState([]);
@@ -22,83 +23,6 @@ const TeamApply = ( ) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-
-    const DUMMY_TEAM_OUTLINE = {
-        title: "교보생명 대학생 디자인 공모전 팀원 구합니다!",
-        profileimg: "/Male User.png",
-        writer: "Danny",
-        uploaddate: "2024.04.07",
-        category: "공모전",
-        meetingway: "온/오프라인",
-        recruitnum: 4,
-        startdate: "2024.04.21",
-        recruitjobs: ["디자이너", "백엔드", "프론트엔드", "기획"],
-        languages: ["HTML", "CSS", "Django"],
-        location: "서울",
-      };
-  
-
-    const DUMMY_RESUMES = [
-      {
-        id:0,
-        temperature: 42.5,
-        title: "규진's 이력서",
-        content:
-          "안녕하세요, 저는 풀스택 개발자 김동국입니다. 작년에 AI 생성 공모전을 참가하여 경험을 쌓았으며 이를 바탕으로 이번에는 수상을 해보고 싶습니다. 그만큼, 최선을 다하고 열심히 하겠습니다. 감사합니다. 뽑아주세요!",
-        name: "홍규진",
-        age: 24,
-        occupation: "프론트엔드 개발/백엔드 개발",
-        skills: "JavaScript, React, Django, Flutter",
-        baekjoonTier: "Gold",
-        github: "github.com/kyujenius",
-        tags: [0, 1, 2, 3],
-      },
-
-      {
-        id:1,
-        temperature: 42.5,
-        title: "규진's 이력서",
-        content:
-          "안녕하세요, 저는 풀스택 개발자 김동국입니다. 작년에 AI 생성 공모전을 참가하여 경험을 쌓았으며 이를 바탕으로 이번에는 수상을 해보고 싶습니다. 그만큼, 최선을 다하고 열심히 하겠습니다. 감사합니다. 뽑아주세요!",
-        name: "홍규진",
-        age: 24,
-        occupation: "프론트엔드 개발/백엔드 개발",
-        skills: "JavaScript, React, Django, Flutter",
-        baekjoonTier: "Gold",
-        github: "github.com/kyujenius",
-        tags: [0, 1, 2, 3],
-      },
-
-      {
-        id:2,
-        temperature: 42.5,
-        title: "규진's 이력서",
-        content:
-          "안녕하세요, 저는 풀스택 개발자 김동국입니다. 작년에 AI 생성 공모전을 참가하여 경험을 쌓았으며 이를 바탕으로 이번에는 수상을 해보고 싶습니다. 그만큼, 최선을 다하고 열심히 하겠습니다. 감사합니다. 뽑아주세요!",
-        name: "홍규진",
-        age: 24,
-        occupation: "프론트엔드 개발/백엔드 개발",
-        skills: "JavaScript, React, Django, Flutter",
-        baekjoonTier: "Gold",
-        github: "github.com/kyujenius",
-        tags: [0, 1, 2, 3],
-      },
-      
-      {
-        id:3,
-        temperature: 42.5,
-        title: "규진's 이력서",
-        content:
-          "안녕하세요, 저는 풀스택 개발자 김동국입니다. 작년에 AI 생성 공모전을 참가하여 경험을 쌓았으며 이를 바탕으로 이번에는 수상을 해보고 싶습니다. 그만큼, 최선을 다하고 열심히 하겠습니다. 감사합니다. 뽑아주세요!",
-        name: "홍규진",
-        age: 24,
-        occupation: "프론트엔드 개발/백엔드 개발",
-        skills: "JavaScript, React, Django, Flutter",
-        baekjoonTier: "Gold",
-        github: "github.com/kyujenius",
-        tags: [0, 1, 2, 3],
-      },
-    ];
 
     console.log("teamInfo: ", teamInfo);
     console.log("memberRole: ", memberRole);
@@ -179,7 +103,7 @@ const TeamApply = ( ) => {
                 startdate={teamInfo.startDate}
                 recruitjobs={teamInfo.role}
                 languages={teamInfo.language}
-                location={DUMMY_TEAM_OUTLINE.location} //활동 지역
+                location={teamInfo.city+" "+teamInfo.dong} //활동 지역
               />
             </div>
             
@@ -191,9 +115,9 @@ const TeamApply = ( ) => {
                 <div className={styles.applyfieldtext}>지원 분야</div>
                 <select className={styles.selectapplyfield} onChange={handleSelectRole} value={selectedRole}>
                 <option value="" disabled>분야 선택</option>
-                  {memberRole.map((member, index) => (
-                    <option key={index} value={member.role} disabled={member.num === 0}>
-                      {member.role} {member.num}명
+                  {memberRole.filter(member => member.role !== '팀장').map((member, index) => (
+                    <option key={index} value={member.role} disabled={member.num === member.recruitNum}>
+                      {member.role} {member.recruitNum-member.num}명
                     </option>
                   ))}
     

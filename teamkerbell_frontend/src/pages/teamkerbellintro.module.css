@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "PaytoneOne-Regular";
+    src: url("../../public/fonts/PaytoneOne-Regular.ttf") format("truetype");
+    font-style: normal;
+  }
+
+.container{
+    margin:50px;
+}
+
+.title{
+    display: inline;
+    font-family:  "PaytoneOne-Regular";
+    font-size: 3rem;
+    color: #006322;
+    margin-right:10px;
+}
