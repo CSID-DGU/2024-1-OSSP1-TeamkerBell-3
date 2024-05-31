@@ -7,6 +7,29 @@
   font-style: normal;
 }
 
+.titleButton {
+  display: flex;
+  justify-content: space-between;
+}
+.deleteButton {
+  color: red;
+  margin-top: 20px;
+  height: 50%;
+  border: 1px solid red;
+  font: bold;
+  padding: 0px 10px;
+  font-size: px;
+  margin-right: 20px;
+}
+.deleteButton:hover {
+  color: white;
+  background-color: red;
+  border: 1px solid red;
+  font: bold;
+  padding: 0px 10px;
+  font-size: px;
+  margin-right: 20px;
+}
 .imageContainer {
   position: relative;
   width: 300px;

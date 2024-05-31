@@ -177,6 +177,7 @@ def compLike(request, user_id, comp_id):
     elif request.method == 'DELETE':
         serializer = BookmarkSerializer(data=request.data, context={'user': user, 'comp': comp})
         Bookmark.objects.filter(user=user, comp=comp).delete()
+        return Response(status.HTTP_200_OK)
 
 
 
@@ -313,7 +314,7 @@ def cancelJoin(request, user_id, team_id):
     except BasicUser.DoesNotExist:
         return Response({'error' : {'code' : 404, 'message' : "User not found!"}}, status=status.HTTP_404_NOT_FOUND)
     try:
-            teammate=TeamMate.objects.get(user=user, isTeam=False)
+            teammate=TeamMate.objects.get(team=team, user=user, isTeam=False)
     except TeamMate.DoesNotExist:
         return Response({'error': {'code': 404, 'message': "TeamMate not found!"}}, status=status.HTTP_404_NOT_FOUND) 
     if request.method == 'DELETE':

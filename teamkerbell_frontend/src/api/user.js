@@ -121,13 +121,12 @@ export const patchUserDetailResume = (
   userIntro,
   skill,
   experience,
-  githubLik,
+  githubLink,
   snsLink,
   city,
   dong
 ) =>
   sendRequest(userInstance, "patch", `/${userId}/mypage/resume/${resumeId}`, {
-
     name,
     email,
     phone,
@@ -135,12 +134,12 @@ export const patchUserDetailResume = (
     userIntro,
     skill,
     experience,
-    githubLik,
+    githubLink,
     snsLink,
     city,
     dong,
   });
-//<int:user_id>/mypage/resume/<int:resume_id>
+
 //세부 이력서 삭제하기
 export const deleteUserDetailResume = (userId, resumeId) =>
   sendRequest(userInstance, "delete", `/${userId}/mypage/resume/${resumeId}`);

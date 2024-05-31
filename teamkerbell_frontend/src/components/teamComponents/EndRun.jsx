@@ -42,10 +42,10 @@ const EndRun = () => {
 
       <h2 className={styles.title}>중도 하차</h2>
       <hr className={styles.line} />
-      <input
+      <textarea
         className={styles.box2}
         placeholder=" 중도 하차 사유를 입력해주세요."
-      ></input>
+      ></textarea>
       <div>
         <div className={styles.checkbox}>
           <input id="checkbox" type="checkbox" />
