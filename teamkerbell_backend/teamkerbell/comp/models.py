@@ -24,6 +24,8 @@ class RandomMatching(models.Model):
     isLeader = models.BooleanField(null=False, default=False)
     role = models.CharField(null=False, max_length=50)
     recruitNum = models.IntegerField(null=False, default=0)
+    priority = models.IntegerField(null=True, default=100)
+    isMatched = models.BooleanField(null=False,default=False)
 
 class CompReview(models.Model):
     id = models.AutoField(primary_key=True, null=False)

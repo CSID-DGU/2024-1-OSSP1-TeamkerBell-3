@@ -6,7 +6,13 @@ from user.models import Resume, BasicUser, Rude
 class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
-        fields=['startDate', 'endDate','schedule']
+        fields=['id','startDate', 'endDate','schedule']
+
+class OneDeleteScheduleSerializer(serializers.Serializer):
+    id = serializers.PrimaryKeyRelatedField(queryset=Schedule.objects.all())
+    
+class DeleteScheduleSerializer(serializers.Serializer):
+    deleteList = OneDeleteScheduleSerializer(many=True)
 
 class TeamforMainSerializer(serializers.ModelSerializer):
     roleList = serializers.SerializerMethodField()
@@ -130,6 +136,9 @@ class ReportSerializer(serializers.ModelSerializer):
 class PlusMatchingSerializer(serializers.Serializer):
     role = serializers.CharField()
     recruitNum = serializers.IntegerField()
+
+class RoleListSerializer(serializers.Serializer):
+    roleList = PlusMatchingSerializer(many=True)
 
 #강제퇴출과 중도하차에서 id와 이유 받아오기
 class KickAndRunSerializer(serializers.ModelSerializer):

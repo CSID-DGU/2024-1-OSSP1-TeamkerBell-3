@@ -20,10 +20,11 @@ class CompReviewSerializer(serializers.ModelSerializer):
 class RandomMatchingSerializer(serializers.ModelSerializer):
     class Meta:
         model= RandomMatching
-        fields='__all__'
+        fields=['city','dong','isLeader','role','recruitNum','user']
 
 class TeamInfoAndChooseTeamInfoAndTeamRoleSerializer(serializers.ModelSerializer):
     leader=serializers.SerializerMethodField()
+    leaderId=serializers.SerializerMethodField()
     recruitNum=serializers.SerializerMethodField()
     role=serializers.SerializerMethodField()
     createdAt=serializers.SerializerMethodField()
@@ -32,7 +33,12 @@ class TeamInfoAndChooseTeamInfoAndTeamRoleSerializer(serializers.ModelSerializer
     class Meta:
         model=ChooseTeam
         fields='__all__'
-
+    def get_leaderId(self,obj):
+        team=Team.objects.filter(id=obj.team.id).first()
+        if team:
+            return team.leader.id
+        else:
+            return None
     def get_leader(self,obj):
         team=Team.objects.filter(id=obj.team.id).first()
         if team:

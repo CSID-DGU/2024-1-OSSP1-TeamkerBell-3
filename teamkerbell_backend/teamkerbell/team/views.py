@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from .models import PreviousWinning, Team, TeamEndVote, TeamRole, TeamMate, OutReason, FinalCheck, Schedule, ChooseTeam
-from .serializers import TeamforMainSerializer, PreviousWinningSerializer,ScheduleAndCommitSerializer, ScheduleSerializer,TeamMateSerializer, ResumeAndRoleAndImgSerializer,  MemberListSerializer, ReportSerializer, KickAndRunSerializer, CombinedSerializer, IdSerializer, PlusMatchingSerializer, ScoreTagSerializer, ImprovementSerializer, ReviewSerializer
+from .serializers import DeleteScheduleSerializer, RoleListSerializer, TeamforMainSerializer, PreviousWinningSerializer,ScheduleAndCommitSerializer, ScheduleSerializer,TeamMateSerializer, ResumeAndRoleAndImgSerializer,  MemberListSerializer, ReportSerializer, KickAndRunSerializer, CombinedSerializer, IdSerializer, PlusMatchingSerializer, ScoreTagSerializer, ImprovementSerializer, ReviewSerializer
 from comp.models import RandomMatching, CompReview, Comp
 from user.models import BasicUser, Resume, Tag, Rude
 import random
@@ -52,6 +52,26 @@ def teamScheduleAndCommit(request, team_id):
             return Response({'message': 'schedule and commit date saved successfully'}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@swagger_auto_schema(methods=['delete'], request_body=DeleteScheduleSerializer, tags=["일정 삭제하기"])
+@api_view(['DELETE'])
+def deleteSchedule(request, team_id):
+    try:
+        team = Team.objects.get(id=team_id)
+    except Team.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "Team not found!"}}, status=status.HTTP_404_NOT_FOUND)
+    if request.method =='DELETE':
+        serializer = DeleteScheduleSerializer(data=request.data)
+        if serializer.is_valid():
+            scheduleList = serializer.validated_data['deleteList']
+
+            for schedule in scheduleList:
+                Schedule.objects.filter(id=schedule['id'].id, team=team).delete()        
+            
+            return Response({'message': 'Deletion successful'}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @swagger_auto_schema(method='get', tags=["팀원 이력서 정보 보기"])
 @api_view(['GET'])
@@ -238,53 +258,68 @@ def teamEndVote(request, team_id):
             return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@swagger_auto_schema(methods=['post'],request_body= PlusMatchingSerializer(many=True), tags=["추가 매칭 신청"])
+@swagger_auto_schema(methods=['post'], request_body=RoleListSerializer, tags=["추가 매칭 신청"])
 @api_view(['POST'])
-
 @transaction.atomic
 def plusMatching(request, team_id):
     try:
         team = Team.objects.get(id=team_id)
     except Team.DoesNotExist:
-        return Response({'error': {'code': 404, 'message': "Team not found!"}}, status=status.HTTP_404_NOT_FOUND) 
-    serializerList = PlusMatchingSerializer(data=request.data, many=True)
-    if request.method =='POST':
-        if serializerList.is_valid():
-            insufficient_roles=[]
-            for serializer in serializerList.data:
-                plusUser = PlusMatchingSerializer(data=serializer)
+        return Response({'error': {'code': 404, 'message': "Team not found!"}}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'POST':
+        serializer = RoleListSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            insufficient_roles = []
+            role_list = serializer.validated_data['roleList']
+            
+            for role_data in role_list:
+                plusUser = PlusMatchingSerializer(data=role_data)
                 if plusUser.is_valid():
                     role = plusUser.validated_data.get('role')
                     recruitNum = plusUser.validated_data.get('recruitNum')
-                    users = list(RandomMatching.objects.filter(comp=team.comp, role=role, isLeader=False))  # 쿼리셋을 리스트로 변환
-                    random.shuffle(users)  # 사용자 목록을 랜덤하게 섞음
+                    users = list(RandomMatching.objects.filter(comp=team.comp, role=role, isLeader=False))
+                    random.shuffle(users)
                     
                     if len(users) < recruitNum:
-                        insufficient_roles.append(role)  # 모집 인원이 부족한 역할을 리스트에 추가
+                        insufficient_roles.append(role)
                     else:
-                        for userR in users[:recruitNum]:  # 모집 인원 수만큼 사용자를 선택
+                        for userR in users[:recruitNum]:
                             try:
                                 teamrole = TeamRole.objects.get(team=team, role=userR.role)
-                            except TeamRole.DoesNotExist:#TeamRole테이블에 정보가 없는 경우 새로운 직군을 팀 직군리스트에 넣어줌
-                                newrole=TeamRole(team=team, role=userR.role,recruitNum=1, num=0)
+                            except TeamRole.DoesNotExist:
+                                newrole = TeamRole(team=team, role=userR.role, recruitNum=1, num=0)
                                 newrole.save()
                                 teamrole = TeamRole.objects.get(team=team, role=userR.role)
-                            teamrole.num +=1
-                            if teamrole.recruitNum < teamrole.num:#모집 인원보다 많은경우 최대 인원을 늘려줌
-                                teamrole.recruitNum +=1
+                            teamrole.num += 1
+                            if teamrole.recruitNum < teamrole.num:
+                                teamrole.recruitNum += 1
                             teamrole.save()
-                            #더미 이력서 생성
-                            dummyresume=Resume(user=userR.user, name=userR.user.nickname,email=userR.user.email, phone=userR.user.phone, tier="없음",userIntro="없음",skill="없음",experience="없음", githubLink="없음", snsLink="없음", city=userR.city, dong=userR.dong)
+
+                            dummyresume = Resume(
+                                user=userR.user,
+                                name=userR.user.nickname,
+                                email=userR.user.email,
+                                phone=userR.user.phone,
+                                tier="없음",
+                                userIntro="없음",
+                                skill="없음",
+                                experience="없음",
+                                githubLink="없음",
+                                snsLink="없음",
+                                city=userR.city,
+                                dong=userR.dong
+                            )
                             dummyresume.save()
                             TeamMate(team=team, user=userR.user, resume=dummyresume, role=userR.role, isTeam=True).save()
                             userR.delete()
 
             if insufficient_roles:
-                # 모집할 수 없었던 역할에 대한 정보 반환
                 return JsonResponse({'insufficient_roles': insufficient_roles}, status=status.HTTP_200_OK)
             return Response({'message': "Matching completed successfully."}, status=status.HTTP_200_OK)
         else:
-            return Response(serializerList.errors, status=status.HTTP_400_BAD_REQUEST)        
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)        
                 
 
 @swagger_auto_schema(methods=['post'], request_body=KickAndRunSerializer, tags=["퇴출하기"])
@@ -300,7 +335,7 @@ def KickUser(request, team_id):
         serializer = KickAndRunSerializer(data=request.data)
         if serializer.is_valid():     
             try:
-                teammate = TeamMate.objects.get(user=serializer.validated_data.get('user'))
+                teammate = TeamMate.objects.get(user=serializer.validated_data.get('user'), team=team)
             except TeamMate.DoesNotExist:
                 return Response({'error': 'TeamMate not found'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -337,7 +372,7 @@ def RunUser(request, team_id):
         serializer = KickAndRunSerializer(data=request.data)
         if serializer.is_valid():
             try:
-                teammate = TeamMate.objects.get(user=serializer.validated_data.get('user'))
+                teammate = TeamMate.objects.get(user=serializer.validated_data.get('user'), team=team)
             except TeamMate.DoesNotExist:
                 return Response({'error': 'TeamMate not found'}, status=status.HTTP_404_NOT_FOUND)
 

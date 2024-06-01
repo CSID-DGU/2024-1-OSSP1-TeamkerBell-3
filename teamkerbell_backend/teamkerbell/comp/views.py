@@ -8,9 +8,13 @@ from team.serializers import ChooseTeamSerializer
 from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from .serializers import applyResumeSerializer, RandomMatchingApplySerializer, makeTeamSerializer, CompSerializer, CompReviewSerializer, TeamInfoAndChooseTeamInfoAndTeamRoleSerializer
+from .serializers import RandomMatchingSerializer, applyResumeSerializer, RandomMatchingApplySerializer, makeTeamSerializer, CompSerializer, CompReviewSerializer, TeamInfoAndChooseTeamInfoAndTeamRoleSerializer
 from .models import Comp,CompReview, RandomMatching
 from user.decorator import login_required
+from django.http import JsonResponse
+import requests
+import random
+from django.conf import settings
 
 @swagger_auto_schema(method="POST", tags=["공모전 등록하기"], request_body=CompSerializer, operation_summary="공모전 정보 입력")
 @api_view(['POST'])
@@ -183,6 +187,10 @@ def createRandomTeam(request, comp_id):
     if request.method =='POST':
         serializer = RandomMatchingApplySerializer(data=request.data)
         if serializer.is_valid():
+            user = request.data.get('user',None)
+            if user:
+                if RandomMatching.objects.filter(user=user, comp=comp).exists():
+                    return Response({'error': {'code': 400, 'message': "You are already in the matching!"}}, status=status.HTTP_400_BAD_REQUEST)
             serializer.save(comp=comp)
             return Response({'message': 'matching created successfully'}, status=status.HTTP_201_CREATED)
         else:
@@ -267,3 +275,176 @@ def createwinner(request, comp_id):
             return Response({'message': 'create successfully'}, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def geocode_address(address):
+    geocode_url = "https://maps.googleapis.com/maps/api/geocode/json"
+    params = {
+        "address": address,
+        "key": settings.GOOGLE_API_KEY,
+        "language": "ko"
+    }
+    response = requests.get(geocode_url, params=params)
+    results = response.json().get('results')
+    
+    if not results:
+        raise ValueError(f"Geocoding API returned no results for address: {address}")
+    
+    location = results[0]['geometry']['location']
+    formatted_address = results[0]['formatted_address']
+    return location['lat'], location['lng'], formatted_address
+
+def get_distance(origin_lat, origin_lng, destination_lat, destination_lng):
+    endpoint = 'https://maps.googleapis.com/maps/api/distancematrix/json'
+    params = {
+        'units': 'metric',
+        'mode': 'transit',
+        'origins': f'{origin_lat},{origin_lng}',
+        'destinations': f'{destination_lat},{destination_lng}',
+        'key': settings.GOOGLE_API_KEY,
+        'language': 'ko'
+    }
+
+    response = requests.get(endpoint, params=params)
+    if response.status_code != 200:
+        raise ValueError('Failed to connect to Google Maps API')
+
+    data = response.json()
+    if data['status'] != 'OK':
+        raise ValueError('Error from Google Maps API')
+
+    element = data['rows'][0]['elements'][0]
+    distance_text = element.get('distance', {}).get('text', None)
+    if not distance_text:
+        raise ValueError("Distance information is missing in the response")
+
+    distance_km = float(distance_text.replace(' km', '').replace(',', ''))
+    return distance_km
+
+
+@swagger_auto_schema(method='POST', tags=["랜덤매칭 알고리즘"],request_body=RandomMatchingSerializer,operation_summary="랜덤매칭")
+@api_view(['POST'])
+def rmAlgorithms(request, comp_id):
+    try:
+        comp = Comp.objects.get(id=comp_id)
+    except Comp.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "comp not found!"}}, status=status.HTTP_404_NOT_FOUND)    
+    if request.method == 'POST':
+
+            myInfoSerializer = RandomMatchingSerializer(data=request.data)
+            
+            if myInfoSerializer.is_valid():
+                user = request.data.get('user',None)
+                if user:
+                    if RandomMatching.objects.filter(user=user, comp=comp).exists():
+                        RandomMatching.objects.filter(user=user, comp=comp).delete()
+                myInfoSerializer.save(comp=comp)
+                teammates=TeamMate.objects.filter(user=myInfoSerializer.data['user'])
+                for teammate in teammates:
+                    if teammate.team.comp==comp:
+                        RandomMatching.objects.filter(user=myInfoSerializer.data['user'],comp=comp).delete()
+                        return Response({'error': {'code': 400, 'message': "You are already part of another team in the same competition!"}}, status=status.HTTP_400_BAD_REQUEST)
+                
+                if myInfoSerializer.data['isLeader'] == True:
+                    
+                    city_to_compare = myInfoSerializer.data['city']
+                    dong_to_compare = myInfoSerializer.data['dong']
+                    leader_address = f"{city_to_compare} {dong_to_compare}"
+                    isLeader_to_compare = myInfoSerializer.data['isLeader']
+                    role_to_compare = []
+                    role_to_compare.append(myInfoSerializer.data['role'])
+                    n = myInfoSerializer.validated_data['recruitNum']
+                    
+                    RandomWaiting = RandomMatching.objects.filter(comp_id=comp_id,isMatched=False)
+                    if n>RandomWaiting.count():
+                        RandomMatching.objects.filter(user=myInfoSerializer.data['user'],comp=comp).delete()
+                        return Response({'error': {'code': 400, 'message': "There are no enough people !!"}}, status=status.HTTP_400_BAD_REQUEST)
+                    try:
+                        leader_lat, leader_lng, _ = geocode_address(leader_address)
+                    except ValueError as e:
+                        RandomMatching.objects.filter(user=myInfoSerializer.data['user'],comp=comp).delete()
+                        return JsonResponse({'error': str(e)}, status=400)
+                    distanceDict = {}
+                    for instance in RandomWaiting:
+                        userAddress = f"{instance.city} {instance.dong}"
+                        try:
+                            user_lat, user_lang, _ = geocode_address(userAddress)
+                            distance_km = get_distance(leader_lat, leader_lng, user_lat, user_lang)
+                        except ValueError:
+                            distance_km=0
+                        distanceDict[instance.user.id] = distance_km
+                        print("리더와 "+instance.user.nickname+"의 거리 차이는"+str(distanceDict[instance.user.id])+"이고 위치는"+userAddress+"입니다")
+
+                    for i in range(n):
+                        RandomWaiting = RandomMatching.objects.filter(comp_id=comp_id,isMatched=False)
+                        for instance in RandomWaiting:
+                            instance.priority = 100
+                            instance.save()
+                            if instance.isLeader==True:
+                                instance.priority=1000
+                                instance.save()
+                        
+                        for instance in RandomWaiting:
+                            distance = distanceDict[instance.user.id]
+                            if instance.isLeader == isLeader_to_compare:
+                                instance.priority -= 5
+                                instance.save()    
+                            if instance.role in role_to_compare:
+                                instance.priority -= 40*role_to_compare.count(instance.role)
+                                instance.save()
+                            instance.priority-=int(distance/10)
+                            instance.save()
+                        sorted_data = RandomMatching.objects.filter(comp_id=comp_id,isMatched=False).order_by('-priority')[:1]
+                        temp = sorted_data.first()
+                        if temp:
+                            temp.isMatched=True
+                            temp.save()
+                            role_to_compare.append(temp.role)
+                    
+                
+                    try:
+                        sorted_data = RandomMatching.objects.filter(comp_id=comp_id,isMatched = True)
+                    except:
+                        RandomMatching.objects.filter(user=myInfoSerializer.data['user'],comp=comp).delete()
+                        return Response({'error': {'code': 404, 'message': "There are no enough people !!"}}, status=status.HTTP_404_NOT_FOUND)
+                    
+                    for instance in sorted_data:
+                        instance.isMatched = True
+                        instance.save()  
+                    leaderMatching = RandomMatching.objects.filter(comp_id=comp_id,isLeader=True)
+                    if leaderMatching is None:
+                        return Response({'error': {'code': 404, 'message': "No leader found in matching data!"}}, status=status.HTTP_404_NOT_FOUND)
+                    leaderMatching = RandomMatching.objects.filter(comp_id=comp_id,isLeader=True).first()
+                    leaderMatching.role="팀장"
+                    leaderMatching.save()
+
+
+                    newTeam = Team(comp=comp, recruitNum=n, leader=leaderMatching.user, isRandom=True, isDone = True)
+                    
+                    newTeam.save()
+
+                    roles_count = {
+                        "프론트엔드": 0,
+                        "백엔드": 0,
+                        "디자인": 0,
+                        "기획": 0,
+                        "팀장": 0
+                    }
+
+                    for instance in sorted_data:
+                        if instance.role in roles_count:
+                            roles_count[instance.role] += 1
+
+                    for role, count in roles_count.items():
+                        if count > 0:
+                            TeamRole(role=role, team=newTeam, recruitNum=count, num=count).save()
+
+                    for userR in sorted_data[:n]:
+                        dummyresume = Resume(user=userR.user, name=userR.user.nickname, email=userR.user.email, phone=userR.user.phone, tier="없음", userIntro="없음", skill="없음", experience="없음", githubLink="없음", snsLink="없음", city=userR.city, dong=userR.dong)
+                        dummyresume.save()
+                        TeamMate(team=newTeam, user=userR.user, resume=dummyresume, role=userR.role, isTeam=True).save()
+                        userR.delete()      
+ 
+                    return Response(status=status.HTTP_201_CREATED)
+
+            return Response({'error': {'code': 404, 'message': "Request is not Valid !!"}}, status=status.HTTP_404_NOT_FOUND)
+
