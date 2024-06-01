@@ -49,10 +49,12 @@
 
 .memImg {
   margin: auto;
-  width: 80px;
-  height: 80px;
-  margin-left: 10%;
+  width: 100px;
+  height: 100px;
+  margin-left: 15%;
   margin-right: 3%;
+  border-radius: 70%;
+  overflow: hidden;
 }
 
 .baseInfo {
@@ -93,4 +95,14 @@
 .boxdescrip {
   list-style: none;
   font-size: 12px;
+}
+.tier {
+  width: 70%;
+}
+.tierline {
+  margin-left: 1px;
+  width: 70%;
+  border: 0;
+  height: 1px;
+  background-color: #8abc9b;
 }

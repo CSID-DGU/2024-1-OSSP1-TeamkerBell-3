@@ -44,7 +44,7 @@ const LeftSide = () => {
         navigate(`/team/${localStorageTeamId}/progress`); // 3번 index에 해당하는 링크로 이동
         break;
       case 4:
-        navigate(`/team/${localStorageTeamId}/ends/`);
+        navigate(`/team/${localStorageTeamId}/evaluation/end/`);
         break;
       case 5:
         navigate(`/team/${localStorageTeamId}/report`);
