@@ -131,6 +131,9 @@ class PlusMatchingSerializer(serializers.Serializer):
     role = serializers.CharField()
     recruitNum = serializers.IntegerField()
 
+class RoleListSerializer(serializers.Serializer):
+    roleList = PlusMatchingSerializer(many=True)
+
 #강제퇴출과 중도하차에서 id와 이유 받아오기
 class KickAndRunSerializer(serializers.ModelSerializer):
     class Meta:
