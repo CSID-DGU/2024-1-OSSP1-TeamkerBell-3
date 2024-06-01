@@ -20,7 +20,7 @@ class CompReviewSerializer(serializers.ModelSerializer):
 class RandomMatchingSerializer(serializers.ModelSerializer):
     class Meta:
         model= RandomMatching
-        fields='__all__'
+        fields=['city','dong','isLeader','role','recruitNum','user']
 
 class TeamInfoAndChooseTeamInfoAndTeamRoleSerializer(serializers.ModelSerializer):
     leader=serializers.SerializerMethodField()

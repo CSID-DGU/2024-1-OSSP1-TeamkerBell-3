@@ -25,6 +25,9 @@ def get_env_variable(var_name):
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+#GOOGLE MAP API KEY
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

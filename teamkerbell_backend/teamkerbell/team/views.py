@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from .models import PreviousWinning, Team, TeamEndVote, TeamRole, TeamMate, OutReason, FinalCheck, Schedule, ChooseTeam
-from .serializers import RoleListSerializer, TeamforMainSerializer, PreviousWinningSerializer,ScheduleAndCommitSerializer, ScheduleSerializer,TeamMateSerializer, ResumeAndRoleAndImgSerializer,  MemberListSerializer, ReportSerializer, KickAndRunSerializer, CombinedSerializer, IdSerializer, PlusMatchingSerializer, ScoreTagSerializer, ImprovementSerializer, ReviewSerializer
+from .serializers import DeleteScheduleSerializer, RoleListSerializer, TeamforMainSerializer, PreviousWinningSerializer,ScheduleAndCommitSerializer, ScheduleSerializer,TeamMateSerializer, ResumeAndRoleAndImgSerializer,  MemberListSerializer, ReportSerializer, KickAndRunSerializer, CombinedSerializer, IdSerializer, PlusMatchingSerializer, ScoreTagSerializer, ImprovementSerializer, ReviewSerializer
 from comp.models import RandomMatching, CompReview, Comp
 from user.models import BasicUser, Resume, Tag, Rude
 import random
@@ -52,6 +52,26 @@ def teamScheduleAndCommit(request, team_id):
             return Response({'message': 'schedule and commit date saved successfully'}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@swagger_auto_schema(methods=['delete'], request_body=DeleteScheduleSerializer, tags=["일정 삭제하기"])
+@api_view(['DELETE'])
+def deleteSchedule(request, team_id):
+    try:
+        team = Team.objects.get(id=team_id)
+    except Team.DoesNotExist:
+        return Response({'error': {'code': 404, 'message': "Team not found!"}}, status=status.HTTP_404_NOT_FOUND)
+    if request.method =='DELETE':
+        serializer = DeleteScheduleSerializer(data=request.data)
+        if serializer.is_valid():
+            scheduleList = serializer.validated_data['deleteList']
+
+            for schedule in scheduleList:
+                Schedule.objects.filter(id=schedule['id'].id, team=team).delete()        
+            
+            return Response({'message': 'Deletion successful'}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @swagger_auto_schema(method='get', tags=["팀원 이력서 정보 보기"])
 @api_view(['GET'])
