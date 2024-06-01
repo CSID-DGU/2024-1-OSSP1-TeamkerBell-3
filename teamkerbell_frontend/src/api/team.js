@@ -11,11 +11,9 @@ import { teamInstance } from "./instance";
 export const teamProgress = (teamId) =>
   sendRequest(teamInstance, "post", `/${teamId}/progress/`);
 
-
 //공모전 모든 팀 리스트 정보 조회
 export const getAllTeamList = () =>
   sendRequest(teamInstance, "get", `/teamList`);
-
 
 //공모전 정보 받아오기
 export const getTeamCompDetail = (teamId) =>
@@ -60,10 +58,21 @@ export const sendVote = (teamId, id) =>
   });
 
 //활동종료 추가매칭
-export const sendPlusMatching = (teamId) =>
-  sendRequest(teamInstance, "post", `/${teamId}/plusMatching`, {});
+export const sendPlusMatching = (teamId, roleList) =>
+  sendRequest(teamInstance, "post", `/${teamId}/plusMatching`, {
+    roleList: roleList,
+  });
+
 //활동종료 팀원퇴출
+export const sendKick = (teamId, user, reason) =>
+  sendRequest(teamInstance, "post", `/${teamId}/kick`, {
+    user: user,
+    reason: reason,
+  });
 
 //활동종료 중도하차
-
-//활동종료
+export const sendRun = (teamId, user, reason) =>
+  sendRequest(teamInstance, "post", `/${teamId}/run`, {
+    user: user,
+    reason: reason,
+  });

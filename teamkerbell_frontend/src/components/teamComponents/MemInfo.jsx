@@ -2,6 +2,7 @@
 
 import React from "react";
 import styles from "./MemInfo.module.css";
+import Resume from "../myPageComponents/Resume";
 
 const MemInfo = ({ meminfo }) => {
   console.log("meminfo:", meminfo);
@@ -15,11 +16,15 @@ const MemInfo = ({ meminfo }) => {
       {meminfo.map((content, index) => (
         <div className={styles.box} key={index}>
           <div className={styles.boxleft}>
-            <img className={styles.memImg} src={content.img} />
+            <img className={styles.memImg} src={content.img} alt="프로필사진" />
             <div className={styles.baseInfo}>
               <div>
                 {content.role === "팀장" ? (
-                  <img className={styles.crown} src={"../../leadercrown.png"} />
+                  <img
+                    className={styles.crown}
+                    src={"../../leadercrown.png"}
+                    alt="팀장표시"
+                  />
                 ) : null}
               </div>
               {/*역할이 '팀장'이면 왕관사진, 나머지는 null*/}
@@ -47,9 +52,15 @@ const MemInfo = ({ meminfo }) => {
                 <strong>Github: </strong>
                 {content.githubLink}
               </li>
+              <hr className={styles.tierline} />
               <li>
                 <strong>백준 티어: </strong>
-                {content.tier}
+                {/*content.tier*/ <br />}
+                <img
+                  src={`https://mazassumnida.wtf/api/v2/generate_badge?boj=${Resume.tier}`}
+                  alt="백준 티어 이미지"
+                  className={styles.tier}
+                ></img>
               </li>
             </ul>
           </div>
