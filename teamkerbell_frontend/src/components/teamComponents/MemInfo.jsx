@@ -2,7 +2,6 @@
 
 import React from "react";
 import styles from "./MemInfo.module.css";
-import Resume from "../myPageComponents/Resume";
 
 const MemInfo = ({ meminfo }) => {
   console.log("meminfo:", meminfo);
@@ -57,7 +56,7 @@ const MemInfo = ({ meminfo }) => {
                 <strong>백준 티어: </strong>
                 {/*content.tier*/ <br />}
                 <img
-                  src={`https://mazassumnida.wtf/api/v2/generate_badge?boj=${Resume.tier}`}
+                  src={`https://mazassumnida.wtf/api/v2/generate_badge?boj=${content.tier}`}
                   alt="백준 티어 이미지"
                   className={styles.tier}
                 ></img>

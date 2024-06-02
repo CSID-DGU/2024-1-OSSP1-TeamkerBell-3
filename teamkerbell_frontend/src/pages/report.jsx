@@ -25,6 +25,8 @@ const RePort = () => {
   const [reporter, setReporter] = useState(2);
 
   useEffect(() => {
+    console.log("[reporter]:", localStorage.userId);
+
     const fetchReportInfo = async () => {
       setCategoryState(1);
       setIsLoading(true);
@@ -51,7 +53,7 @@ const RePort = () => {
   };
 
   const send = () => {
-    setReporter(3);
+    setReporter(localStorage.userId);
     try {
       const responseSend = sendTeamReport(tid, selectedItem.id, rude, reporter);
       // 로그 출력 및 에러 처리
