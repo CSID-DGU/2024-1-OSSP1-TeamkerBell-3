@@ -11,7 +11,7 @@ import ErrorComponent from "../components/ErrorComponent"; // 에러 컴포넌�
 const Meminfo = () => {
   const setCategoryState = useSetRecoilState(categoryState); // Recoil 상태를 업데이트하는 함수 가져오기
   const { tid } = useParams();
-  const [meminfo, setMemInfo] = useState();
+  const [meminfo, setMemInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -47,7 +47,7 @@ const Meminfo = () => {
         ) : isError ? (
           <ErrorComponent message={errorMessage} /> // 에러 발생 시 표시
         ) : (
-          <MemInfo meminfo={meminfo} />
+          (console.log("[meminfo]", meminfo), (<MemInfo meminfo={meminfo} />))
         )}
       </div>
     </div>

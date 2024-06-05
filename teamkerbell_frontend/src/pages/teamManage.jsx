@@ -3,7 +3,7 @@ import styles from "./teamManage.module.css";
 import LeftSide from "../components/teamComponents/LeftSide";
 import { useSetRecoilState } from "recoil";
 import { categoryState } from "../atoms";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getManage,
   sendKick,
@@ -58,7 +58,7 @@ const FieldSelection = ({ onSelect }) => {
   );
 };
 
-const MemberSelection = ({ onSelect, length }) => {
+/*const MemberSelection = ({ onSelect, length }) => {
   const [findNum, setFindNum] = useState("인원 선택");
   const [view, setView] = useState(false);
 
@@ -99,7 +99,7 @@ const MemberSelection = ({ onSelect, length }) => {
       </ul>
     </div>
   );
-};
+};*/
 
 /* 메인 */
 
@@ -115,6 +115,7 @@ const TeamManage = () => {
   const [isLeader, setIsLeader] = useState();
   const [id, setId] = useState();
   const [user, setUser] = useState();
+  const navigate = useNavigate(); // useNavigate hook 추가
 
   useEffect(() => {
     const fetchReportInfo = async () => {
@@ -179,7 +180,7 @@ const TeamManage = () => {
   };
 
   useEffect(() => {
-    console.log(selectedItem);
+    console.log("[input]: ", selectedItem);
   }, [selectedItem]);
 
   const addInputList = () => {
@@ -207,7 +208,7 @@ const TeamManage = () => {
   };
 
   useEffect(() => {
-    console.log("[input]:", inputList);
+    console.log("[inputs]:", inputList);
   }, [inputList]);
 
   /*post api*/
@@ -223,13 +224,6 @@ const TeamManage = () => {
       console.error("Error sending vote:", error);
     }
   };
-
-  const sendList2 = [
-    {
-      role: "string",
-      recruitNum: 0,
-    },
-  ];
 
   const plusmatching = () => {
     try {
@@ -252,6 +246,13 @@ const TeamManage = () => {
   };
 
   const kick = () => {
+    if (!checked) {
+      alert("체크박스에 동의해야 퇴출이 가능합니다.");
+      return;
+    } else {
+      alert("퇴출이 완료됐습니다.");
+      navigate(`/team/${localStorage.tid}/members`); //완료시 팀 멤버정보로
+    }
     console.log("퇴출 대상: ", selectedItem);
     console.log("퇴출 이유: ", reason);
 
@@ -272,6 +273,14 @@ const TeamManage = () => {
   };
 
   const run = () => {
+    if (!checked) {
+      alert("체크박스에 동의해야 하차가 가능합니다");
+
+      return;
+    } else {
+      alert("하차가 완료됐습니다.");
+      navigate("/"); //완료시 메인페이지로
+    }
     console.log("하차 이유: ", reason);
     try {
       const responseRun = sendRun(tid, user, reason);
@@ -284,6 +293,10 @@ const TeamManage = () => {
     }
   };
 
+  const [checked, setchecked] = useState();
+  const checkboxClick = (event) => {
+    setchecked(event.target.checked);
+  };
   return (
     <div className={styles.container}>
       <div className={styles.left}>
@@ -332,6 +345,7 @@ const TeamManage = () => {
                 />*/}
 
                     <input
+                      type="number"
                       placeholder="모집 인원 입력"
                       className={styles.inputField}
                       onChange={(e) =>
@@ -384,7 +398,12 @@ const TeamManage = () => {
                 onChange={reasonChange}
               />
               <div className={styles.checkbox}>
-                <input id="checkbox" type="checkbox" />
+                <input
+                  id="checkbox"
+                  type="checkbox"
+                  checked={checked}
+                  onClick={checkboxClick}
+                />
                 <label htmlFor="checkbox"></label>
                 불공정한 사유로 팀원을 강제 퇴출할 경우 불이익이 있을 수 있음을
                 확인하였으며, 위의 내용에 대해 동의합니다.
@@ -423,7 +442,12 @@ const TeamManage = () => {
                 onChange={runChange}
               />
               <div className={styles.checkbox}>
-                <input id="checkbox" type="checkbox" />
+                <input
+                  id="checkbox"
+                  type="checkbox"
+                  checked={checked}
+                  onClick={checkboxClick}
+                />
                 <label htmlFor="checkbox"></label>
                 중도 하차할 경우 불이익이 있을 수 있음을 확인하였으며, 위의
                 내용에 대해 동의합니다.
