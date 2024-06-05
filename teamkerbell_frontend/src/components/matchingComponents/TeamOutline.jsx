@@ -45,9 +45,6 @@ const TeamOutline = ({
         </div>
         <div className={styles.recruitjobs}>
           모집 분야:{recruitjobs}
-          {/* MAP 오류 발생) {recruitjobs.map((job) => (
-            <div key={job}>{job}</div>
-          ))} */}
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import Portfolios from "../components/myPageComponents/Potfolios";
 import ApplyResume from "../components/matchingComponents/ApplyResume"; 
 import SingleAndDoubleClick from "../components/matchingComponents/SingleAndDoubleClick";
 import { Link ,useState } from 'react';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getMyResume, getTeamDetail, setApplyResume } from "../api/comp";
 
 
@@ -23,6 +23,8 @@ const TeamApply = ( ) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+
+    const navigate= useNavigate();
 
     console.log("teamInfo: ", teamInfo);
     console.log("memberRole: ", memberRole);
@@ -83,6 +85,8 @@ const TeamApply = ( ) => {
         console.log("selectedResumeId, selectedRole: ", selectedResumeId, selectedRole);
         await setApplyResume(compId, teamId, userId, selectedResumeId, selectedRole);
         alert("제출 완료되었습니다.");
+        navigate(`/user/${userId}/mypage/projects`);
+
       } catch (error) {
         console.error("Error submitting application:", error);
         alert("제출 중 오류가 발생했습니다. 다시 시도해주세요.");

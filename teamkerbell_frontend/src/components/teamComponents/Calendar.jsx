@@ -74,7 +74,7 @@ function CalendarComponent() {
   const today = moment(new Date());
   return (
     <div>
-      <h3>오늘의 날짜: {today.format("YYYY년 MM월 DD일")}</h3>
+      <h2 className={styles.today}>오늘의 날짜: {today.format("YYYY년 MM월 DD일")}</h2>
       <Calendar
         onChange={onChange}
         formatDay={(locale, date) => moment(date).format("DD")}
@@ -98,15 +98,16 @@ function CalendarComponent() {
             // 자바스크립트에서는 일요일이 0, 토요일이 6입니다.
             return styles.saturday;
           }
+      
         }}
       />
-      <h3>선택한 날의 일정</h3>
+      <h2 className={styles.title}>선택한 날의 일정</h2>
       {selectedDateSchedules.length > 0 ? (
         selectedDateSchedules.map((schedule, index) => (
-          <div key={index}>{schedule}</div>
+          <div className={styles.todo} key={index} >{schedule}</div>
         ))
       ) : (
-        <p>일정이 없습니다.</p>
+        <p className={styles.todo}>일정이 없습니다.</p>
       )}
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         <h2 className={styles.title}>일정 설정</h2>

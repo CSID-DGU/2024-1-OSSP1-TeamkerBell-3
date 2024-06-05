@@ -96,7 +96,7 @@ function App() {
           path="/team/teamList"
           element={<FindAllTeam/>}
         />
-=======
+
         <Route path="/team/teamList" element={<FindAllTeam />} />
 
         <Route

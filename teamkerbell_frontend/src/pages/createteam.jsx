@@ -5,10 +5,11 @@ import { useState } from "react";
 import RecruitNumInput from "../components/matchingComponents/RecruitNumInput";
 import ApplyResume from "../components/matchingComponents/ApplyResume";
 import { getCompDetail, getMyResume, getMyResumeForCreateTeam, setSelectTeam } from "../api/comp";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CreateTeam = () => {
     const {compId} = useParams();
+    const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
 
     const [compDetail, setCompDetail] = useState({}); //공모전 상세 정보
@@ -103,6 +104,7 @@ const CreateTeam = () => {
         console.log("recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId: ", recruitRole, recruitNum, projectStartDate, intro, selectedMethod, language, qualification, selectedResumeId);
         await setSelectTeam(compId, userId, recruitRole, recruitNum, projectStartDate, title, intro, selectedMethod, language, qualification, selectedResumeId);
         alert("제출 완료되었습니다.");
+        navigate(`/user/${userId}/mypage/projects`)
       } catch (error) {
         console.error("Error submitting application:", error);
         alert("제출 중 오류가 발생했습니다. 다시 시도해주세요.");
