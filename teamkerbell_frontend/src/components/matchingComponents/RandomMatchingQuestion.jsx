@@ -64,7 +64,12 @@ const RandomMatchingQuestion = () => {
         }
         try {
           console.log("compId, selectedRole,city, district, isLeader,recruitNum: ", compId, selectedRole,city, district, isLeader,recruitNum);
-          await setRandomTeam(compId, userId, selectedRole,city, district, isLeader,recruitNum);
+          if(isLeader) {
+            await setRandomTeam(compId, userId, selectedRole,city, district, isLeader,recruitNum);
+          }
+          else{
+            
+          }
           alert("매칭 신청 완료되었습니다.");
           navigate(`/user/${userId}/mypage/projects`)
 

@@ -56,7 +56,7 @@ const FindAllTeam = () => {
                           writer={team.writer}
                           membernum={team.recruitNum}
                           startdate={team.startDate}
-                          dday={(Math.floor((new Date().getTime()-new Date(team.startDate))/ (1000 * 60 * 60 * 24)))}
+                          dday={(Math.floor((new Date(team.startDate)-new Date().getTime())/ (1000 * 60 * 60 * 24)))}
                           jobs={team.roleList}
                           languages={team.language}
                         />

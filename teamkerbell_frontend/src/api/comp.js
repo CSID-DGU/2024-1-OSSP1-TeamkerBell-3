@@ -89,6 +89,25 @@ export const setRandomTeam = (
     recruitNum: recruitNum,
   });
 
+//랜덤 팀 생성
+export const setRandomTeamMember = (
+  compId,
+  user,
+  role,
+  city,
+  dong,
+  isLeader,
+  recruitNum
+) =>
+  sendRequest(compInstance, "post", `/${compId}/rmAlgorithms/`, {
+    user: user,
+    role: role,
+    city: city,
+    dong: dong,
+    isLeader: isLeader,
+    recruitNum: recruitNum,
+  });
+
 //공모전 내용/후기
 export const getReviewList = (compId) =>
   sendRequest(compInstance, "get", `/${compId}/reviewList`);
