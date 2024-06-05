@@ -47,6 +47,7 @@ const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
           <h1>{resume.name}</h1>
           <p>온도 : {resume.score}</p>
         </div>
+        
       </div>
       <p className={styles.resumeContent}>{resume.userIntro}</p>
       <h3 className={styles.greenColor}>Details:</h3>
@@ -55,19 +56,11 @@ const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
           <span className={styles.label}>이름:</span> <span>{resume.name}</span>
         </li>
         <li>
-          <span className={styles.label}>나이:</span> <span>{resume.age}</span>
-        </li>
-        <li>
-          <span className={styles.label}>설명:</span>{" "}
-          <span>{resume.experience}</span>
+          <span className={styles.label}>전화번호:</span> <span>{resume.phone}</span>
         </li>
         <li>
           <span className={styles.label}>기술:</span>{" "}
           <span>{resume.skill}</span>
-        </li>
-        <li>
-          <span className={styles.label}>백준 티어:</span>{" "}
-          <span>{resume.tier}</span>
         </li>
         <li>
           <span className={styles.label}>Github:</span>{" "}
@@ -81,6 +74,15 @@ const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
             return <TagComponent key={index} />;
           })}
       </div>
+      <div className={styles.baekjoonCard}>
+        <span className={styles.label}>백준 티어:</span> <br />
+        <img
+          clssName={styles.baekjoonCardImg}
+          src={`https://mazassumnida.wtf/api/v2/generate_badge?boj=${resume.tier}`}
+          alt="백준 티어 이미지"
+        ></img>
+      </div>
+        
     </div>
   );
 };

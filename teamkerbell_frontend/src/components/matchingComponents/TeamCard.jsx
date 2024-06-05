@@ -8,7 +8,7 @@ const TeamCard = ({ image, title, writer, membernum, startdate,dday, jobs, langu
         <div className={styles.profile}>
             <img src={image} alt={title} className={styles.image} />
             <p className={styles.writer}>{writer}</p>
-            <p className={styles.dday}>D-{dday}</p>
+            <p className={styles.dday}>D{dday}</p>
 
         </div>
 

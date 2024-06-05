@@ -1,8 +1,11 @@
+
+
 @font-face {
   font-family: "NanumSquareNeo-cBd"; /* Bold */
   font-weight: normal;
   src: url("../../../public/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
 }
+
 
 .calendar {
   width: 100%;
@@ -14,6 +17,10 @@
   font-weight: 900;
 }
 
+.today{
+  font-family: "NanumSquareNeo-cBd";
+  font-weight: 1200;
+}
 
 .input {
   margin-bottom: 10px;
@@ -59,3 +66,8 @@
   margin-left: 1px;
   justify-content: center;
 }
+
+
+
+
+

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import styles from "./RandomMatchingQuestion.module.css"
 import RegionSelector from "./RegionSelector";
-import { useParams } from "react-router-dom";
-import { setRandomTeam } from "../../api/comp";
+import { useNavigate, useParams } from "react-router-dom";
+import { setRandomTeam, setRandomTeamMember } from "../../api/comp";
 
 const RandomMatchingQuestion = () => {
 
     const { compId } = useParams();
+    const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
 
 
@@ -63,8 +64,15 @@ const RandomMatchingQuestion = () => {
         }
         try {
           console.log("compId, selectedRole,city, district, isLeader,recruitNum: ", compId, selectedRole,city, district, isLeader,recruitNum);
-          await setRandomTeam(compId, userId, selectedRole,city, district, isLeader,recruitNum);
+          if(isLeader) {
+            await setRandomTeam(compId, userId, selectedRole,city, district, isLeader,recruitNum);
+          }
+          else{
+            await setRandomTeamMember(compId, userId, selectedRole,city, district, isLeader,recruitNum);
+          }
           alert("매칭 신청 완료되었습니다.");
+          navigate(`/user/${userId}/mypage/projects`)
+
         } catch (error) {
           console.error("Error submitting application:", error);
           alert("제출 중 오류가 발생했습니다. 다시 시도해주세요.");

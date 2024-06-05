@@ -82,3 +82,14 @@
 .selectedResume ul li {
     margin-bottom: 5px;
 }
+
+.baekjoonCard {
+  border-top: 1px solid #66a97c;
+  margin-top: 20px;
+  padding-top: 20px;
+  width: 100%;
+}
+
+.baekjoonCardImg {
+  margin:10px;
+}
