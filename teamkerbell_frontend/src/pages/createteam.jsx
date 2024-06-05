@@ -5,7 +5,7 @@ import { useState } from "react";
 import RecruitNumInput from "../components/matchingComponents/RecruitNumInput";
 import ApplyResume from "../components/matchingComponents/ApplyResume";
 import { getCompDetail, getMyResume, getMyResumeForCreateTeam, setSelectTeam } from "../api/comp";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const CreateTeam = () => {
     const {compId} = useParams();
@@ -62,7 +62,7 @@ const CreateTeam = () => {
   
       setRecruitRole(roles);
       setRecruitNum(recruitNums);
-  }, []);
+    }, []);
 
 
     useEffect(() => {
@@ -180,7 +180,13 @@ const CreateTeam = () => {
                     {/* 이력서 선택 */}
                     <div className={styles.selectresumefield}>
                       <div className={styles.qtext}>8. 이력서 선택</div>
-                      <div className={styles.resumeContainer}>
+                        <div className={styles.resumeButtonContainer}>                    
+                            <Link to={`/user/${userId}/mypage/resumeMaking`}>                            
+                              <button className={styles.writeResumeBtn}>이력서 작성</button>
+                            </Link>
+                        </div>
+
+                        <div className={styles.resumeContainer}>
 
                         {myResumes.map((resume) => (
                           <ApplyResume className={styles.resumeItem} 

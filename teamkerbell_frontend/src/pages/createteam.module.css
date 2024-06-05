@@ -78,6 +78,24 @@
     color:white;
 }
 
+.resumeButtonContainer{
+    display: flex; 
+    justify-content: flex-end; 
+    width: 100%; 
+}
+
+.writeResumeBtn{
+    height: 50px;
+    width:170px;
+    background-color: #026423;
+    color:white;
+    border-radius: 10px;
+    font-size:1.2rem;
+    margin-right: 170px;
+    font-weight: 500;
+
+}
+
 
 
 .resumeContainer {

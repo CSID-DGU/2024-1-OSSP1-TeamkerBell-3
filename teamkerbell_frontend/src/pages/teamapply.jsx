@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
+
+import React, { useState, useEffect } from "react"; // useState를 'react'에서 직접 가져옴
+import { Link, useNavigate, useParams } from 'react-router-dom'; // 'react-router-dom'에서 필요한 요소를 가져옴
 import styles from "./teamapply.module.css";
 import TeamOutline from "../components/matchingComponents/TeamOutline";
-import Portfolios from "../components/myPageComponents/Potfolios";
-import ApplyResume from "../components/matchingComponents/ApplyResume"; 
-import SingleAndDoubleClick from "../components/matchingComponents/SingleAndDoubleClick";
-import { Link ,useState } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
+import ApplyResume from "../components/matchingComponents/ApplyResume";
 import { getMyResume, getTeamDetail, setApplyResume } from "../api/comp";
+
 
 
 
@@ -19,6 +18,7 @@ const TeamApply = ( ) => {
     const [myResumes, setMyResumes] = useState([]);
     const [selectedRole, setSelectedRole] = useState("");
     const [selectedResumeId, setSelectedResumeId] = useState(-1);
+    
 
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
@@ -30,6 +30,7 @@ const TeamApply = ( ) => {
     console.log("memberRole: ", memberRole);
     console.log("myResumes: ", myResumes);
     console.log("input(role, reseumeId): ", selectedRole, selectedResumeId);
+    console.log("User ID Type:", typeof userId, "Leader ID Type:", typeof teamInfo.leaderId);
 
 
     useEffect(() => {
@@ -70,10 +71,12 @@ const TeamApply = ( ) => {
     //제출
     const handleApplyButton = async (e) => {
       e.preventDefault();
+      
       if (!selectedRole || selectedResumeId < 0) {
         alert("모든 필드를 입력해주세요.");
         return;
       }
+
       try {
         console.log("Submitting application with:", {
           compId,
@@ -88,8 +91,16 @@ const TeamApply = ( ) => {
         navigate(`/user/${userId}/mypage/projects`);
 
       } catch (error) {
-        console.error("Error submitting application:", error);
-        alert("제출 중 오류가 발생했습니다. 다시 시도해주세요.");
+        if(teamInfo.leaderId.toString() === userId){
+          alert("자신의 팀 모집에 지원할 수 없습니다!");
+          return;
+        }
+        else{
+          console.error("Error submitting application:", error);
+          alert("제출 중 오류가 발생했습니다. 다시 시도해주세요.");
+
+        }
+
       }
     };
 
@@ -131,6 +142,11 @@ const TeamApply = ( ) => {
               {/* 이력서 선택 */}
               <div className={styles.selectresumefield}>
                 <div className={styles.selectresume}>이력서 선택</div>
+                  <div className={styles.resumeButtonContainer}>                    
+                    <Link to={`/user/${userId}/mypage/resumeMaking`}>                            
+                      <button className={styles.writeResumeBtn}>이력서 작성</button>
+                    </Link>
+                  </div>
                 <div className={styles.resumeContainer}>
 
                   {myResumes.map((resume, index) => (
