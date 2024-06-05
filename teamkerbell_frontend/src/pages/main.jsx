@@ -4,6 +4,7 @@ import Carousel from "../components/mainComponents/Carousel";
 import CompCard from "../components/mainComponents/CompCard";
 import { useNavigate } from "react-router-dom";
 import { getComps } from "../api/comp";
+import { deleteCompLiked, getCompLiked, setCompLiked } from "../api/user";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -17,13 +18,20 @@ const MainPage = () => {
   const [competitions, setCompetitions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const userId = localStorage.getItem("userId");
+  const [likedCompIds, setLikedCompIds] = useState([]);
 
   useEffect(() => {
     const fetchComps = async () => {
       try {
         const response = await getComps();
-        // 데이터가 null인지 확인하고 빈 배열로 설정
         setCompetitions(response.data || []);
+
+        // 사용자의 좋아요 목록 가져오기
+        const compLikeResponse = await getCompLiked(userId);
+        if (compLikeResponse.status === 200) {
+          setLikedCompIds(compLikeResponse.data.map((comp) => comp.id));
+        }
       } catch (error) {
         setError(error);
       } finally {
@@ -32,7 +40,30 @@ const MainPage = () => {
     };
 
     fetchComps();
-  }, []);
+  }, [userId]); // userId 변경 시 다시 실행
+
+  const handleCompLike = async (compId) => {
+    try {
+      if (likedCompIds.includes(compId)) {
+        // 이미 좋아요한 경우: 좋아요 취소
+        const response = await deleteCompLiked(userId, compId);
+        if (response.status == 204) {
+          alert("찜하기가 취소되었습니다.");
+        }
+        setLikedCompIds(likedCompIds.filter((id) => id !== compId));
+      } else {
+        // 좋아요하지 않은 경우: 좋아요 추가
+        const response = setCompLiked(userId, compId);
+        if (response.status == 200) {
+          alert("공모전 찜하기가 되었습니다!");
+        }
+        setLikedCompIds([...likedCompIds, compId]);
+      }
+    } catch (error) {
+      console.error("좋아요 처리 중 오류 발생:", error);
+      // 에러 처리 로직 추가 (필요에 따라)
+    }
+  };
 
   const compMakingButtonHandler = () => {
     navigate("/compregister");
@@ -103,6 +134,8 @@ const MainPage = () => {
             title={competition.name}
             description={competition.theme}
             jobs={["프론트엔드", "백엔드", "기획", "디자인"]}
+            isHeartActive={likedCompIds.includes(competition.id)} // 좋아요 상태 전달
+            handleHeartClick={() => handleCompLike(competition.id)} // 좋아요 클릭 핸들러
           />
         ))}
       </div>

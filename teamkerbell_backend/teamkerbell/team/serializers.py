@@ -1,12 +1,19 @@
 from rest_framework import serializers
-from .models import Team, ChooseTeam, TeamRole, TeamMate, Schedule,  OutReason, PreviousWinning
+from .models import Team, ChooseTeam, TeamRole, TeamMate, Schedule,  OutReason, PreviousWinning, FinalCheck
 from user.models import Resume, BasicUser, Rude
+
 
 
 class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
-        fields=['startDate', 'endDate','schedule']
+        fields=['id','startDate', 'endDate','schedule']
+
+class OneDeleteScheduleSerializer(serializers.Serializer):
+    id = serializers.PrimaryKeyRelatedField(queryset=Schedule.objects.all())
+    
+class DeleteScheduleSerializer(serializers.Serializer):
+    deleteList = OneDeleteScheduleSerializer(many=True)
 
 class TeamforMainSerializer(serializers.ModelSerializer):
     roleList = serializers.SerializerMethodField()
@@ -131,6 +138,9 @@ class PlusMatchingSerializer(serializers.Serializer):
     role = serializers.CharField()
     recruitNum = serializers.IntegerField()
 
+class RoleListSerializer(serializers.Serializer):
+    roleList = PlusMatchingSerializer(many=True)
+
 #강제퇴출과 중도하차에서 id와 이유 받아오기
 class KickAndRunSerializer(serializers.ModelSerializer):
     class Meta:
@@ -146,3 +156,8 @@ class PreviousWinningSerializer(serializers.ModelSerializer):
     class Meta:
         model = PreviousWinning
         fields=['img','comp','title','interview']
+
+class FinalCheckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model: FinalCheck
+        fields='__all__'

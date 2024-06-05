@@ -1,6 +1,6 @@
 import styles from "./ManageProject.module.css";
 import { useNavigate } from "react-router-dom";
-import { breakeTeam } from "../../api/user";
+import { breakeTeam, compliteTeamMatching } from "../../api/user";
 
 const TeamInfoCard = ({ TeamInfo }) => {
   const navigate = useNavigate();
@@ -24,6 +24,13 @@ const TeamInfoCard = ({ TeamInfo }) => {
       }
     }
   }
+
+  async function completeTeamRecreutingButtonHandler(teamId) {
+    const response = await compliteTeamMatching(userId, teamId);
+    if (response.status == 200) {
+      alert("팀 모집이 완료됐습니다!!");
+    }
+  }
   return (
     <div className={styles.competitionsContainer}>
       <h3 className={styles.colorGreenH3}>모집중인 프로젝트</h3>
@@ -43,7 +50,12 @@ const TeamInfoCard = ({ TeamInfo }) => {
             <button onClick={cancelRecruitngButtonHandler}>모집 취소</button>
           </div>
           <div className={styles.soloButtonContainer}>
-            <button className={styles.endButton}>모집 완료</button>
+            <button
+              className={styles.endButton}
+              onClick={() => completeTeamRecreutingButtonHandler(TeamInfo.id)}
+            >
+              모집 완료
+            </button>
           </div>
         </>
       </div>

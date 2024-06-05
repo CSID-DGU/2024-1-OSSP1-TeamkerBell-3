@@ -1,7 +1,7 @@
 # user/urls.py
 from django.contrib import admin
 from django.urls import path
-from .views import patchcomp, deletecomp, applyTeam, createRandomTeam, createTeam, createComp, getComps , teamDetails, teamDescriptions, reviewList, CompInfo, createwinner
+from .views import rmAlgorithms, patchcomp, deletecomp, applyTeam, createRandomTeam, createTeam, createComp, getComps , teamDetails, teamDescriptions, reviewList, CompInfo, createwinner
 
 
 urlpatterns = [
@@ -19,4 +19,5 @@ urlpatterns = [
     path('<int:comp_id>/delete', deletecomp),
     path('<int:comp_id>/patch', patchcomp),
     path('<int:comp_id>/createwinner', createwinner),
+    path('<int:comp_id>/rmAlgorithms', rmAlgorithms),
 ]
