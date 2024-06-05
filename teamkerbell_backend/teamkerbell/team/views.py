@@ -82,16 +82,11 @@ def teamMateList(request, team_id):
     except Team.DoesNotExist:
         return Response({'error': {'code': 404, 'message': "Team not found!"}}, status=status.HTTP_404_NOT_FOUND)
     if request.method =='GET':
-        #랜덤매칭의 경우 이력서가 없음
-        if team.isRandom == False:
-            teammateList = team.teammates.filter(isTeam=True)
-            resume_list = [teammate.resume for teammate in teammateList]
-            serializer = ResumeAndRoleAndImgSerializer(resume_list, many=True,  context={'team': team})
-            return Response(serializer.data)
-        else:
-            teammateList = team.teammates.filter(isTeam=True)
-            serializer = TeamMateSerializer(teammateList, many=True)
-            return Response(serializer.data)
+        teammateList = team.teammates.filter(isTeam=True)
+        resume_list = [teammate.resume for teammate in teammateList]
+        serializer = ResumeAndRoleAndImgSerializer(resume_list, many=True,  context={'team': team})
+        return Response(serializer.data)
+       
 
 @swagger_auto_schema(method='get', tags=["팀원 목록(상호평가 창)"])
 @swagger_auto_schema(methods=['post'], request_body=CombinedSerializer, tags=["상호평가 전송"])
@@ -171,7 +166,7 @@ def mutualReview(request, team_id):
                         user = BasicUser.objects.get(id=improvement.validated_data['id'].id)
                         reporter = BasicUser.objects.get(id=improvement.validated_data['reporter'].id)
                         FinalCheck(user=user, reporter=reporter, team=team).save()  
-            if FinalCheck.objects.filter(team=team).count() == team.recruitNum*(team.recruitNum-1):
+            if FinalCheck.objects.filter(team=team).count() == TeamMate.objects.filter(team=team, isTeam=True).count()*(TeamMate.objects.filter(team=team, isTeam=True).count()-1):
                 TeamMate.objects.filter(team=team).delete()
                 TeamRole.objects.filter(team=team).delete()
                 Schedule.objects.filter(team=team).delete()
@@ -229,7 +224,7 @@ def manageTeam(request, team_id):
         teammates = team.teammates.filter(isTeam=True)
         users = [teammate.user for teammate in teammates]
         serializer = MemberListSerializer(users, many=True)
-        return Response({"memberList": serializer.data, "leader": team.leader.id, "endVote": team.endVote, "recruitNum": team.recruitNum})
+        return Response({"memberList": serializer.data, "leader": team.leader.id, "endVote": team.endVote, "recruitNum": TeamMate.objects.filter(team=team, isTeam=True).count()})
 
 
 @swagger_auto_schema(methods=['POST'],request_body= IdSerializer, tags=["팀 종료 투표보내기"])
