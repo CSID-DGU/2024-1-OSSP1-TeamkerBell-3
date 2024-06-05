@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./RandomMatchingQuestion.module.css"
 import RegionSelector from "./RegionSelector";
 import { useNavigate, useParams } from "react-router-dom";
-import { setRandomTeam } from "../../api/comp";
+import { setRandomTeam, setRandomTeamMember } from "../../api/comp";
 
 const RandomMatchingQuestion = () => {
 
@@ -68,7 +68,7 @@ const RandomMatchingQuestion = () => {
             await setRandomTeam(compId, userId, selectedRole,city, district, isLeader,recruitNum);
           }
           else{
-            await setRandomTeam(compId, userId, selectedRole,city, district, isLeader,recruitNum);
+            await setRandomTeamMember(compId, userId, selectedRole,city, district, isLeader,recruitNum);
           }
           alert("매칭 신청 완료되었습니다.");
           navigate(`/user/${userId}/mypage/projects`)

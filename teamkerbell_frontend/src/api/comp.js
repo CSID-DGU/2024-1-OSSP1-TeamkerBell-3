@@ -70,7 +70,7 @@ export const setSelectTeam = (
 export const getMyResumeForCreateTeam = (compId, userId) =>
   sendRequest(compInstance, "get", `/${compId}/createTeam/${userId}`);
 
-//랜덤 팀 생성
+//랜덤 팀 생성(팀장)
 export const setRandomTeam = (
   compId,
   user,
@@ -80,7 +80,7 @@ export const setRandomTeam = (
   isLeader,
   recruitNum
 ) =>
-  sendRequest(compInstance, "post", `/${compId}/createRandomTeam/`, {
+  sendRequest(compInstance, "post", `/${compId}/rmAlgorithms`, {
     user: user,
     role: role,
     city: city,
@@ -89,7 +89,7 @@ export const setRandomTeam = (
     recruitNum: recruitNum,
   });
 
-//랜덤 팀 생성
+//랜덤 팀 생성(팀원)
 export const setRandomTeamMember = (
   compId,
   user,
@@ -99,7 +99,7 @@ export const setRandomTeamMember = (
   isLeader,
   recruitNum
 ) =>
-  sendRequest(compInstance, "post", `/${compId}/rmAlgorithms/`, {
+  sendRequest(compInstance, "post", `/${compId}/createRandomTeam/`, {
     user: user,
     role: role,
     city: city,
