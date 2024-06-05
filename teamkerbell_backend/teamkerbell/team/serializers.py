@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import Team, ChooseTeam, TeamRole, TeamMate, Schedule,  OutReason, PreviousWinning
+from .models import Team, ChooseTeam, TeamRole, TeamMate, Schedule,  OutReason, PreviousWinning, FinalCheck
 from user.models import Resume, BasicUser, Rude
+
 
 
 class ScheduleSerializer(serializers.ModelSerializer):
@@ -155,3 +156,8 @@ class PreviousWinningSerializer(serializers.ModelSerializer):
     class Meta:
         model = PreviousWinning
         fields=['img','comp','title','interview']
+
+class FinalCheckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model: FinalCheck
+        fields='__all__'
