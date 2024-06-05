@@ -68,7 +68,7 @@ const RandomMatchingQuestion = () => {
             await setRandomTeam(compId, userId, selectedRole,city, district, isLeader,recruitNum);
           }
           else{
-            
+            await setRandomTeam(compId, userId, selectedRole,city, district, isLeader,recruitNum);
           }
           alert("매칭 신청 완료되었습니다.");
           navigate(`/user/${userId}/mypage/projects`)
