@@ -30,7 +30,6 @@ const TeamApply = ( ) => {
     console.log("memberRole: ", memberRole);
     console.log("myResumes: ", myResumes);
     console.log("input(role, reseumeId): ", selectedRole, selectedResumeId);
-    console.log("User ID Type:", typeof userId, "Leader ID Type:", typeof teamInfo.leaderId);
 
 
     useEffect(() => {

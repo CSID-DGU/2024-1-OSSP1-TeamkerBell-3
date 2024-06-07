@@ -46,6 +46,7 @@
   font-size: 1.3rem;
   font-family: "NanumGothic";
   line-height: 2;
+
 }
 
 .daycount {
@@ -67,3 +68,26 @@
   grid-template-columns: minmax(400px, 1fr) 1.5fr;
   justify-content: space-between;
 }
+
+.label {
+  flex: 0 0 220px; /* 레이블의 너비를 고정으로 지정하고 접수 기간의 너비에 맞춤 */
+  position: relative;
+}
+
+.label::after {
+  content: '';
+  position: absolute;
+  right: 20; /* 우측 끝에 구분선을 위치시킴 */
+  top: 0;
+  bottom: 0;
+  width: 2px; /* 구분선의 두께 */
+  background-color: #044018; /* 초록색 구분선 */
+}
+
+
+
+.daycount {
+  margin-left: auto; /* D-카운트를 오른쪽으로 밀어줌 */
+  padding: 0 5px;
+}
+

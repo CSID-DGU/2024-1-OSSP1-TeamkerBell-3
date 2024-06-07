@@ -14,31 +14,7 @@ const TeamDetail = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const DUMMY_TEAM_OUTLINE = {
-    title: "교보생명 대학생 디자인 공모전 팀원 구합니다!",
-    profileimg: "/Male User.png",
-    writer: "Danny",
-    uploaddate: "2024.04.07",
-    category: "공모전",
-    meetingway: "온/오프라인",
-    recruitnum: 4,
-    startdate: "2024.04.21",
-    recruitjobs: ["디자이너", "백엔드", "프론트엔드", "기획"],
-    languages: ["HTML", "CSS", "Django"],
-    location: "서울",
-  };
 
-  const DUMMY_TEAM_DETAILS = {
-    //프로젝트 소개
-    intro:
-      "함께 이번 공모전에 참가할 팀원을 모집하고 있습니다. 주제와 관련해서 어느정도 기반 지식을 가지고 계신 분이면 더욱 좋을 것 같습니다. 어느새 길어진 그림자를 따라서 땅거미진 어둠속을 그대와 걷고 있네요 차가워진 눈빛을 바라보며 이별의 말을 전해 들어요 아무 의미없던 노래 가사가 아프게 귓가에 맴돌아요. 다시 겨울이 시작되듯이 흩어지는 눈 사이로 그대 내 맘에 쌓여만 가네",
-
-    //자격조건
-    experience: 1,
-    baekjoontier: "D5+",
-    requiredmajor: "상관없음",
-    meetingtime: "월, 수, 금",
-  };
 
   console.log("teamdetail: ", teamDetail);
 

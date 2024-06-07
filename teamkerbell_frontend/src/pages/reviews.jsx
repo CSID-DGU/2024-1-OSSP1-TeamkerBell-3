@@ -16,6 +16,14 @@ const CompReviews = () => {
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
+    const DUMMY_COMP_REVIEWS = [
+        "생각보다 준비해야 할 자료들이 너무 많아요ㅠㅠㅠ",
+        "조금만 꼼꼼하게 준비했으면 상 탈 수 있을 거 같은데 아쉽네요",
+        "개인적으로 너무 만족스러웠던 대회였습니다!!!",
+        "현직자들과 함께 경쟁해야 해서 힘들어요",
+        "대회가 알차고 구성이 잘 되어 있어요~~"
+    ]
+
     
 
     useEffect(() => {
@@ -27,7 +35,7 @@ const CompReviews = () => {
                 console.log(response)
         
                 setCompDetail(response.data.compInfo);
-                setCompReview(response.data.reviewList);
+                //setCompReview(response.data.reviewList);
     
 
                 setIsLoading(false);
@@ -92,7 +100,7 @@ const CompReviews = () => {
                 
                 
                 <div className = {styles.reviews}>
-                    {compReview.map((review, index) => (
+                    {DUMMY_COMP_REVIEWS.map((review, index) => (
                       <ReviewCard
                         key={index}
                         review={review}

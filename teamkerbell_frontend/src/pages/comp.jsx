@@ -20,13 +20,21 @@ const CompMatching = () => {
   console.log("compDetail: ",compDetail);
   console.log("compReview: ",compReview);
 
+  const DUMMY_COMP_REVIEWS = [
+    "생각보다 준비해야 할 자료들이 너무 많아요ㅠㅠㅠ",
+    "조금만 꼼꼼하게 준비했으면 상 탈 수 있을 거 같은데 아쉽네요",
+    "개인적으로 너무 만족스러웠던 대회였습니다!!!",
+    "현직자들과 함께 경쟁해야 해서 힘들어요",
+    "대회가 알차고 구성이 잘 되어 있어요~~"
+  ]
+
 
   useEffect(() => {
     const fetchCompDetail = async () => {
       try {
         const response = await getCompDetail(compId);
         setCompDetail(response.data.compInfo);
-        setCompReview(response.data.reviewList);
+        //setCompReview(response.data.reviewList);
 
         setIsLoading(false);
       } catch (error) {
@@ -85,7 +93,7 @@ const CompMatching = () => {
         </div>
 
         <div className={styles.reviews}>
-          {compReview.slice(0,3).map((review, index) => (
+          {DUMMY_COMP_REVIEWS.slice(0,3).map((review, index) => (
             <ReviewCard key={index} review={review} />
           ))}
         </div>
