@@ -7,6 +7,15 @@ const Header = () => {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
+  const tid = localStorage.getItem("tid");
+  const toMyTeamButtonHandler = () => {
+    if (tid) {
+      navigate(`/team/${tid}`);
+    } else {
+      alert("최근에 들어간 팀이 존재하지 않습니다!");
+      return;
+    }
+  };
 
   useEffect(() => {
     if (userId) {
@@ -47,6 +56,15 @@ const Header = () => {
         <div className={styles.welcomeNLogout}>
           {username ? (
             <>
+              {tid ? (
+                <button
+                  className={styles.toMyTeamButton}
+                  onClick={toMyTeamButtonHandler}
+                >
+                  {" "}
+                  내 팀으로 가기{" "}
+                </button>
+              ) : null}
               <p className={styles.welcomeMessage}>{username}님 반갑습니다! </p>
               <button className={styles.logoutButton} onClick={handleLogout}>
                 로그아웃
