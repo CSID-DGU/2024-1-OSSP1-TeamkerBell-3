@@ -422,6 +422,12 @@ def rmAlgorithms(request, comp_id):
                     
                     newTeam.save()
 
+                    try:
+                        sorted_data = RandomMatching.objects.filter(comp_id=comp_id,isMatched = True)
+                    except:
+                        RandomMatching.objects.filter(user=myInfoSerializer.data['user'],comp=comp).delete()
+                        return Response({'error': {'code': 404, 'message': "There are no enough people !!"}}, status=status.HTTP_404_NOT_FOUND)
+
                     roles_count = {
                         "프론트엔드": 0,
                         "백엔드": 0,
