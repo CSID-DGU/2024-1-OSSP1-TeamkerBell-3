@@ -73,3 +73,7 @@
   cursor: pointer;
   margin-bottom: 10px; /* 버튼과 버튼 사이의 간격 추가 */
 }
+
+.toMyTeamButton {
+  font-size: 15px;
+}

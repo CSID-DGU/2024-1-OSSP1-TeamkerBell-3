@@ -27,13 +27,16 @@ const MainPage = () => {
         const response = await getComps();
         setCompetitions(response.data || []);
 
-        // 사용자의 좋아요 목록 가져오기
-        const compLikeResponse = await getCompLiked(userId);
-        if (compLikeResponse.status === 200) {
-          setLikedCompIds(compLikeResponse.data.map((comp) => comp.id));
+        if (userId) {
+          // 사용자의 좋아요 목록 가져오기
+          const compLikeResponse = await getCompLiked(userId);
+          if (compLikeResponse.status === 200) {
+            setLikedCompIds(compLikeResponse.data.map((comp) => comp.id));
+          }
         }
       } catch (error) {
-        setError(error);
+        console.log(error);
+        setIsLoading(false);
       } finally {
         setIsLoading(false);
       }
@@ -43,6 +46,10 @@ const MainPage = () => {
   }, [userId]); // userId 변경 시 다시 실행
 
   const handleCompLike = async (compId) => {
+    if (!userId) {
+      alert("로그인 후 이용 가능하십니다!");
+      return; // 함수 종료
+    }
     try {
       if (likedCompIds.includes(compId)) {
         // 이미 좋아요한 경우: 좋아요 취소
@@ -60,6 +67,9 @@ const MainPage = () => {
         setLikedCompIds([...likedCompIds, compId]);
       }
     } catch (error) {
+      if (error.status == 404) {
+        alert("로그인 후 이용 가능하십니다!");
+      }
       console.error("좋아요 처리 중 오류 발생:", error);
       // 에러 처리 로직 추가 (필요에 따라)
     }
