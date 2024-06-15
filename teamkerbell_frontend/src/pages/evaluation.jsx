@@ -40,8 +40,9 @@ const Evaluation = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [memberInfo, setMemberInfo] = useState();
-  const [isEnd, setIsEnd] = useState();
+  const [memberInfo, setMemberInfo] = useState([]);
+  const [isEnd, setIsEnd] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(null);
 
   useEffect(() => {
     const fetchReportInfo = async () => {
@@ -64,18 +65,23 @@ const Evaluation = () => {
     fetchReportInfo();
   }, [tid, setCategoryState]);
 
-  const [improve, setImprove] = useState();
+  useEffect(() => {
+    if (memberInfo.length > 0 && !selectedMember) {
+      setSelectedMember(memberInfo[0].id.toString());
+    }
+  }, [memberInfo, selectedMember]);
+
+  const [improve, setImprove] = useState("");
 
   const [improves, setImproves] = useState([]);
 
   useEffect(() => {
-    console.log(improves);
-    if (memberInfo) {
+    if (memberInfo.length > 0) {
       setImproves(
         memberInfo.map((member) => ({
           id: member.id,
-          improvement: improve,
-          reporter: 3,
+          improvement: "",
+          reporter: localStorage.userId,
         }))
       );
     }
@@ -84,7 +90,7 @@ const Evaluation = () => {
   const feedbackChange = (event) => {
     const updatedImproves = improves.map((i) => {
       // id와 score.id를 문자열로 변환하여 비교
-      if (i.id.toString() === id.toString()) {
+      if (i.id.toString() === selectedMember.toString()) {
         // 참여도 업데이트
         return { ...i, improvement: event.target.value };
       }
@@ -97,14 +103,14 @@ const Evaluation = () => {
     console.log("improvement:", event.target.value);
   };
 
-  const [review, setReview] = useState();
-  const [reviews, setReviews] = useState([]); // myreview 변수 초기화 필요
+  const [review, setReview] = useState("");
+  const [reviews, setReviews] = useState([]);
 
   /* 후기 변경시 작동 */
   const reviewChange = (event) => {
     const newReview = event.target.value;
     setReview(newReview);
-    setReviews({ review: newReview }); // 배열에 단일 리뷰만 유지
+    setReviews({ review: newReview }); // 배열에 리뷰만 존재
     console.log(newReview);
   };
   /* 버튼 클릭시 모든 정보 전송 */
@@ -124,7 +130,7 @@ const Evaluation = () => {
   const [scores, setScores] = useState([]);
 
   useEffect(() => {
-    if (memberInfo) {
+    if (memberInfo.length > 0) {
       setScores(
         memberInfo.map((member) => ({
           id: member.id,
@@ -137,33 +143,60 @@ const Evaluation = () => {
     }
   }, [memberInfo]);
 
-  const nameClicked = (event) => {
-    console.log(event.target.value);
-    setId(event.target.value);
+  const TagColorReset = (selectedTags = []) => {
+    const newBorderBlackArray = Array(Tags.length).fill(true);
+    selectedTags.forEach((tagIdx) => {
+      newBorderBlackArray[tagIdx] = false;
+    });
+    setIsBorderBlackArray(newBorderBlackArray);
   };
+
+  const nameClicked = (event) => {
+    const newSelectedMember = event.target.value;
+    setSelectedMember(newSelectedMember);
+
+    // 현재 선택된 멤버의 태그 정보를 기반으로 태그 색상을 업데이트합니다.
+    const member = scores.find(
+      (score) => score.id.toString() === newSelectedMember.toString()
+    );
+    if (member) {
+      TagColorReset(member.tag);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedMember !== null) {
+      const member = scores.find(
+        (score) => score.id.toString() === selectedMember.toString()
+      );
+      if (member) {
+        TagColorReset(member.tag);
+      }
+    }
+  }, [selectedMember, scores]);
 
   useEffect(() => {
     console.log(scores);
   }, [scores]);
-  /* 평가 값이 변할 때마다 콘솔 출력 */
 
   const title = ["참여도", "기여도", "인성/태도"];
 
   const scoreClicked = (event) => {
+    const { name, value } = event.target;
     const updatedScores = scores.map((score) => {
       // id와 score.id를 문자열로 변환하여 비교
-      if (score.id.toString() === id.toString()) {
+      if (score.id.toString() === selectedMember.toString()) {
         // 참여도 업데이트
-        if (event.target.name === "참여도") {
-          return { ...score, participation: event.target.value };
+        if (name === "참여도") {
+          return { ...score, participation: parseInt(value) };
         }
-        // 성실성 업데이트
-        else if (event.target.name === "기여도") {
-          return { ...score, contribution: event.target.value };
+        // 기여도 업데이트
+        else if (name === "기여도") {
+          return { ...score, contribution: parseInt(value) };
         }
-        // 팀워크 업데이트
-        else if (event.target.name === "인성/태도") {
-          return { ...score, attitude: event.target.value };
+        //인성및태도 업데이트
+        else if (name === "인성/태도") {
+          return { ...score, attitude: parseInt(value) };
         }
       }
       // 일치하지 않는 경우 원래 객체 반환
@@ -185,16 +218,13 @@ const Evaluation = () => {
       return newState;
     });
 
-    console.log("idx", idx);
     const updatedScores = scores.map((score) => {
-      // id와 score.id를 문자열로 변환하여 비교
-      if (score.id.toString() === id.toString()) {
-        // tags 속성이 이미 존재한다면 해당 배열에 idx 추가, 그렇지 않다면 새 배열 생성
-        const updatedTag = score.tag ? [...score.tag, idx] : [idx];
-        updatedTag.sort((a, b) => a - b); /* tag 정렬 */
-        return { ...score, tag: updatedTag };
+      if (score.id.toString() === selectedMember.toString()) {
+        const updatedTag = score.tag.includes(idx)
+          ? score.tag.filter((tag) => tag !== idx)
+          : [...score.tag, idx];
+        return { ...score, tag: updatedTag.sort((a, b) => a - b) };
       }
-      // 일치하지 않는 경우 원래 객체 반환
       return score;
     });
 
@@ -213,7 +243,8 @@ const Evaluation = () => {
       ) : (
         <div className={styles.main}>
           {isEnd ? (
-            <div>
+            <div key={selectedMember}>
+              {/* 마운트로 이름에 따라 따로 저장 */}
               <h2 className={styles.title}>마무리</h2>
               <hr className={styles.line} />
               <div className={styles.box}>
@@ -229,6 +260,7 @@ const Evaluation = () => {
                         name="memberInfo"
                         value={name.id}
                         onChange={nameClicked}
+                        checked={selectedMember === name.id.toString()}
                       />
                       <span>{name.nickname}</span>
                     </label>
@@ -236,26 +268,43 @@ const Evaluation = () => {
                 </div>
 
                 {/* 상호평가 */}
-                {title.map((title, eindex) => (
-                  <div key={eindex} className={styles.box2}>
-                    <div className={styles.evaTitle}>{title}</div>
-                    {[1, 2, 3, 4, 5].map((value, index) => (
-                      <div key={index}>
-                        {value < 6 ? (
-                          <div className={styles.num}>{value}</div>
-                        ) : null}
-                        <label key={index} className={styles.radioStyle}>
-                          <input
-                            type="radio"
-                            name={title}
-                            value={value}
-                            onClick={scoreClicked}
-                          />
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                ))}
+                {selectedMember &&
+                  title.map((title, eindex) => (
+                    <div
+                      key={`${selectedMember}-${eindex}`}
+                      className={styles.box2}
+                    >
+                      <div className={styles.evaTitle}>{title}</div>
+                      {[1, 2, 3, 4, 5].map((value, index) => (
+                        <div key={index}>
+                          {value < 6 ? (
+                            <div className={styles.num}>{value}</div>
+                          ) : null}
+                          <label key={index} className={styles.radioStyle}>
+                            <input
+                              type="radio"
+                              name={title}
+                              value={value}
+                              onChange={scoreClicked}
+                              checked={
+                                scores.find(
+                                  (score) =>
+                                    score.id.toString() ===
+                                    selectedMember.toString()
+                                )?.[
+                                  title === "참여도"
+                                    ? "participation"
+                                    : title === "기여도"
+                                    ? "contribution"
+                                    : "attitude"
+                                ] === value
+                              }
+                            />
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
                 <p></p>
 
                 {/* 태그 선택 */}
@@ -271,18 +320,15 @@ const Evaluation = () => {
                   ].map((group, groupIndex) => (
                     <div key={groupIndex} className={styles.tagArray}>
                       {group.map((Tag, tagIndex) => {
-                        // 전체 Tags 배열에서 현재 태그의 인덱스를 찾음
                         const fullIndex = Tags.indexOf(Tag);
                         return (
                           <button
-                            key={fullIndex} // 각 태그의 실제 인덱스를 키로 사용
-                            onClick={() => {
-                              tagColorHandle(fullIndex); // 올바른 인덱스로 핸들러 호출
-                            }}
+                            key={fullIndex}
+                            onClick={() => tagColorHandle(fullIndex)}
                             className={styles.tag}
                           >
                             <Tag
-                              isBorderBlack={isBorderBlackArray[fullIndex]} // 올바른 인덱스로 상태 확인
+                              isBorderBlack={isBorderBlackArray[fullIndex]}
                             />
                           </button>
                         );
@@ -300,9 +346,14 @@ const Evaluation = () => {
                     className={styles.boxInput}
                     placeholder="해당 팀원이 개선해야 할 점을 작성해 주세요."
                     onChange={feedbackChange}
+                    value={
+                      improves.find(
+                        (i) => i.id.toString() === selectedMember.toString()
+                      )?.improvement || ""
+                    } // 해당 멤버에 대해 개선점 저장
                   ></textarea>
                 </div>
-              </div>{" "}
+              </div>
               <div>
                 <h2 className={styles.title}>공모전 후기</h2>
                 <hr className={styles.line} />
@@ -311,6 +362,7 @@ const Evaluation = () => {
                   className={styles.boxInput}
                   placeholder="공모전을 진행한 후기를 작성해주세요."
                   onChange={reviewChange}
+                  value={review}
                 ></textarea>
 
                 <button className={styles.submitsBtn} onClick={send}>

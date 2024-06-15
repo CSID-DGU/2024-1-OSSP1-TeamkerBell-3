@@ -225,7 +225,7 @@ const TeamManage = () => {
     }
   };
 
-  const plusmatching = () => {
+  const plusmatching = async () => {
     try {
       console.log("tid: ", tid);
       console.log("inputList: ", inputList);
@@ -238,8 +238,18 @@ const TeamManage = () => {
       console.log("[SendList]:", sendList);
       console.log(sendList);
 
-      const responsePlusMatching = sendPlusMatching(tid, sendList);
+      const responsePlusMatching = await sendPlusMatching(tid, sendList);
       console.log("[PlusMatching]:", responsePlusMatching);
+      console.log(
+        "[insufficient]:",
+        responsePlusMatching.data.insufficient_roles
+      );
+      if (responsePlusMatching.data.insufficient_roles != null)
+        alert(
+          "추가 매칭 실패한 분야: " +
+            responsePlusMatching.data.insufficient_roles
+        );
+      else alert("추가 매칭 성공했습니다");
     } catch (error) {
       console.error("Error sending plusMatching:", error);
     }
