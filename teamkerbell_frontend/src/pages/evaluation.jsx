@@ -53,6 +53,14 @@ const Evaluation = () => {
         const responseGet = await getEvaluate(tid);
         setIsEnd(responseGet.data.isEnd);
         setMemberInfo(responseGet.data.memberList);
+        if (responseGet.data.isEnd) {
+          const filteredMembers = responseGet.data.memberList.filter((list) => {
+            return list.id.toString() !== localStorage.userId; // 조건에 맞는 멤버를 제외
+          });
+
+          setMemberInfo(filteredMembers);
+          console.log(filteredMembers);
+        }
       } catch (error) {
         setIsError(true);
         setErrorMessage("상호평가 기본정보를 불러오는 중 오류가 발생했습니다.");
@@ -66,7 +74,7 @@ const Evaluation = () => {
   }, [tid, setCategoryState]);
 
   useEffect(() => {
-    if (memberInfo.length > 0 && !selectedMember) {
+    if (memberInfo && memberInfo.length > 0 && !selectedMember) {
       setSelectedMember(memberInfo[0].id.toString());
     }
   }, [memberInfo, selectedMember]);
@@ -76,7 +84,7 @@ const Evaluation = () => {
   const [improves, setImproves] = useState([]);
 
   useEffect(() => {
-    if (memberInfo.length > 0) {
+    if (memberInfo && memberInfo.length > 0) {
       setImproves(
         memberInfo.map((member) => ({
           id: member.id,
@@ -130,7 +138,7 @@ const Evaluation = () => {
   const [scores, setScores] = useState([]);
 
   useEffect(() => {
-    if (memberInfo.length > 0) {
+    if (memberInfo && memberInfo.length > 0) {
       setScores(
         memberInfo.map((member) => ({
           id: member.id,

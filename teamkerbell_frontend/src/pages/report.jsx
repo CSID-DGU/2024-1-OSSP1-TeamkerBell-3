@@ -34,6 +34,14 @@ const RePort = () => {
       try {
         const responseGet = await getTeamReport(tid);
         setReportInfo(responseGet.data);
+        console.log("[reportInfo]:", responseGet.data);
+
+        if (responseGet.data) {
+          const filterInfo = responseGet.data.filter((list) => {
+            return list.id.toString() !== localStorage.userId; // 조건에 맞는 멤버를 제외
+          });
+          setReportInfo(filterInfo);
+        }
       } catch (error) {
         setIsError(true);
         setErrorMessage(

@@ -110,6 +110,7 @@ const TeamManage = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [memberInfo, setMemberInfo] = useState([]);
+  const [filterMemberInfo, setFilterMemberInfo] = useState([]);
   const [endAgree, setEndAgree] = useState();
   const [leaderId, setLeaderId] = useState();
   const [isLeader, setIsLeader] = useState();
@@ -126,6 +127,13 @@ const TeamManage = () => {
         const responseGet = await getManage(tid);
         console.log("[Response]: ", responseGet.data);
         setMemberInfo(responseGet.data.memberList);
+        if (responseGet.data) {
+          const filterInfo = responseGet.data.memberList.filter((list) => {
+            return list.id.toString() !== localStorage.userId; // 본인은 제외
+          });
+
+          setFilterMemberInfo(filterInfo);
+        }
         setEndAgree(responseGet.data.endVote);
         setLeaderId(responseGet.data.leader);
         setId(localStorage.userId);
@@ -389,7 +397,7 @@ const TeamManage = () => {
 
                   {view && (
                     <ul className={styles.listt}>
-                      {memberInfo.map((content, index) => (
+                      {filterMemberInfo.map((content, index) => (
                         <li
                           className={styles.text}
                           key={index}
