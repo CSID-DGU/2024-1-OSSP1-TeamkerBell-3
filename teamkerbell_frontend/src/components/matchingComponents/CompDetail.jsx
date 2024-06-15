@@ -13,38 +13,49 @@ const CompDetail = ({ image, title, period, daycount, organization, theme, quali
         <img src={image}  alt={title} className={styles.image} />
 
         <ul className={styles.description}>
-          <li>
-            <div> 
-                <span className={styles.label}>접수 기간 </span> {period}   
-                <div className={styles.daycount}>
-                    D-{daycount}
-                </div>
-            </div>
+          <li className={styles.li}>
+            <span className={styles.label}>접수 기간 </span> 
+            <span className={styles.content}>
+              {period} 
+              <span className={styles.daycount}>D-{daycount}</span>
+            </span>  
           </li>
-          <li>
+          
+          <li className={styles.li}>
             <span className={styles.label}>기관 </span>
-             {organization}</li>
-          <li>
+            <span className={styles.content}>{organization}</span>
+          </li>
+
+          <li className={styles.li}>
             <span className={styles.label}>공모 주제 </span>
-             {theme}</li>
-          <li>
+            <span className={styles.content}>{theme}</span>
+          </li>
+          
+          <li className={styles.li}>
             <span className={styles.label}>지원 자격 </span>
-             <div className={styles.content}>{qualification}</div></li>
-          <li>
+            <span className={styles.content}>{qualification}</span>
+          </li>
+          
+          <li className={styles.li}>
             <span className={styles.label}>지원 방법 </span>
-            <div className={styles.content}>{apply}</div></li>
-          <li>
+            <span className={styles.content}>{apply}</span>
+          </li>
+          
+          <li className={styles.li}>
             <span className={styles.label}>시상 </span>
-            <div className= {styles.content}>{awards}</div></li>
-          <li>
+            <span className= {styles.content}>{awards}</span>
+          </li>
+          
+          <li className={styles.li}>
             <span className={styles.label}>문의 사항 </span>
-            <div>{inquiry}</div></li>
-          <li>
-            자세히 보기
-            <div>
-                <a href = {link}>{link}</a>
-            </div>
-           </li>
+            <span className={styles.content}>{inquiry}</span>
+          </li>
+          
+          <li className={styles.li}>
+            <span className={styles.label}>자세히 보기 </span>
+            <span className={styles.content}><a href={link}>{link}</a></span>
+           
+          </li>
 
         </ul>
       </div>
