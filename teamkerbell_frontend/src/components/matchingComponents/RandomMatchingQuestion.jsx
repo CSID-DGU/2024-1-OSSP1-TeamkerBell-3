@@ -127,9 +127,6 @@ const RandomMatchingQuestion = () => {
                     <input type="checkbox" id="checkbox" className={styles.checkbtn} onClick={handleCheck}/>
                     <div className="checktext">취소할 경우 불이익이 있을 수 있음을 확인하였으며, 위에 내용에 대해 동의합니다.</div>
                 </div>
-
-
-
             </div>
 
             <button className={styles.applybtn} onClick={handleApplyButton}>매칭 시작</button>

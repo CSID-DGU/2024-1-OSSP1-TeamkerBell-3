@@ -6,6 +6,7 @@ import AskMatching from "../components/matchingComponents/AskMatchingComponent";
 import { Link, useParams } from "react-router-dom";
 import { getCompDetail } from "../api/comp";
 import ErrorComponent from "../components/ErrorComponent";
+import TopButton from "../components/matchingComponents/TopButton";
 
 const CompMatching = () => {
   //공모전 상세 내용
@@ -60,6 +61,8 @@ const CompMatching = () => {
   return (
   
     <div className={styles.container}>    
+      <TopButton></TopButton>
+
       {/* 공모전 상세 정보 */}
       <div className={styles.compDetailContainer}>
         {isLoading ? (
@@ -103,6 +106,8 @@ const CompMatching = () => {
       <div>
         <AskMatching></AskMatching>
       </div>
+          
+      
     </div>
   );
 };

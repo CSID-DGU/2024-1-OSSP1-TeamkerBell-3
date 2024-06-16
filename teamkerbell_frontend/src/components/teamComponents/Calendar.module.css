@@ -10,7 +10,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-40%, -50%);
-  width: 45%; 
+  width: 55%; 
   height: 60%; 
   background-color: white;
   border-radius: 8px;
@@ -62,16 +62,76 @@
 .inputtodo{
   height:30px;
   width: 300px;
+  margin-top:10px;
 }
 
-.todo, .date{
+.colorPicker {
+  display: flex;
+  gap: 10px; /* 옵션 사이의 간격 */
+  padding: 5px; /* 패딩 */
+}
+
+.colorOption {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%; /* 원형 모양 */
+  border: 2px solid #fff; /* 흰색 테두리 */
+  cursor: pointer; /* 클릭 가능 표시 */
+}
+
+.colorOption:hover {
+  border-color: #ccc; /* 호버 시 테두리 색 변경 */
+}
+
+.selectedColorOption {
+  border-color: #000; /* 검은색 테두리 */
+}
+
+
+.date{
   font-family: "NanumSquareNeo-cBd";
   margin-top:15px;
   font-size: 20px;
 
-  
+}
+
+.deleteButton {
+  margin-left: 10px;
+  background-color: transparent;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
+
+.todoContent {
+  flex-grow: 1;
+}
+
+
+
+.todo {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  font-family: "NanumSquareNeo-cBd";
+  position: relative;
+  padding-left: 20px; /* 세로선과 텍스트 사이 간격 */
+  margin-bottom: 10px; /* 각 일정 사이 간격 */
+  border-left: 4px solid; /* 기본 세로선 스타일 */
+}
+
+.todo::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px; /* 선의 너비 */
+  background-color: inherit; /* 선의 색상 */
 
 }
+
 
 .submit{
   background-color: #006322;
@@ -115,6 +175,7 @@
   margin-left: 1px;
   justify-content: center;
   color:black;
+  opacity:1;
 }
 
 

@@ -107,12 +107,14 @@ const AskMatching = () => {
           </div>
           
         ) : (
-          <div className = {styles. RandomMatchingDescription}>
+          <div className = {styles.RandomMatchingDescription}>
             <img src="../../../randomMatchingMethod.png" />
             <RandomMatchingQuestion></RandomMatchingQuestion>
           </div>
         )}
       </div>
+
+
     </div>
   );
 };
