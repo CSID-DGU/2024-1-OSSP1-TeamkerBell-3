@@ -1,25 +1,57 @@
 
-
 @font-face {
   font-family: "NanumSquareNeo-cBd"; /* Bold */
   font-weight: normal;
   src: url("../../../public/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
 }
 
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+  width: 45%; 
+  height: 60%; 
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 20px;
+  overflow: auto; /* 내용이 넘칠 경우 스크롤바 자동 생성 */
+  z-index: 1000;
+}
 
 .calendar {
   width: 100%;
+  
 }
 
 .title {
   color: #006322;
   font-family: "NanumSquareNeo-cBd";
   font-weight: 900;
+  font-size: 25px;
+
+}
+
+.closemodal {
+  position: absolute;
+  top: 10px;  /* 상단으로부터의 거리 */
+  right: 10px; /* 우측으로부터의 거리 */
+  background: none; /* 배경을 투명하게 설정 */
+  border: none; /* 테두리 제거 */
+  cursor: pointer; /* 마우스 오버 시 포인터 모양 변경 */
+  z-index: 10; /* 다른 요소 위에 표시되도록 z-index 설정 */
+}
+
+.closemodal img {
+  width: 24px;  /* 이미지 크기 조정 */
+  height: 24px;
 }
 
 .today{
   font-family: "NanumSquareNeo-cBd";
   font-weight: 1200;
+  font-size: 25px;
 }
 
 .input {
@@ -34,6 +66,10 @@
 
 .todo, .date{
   font-family: "NanumSquareNeo-cBd";
+  margin-top:15px;
+  font-size: 20px;
+
+  
 
 }
 
@@ -44,27 +80,41 @@
   margin-left:20px;
   height:30px;
   border-radius: 10;
-  
-
 }
 
 /* Calendar.module.css에 추가 */
+.react-calendar .saturday.selectedDay,
+.react-calendar__month-view__days__day--weekend.selectedDay {
+  color: white;
+}
+
 .saturday {
   color: blue; /* 토요일에 대한 스타일 */
 }
+
+
+.selectedDay {
+  background-color: #026423c4;
+  color: white; 
+  border-radius: 6px; 
+}
+
+
 .dotContainer {
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 .dot {
   height: 8px;
   width: 8px;
-  background-color: #f87171;
+  background-color: #f504487e;
   border-radius: 50%;
   display: flex;
   margin-left: 1px;
   justify-content: center;
+  color:black;
 }
 
 

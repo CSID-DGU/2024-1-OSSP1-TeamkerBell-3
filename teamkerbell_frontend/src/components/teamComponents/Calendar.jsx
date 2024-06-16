@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import Modal from "react-modal";
 import moment from "moment";
-import styles from "./Calendar.module.css";
 import "react-calendar/dist/Calendar.css";
+import "./calendarstyles.css"
+import styles from "./Calendar.module.css";
+
 
 Modal.setAppElement("#root");
 
@@ -18,6 +20,7 @@ function CalendarComponent() {
   const [mark, setMark] = useState({});
   const [clickTimeout, setClickTimeout] = useState(null);
 
+
   useEffect(() => {
     const todayStr = moment(new Date()).format("YYYY-MM-DD");
     if (mark[todayStr]) {
@@ -26,6 +29,8 @@ function CalendarComponent() {
       setSelectedDateSchedules([]);
     }
   }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때만 실행되도록 합니다.
+
+  
 
   const onChange = (value) => {
     if (clickTimeout === null) {
@@ -93,11 +98,15 @@ function CalendarComponent() {
           }
         }}
         tileClassName={({ date, view }) => {
-          // 토요일에 해당하는 날짜를 파란색으로 표시
-          if (date.getDay() === 6) {
-            // 자바스크립트에서는 일요일이 0, 토요일이 6입니다.
-            return styles.saturday;
+          let classes = '';
+          if (moment(value).isSame(date, 'day')) { // 선택된 날짜
+            classes += ` ${styles.selectedDay}`;
           }
+          if (date.getDay() === 6) { // 토요일
+            classes += styles.saturday;
+          }
+          
+          return classes;
       
         }}
       />
@@ -109,8 +118,11 @@ function CalendarComponent() {
       ) : (
         <p className={styles.todo}>일정이 없습니다.</p>
       )}
-      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+      <Modal   className={styles.modal} isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         <h2 className={styles.title}>일정 설정</h2>
+        <button className={styles.closemodal} onClick={()=>setModalIsOpen(false)}>
+          <img src="/Close.png" alt="close"/>
+        </button>
         <form onSubmit={handleSubmit}>
           <label className={styles.date}>
             시작 날짜:
