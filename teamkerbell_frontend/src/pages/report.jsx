@@ -3,7 +3,7 @@ import styles from "./report.module.css";
 import LeftSide from "../components/teamComponents/LeftSide";
 import { useSetRecoilState } from "recoil";
 import { categoryState } from "../atoms";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ErrorComponent from "../components/ErrorComponent";
 import { getTeamReport, sendTeamReport } from "../api/team";
 import Report from "../components/teamComponents/Report";
@@ -15,7 +15,7 @@ const RePort = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const navigate = useNavigate(); // useNavigate hook 추가
   const [selectedItem, setSelectedItem] = useState({
     id: null,
     nickname: "팀원 선택",
@@ -62,11 +62,18 @@ const RePort = () => {
 
   const send = () => {
     setReporter(localStorage.userId);
-    try {
-      const responseSend = sendTeamReport(tid, selectedItem.id, rude, reporter);
-      // 로그 출력 및 에러 처리
+    if (selectedItem.id == null) alert("신고 대상을 선택해주세요");
+    else if (rude == "") alert("신고 이유를 적어주세요");
+    else {
+      alert("신고가 접수되었습니다.");
+      navigate(`/team/${localStorage.tid}/tools`); //완료시 팀 기본 화면으로
+    }
+    const responseSend = sendTeamReport(tid, selectedItem.id, rude, reporter);
+    // 로그 출력 및 에러 처리
 
-      console.log("[Post]:", responseSend);
+    console.log("[Post]:", responseSend);
+
+    try {
       console.log("tid:", tid);
       console.log("user:", selectedItem.id);
       console.log("rude:", rude);

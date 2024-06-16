@@ -17,7 +17,7 @@ import Plan from "../stores/teamTags/PlannerManTag";
 import Passion from "../stores/teamTags/FireManTag";
 
 import { getEvaluate, sendEvaluate } from "../api/team";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ErrorComponent from "../components/ErrorComponent";
 
 const Tags = [
@@ -43,6 +43,7 @@ const Evaluation = () => {
   const [memberInfo, setMemberInfo] = useState([]);
   const [isEnd, setIsEnd] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
+  const navigate = useNavigate(); // useNavigate hook 추가
 
   useEffect(() => {
     const fetchReportInfo = async () => {
@@ -124,8 +125,31 @@ const Evaluation = () => {
   /* 버튼 클릭시 모든 정보 전송 */
   const send = () => {
     try {
-      const responseSend = sendEvaluate(tid, scores, improves, reviews);
-      console.log("[Post]:", responseSend);
+      const incomplete = scores.some((data) => {
+        return (
+          data.participation === 0 ||
+          data.contribution === 0 ||
+          data.attitude === 0 ||
+          data.tag.length === 0
+        );
+      });
+      const incomplete2 = improves.some((data) => {
+        return data.improvement === "";
+      });
+      if (incomplete) {
+        alert("모든 평가 항목을 채워주세요");
+      } else if (incomplete2) {
+        alert("개선점 항목을 채워주세요");
+        //window.location.reload();
+      } else if (reviews == "") {
+        alert("후기 항목을 채워주세요");
+      } else {
+        const responseSend = sendEvaluate(tid, scores, improves, reviews);
+        console.log("[Post]:", responseSend);
+        alert("상호평가가 완료되었습니다");
+        navigate(`/team/${localStorage.tid}/tools`); //완료시 팀 기본 화면으로
+      }
+
       console.log("score_tags: ", scores);
       console.log("improvements: ", improves);
       console.log("review:", reviews);
