@@ -35,7 +35,7 @@ def teamScheduleAndCommit(request, team_id):
     elif request.method == 'POST':
         serializer = ScheduleAndCommitSerializer(data=request.data) 
         if serializer.is_valid():
-            scheduledata = serializer.validated_data.get('schedule')
+            scheduledata = serializer.validated_data.get('oneschedule')
             repository = serializer.validated_data.get('repository')
             if scheduledata:
                 scheduleList=[scheduledata]          
