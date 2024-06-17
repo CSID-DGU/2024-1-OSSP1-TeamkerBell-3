@@ -1,0 +1,26 @@
+.scroll__container{
+  position: fixed;
+  right: 5%;
+  bottom: 5%;
+  z-index: 1;
+}
+
+.top{
+  height: 40px; /* 수정된 크기 */
+  width: 40px; /* 수정된 크기 */
+  padding: 5px;
+  border: 2px solid #006322;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  background-color: #fff; /* 배경색 추가 */
+  display: flex;
+  justify-content: center; /* 센터 정렬 */
+  align-items: center; /* 센터 정렬 */
+}
+
+
+.up{
+  width: 100%; /* 전체 너비 사용 */
+  height: auto; /* 비율 유지 */
+}

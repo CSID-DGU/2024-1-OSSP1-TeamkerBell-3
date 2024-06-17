@@ -16,6 +16,51 @@
   src: url("../../../public/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
 }
 
+.grid {
+  display: grid;
+  gap: 200px;
+  grid-template-columns: minmax(400px, 1fr) 1.5fr;
+  justify-content: space-between;
+}
+
+.label {
+  flex: 0 0 130px; /* Adjust width as needed */
+  display: inline;
+  align-items: center;
+  position: relative;
+  font-weight: 600;
+
+}
+
+.label::after {
+  content: '';
+  position: absolute;
+  left: 120px; 
+  top: 0;
+  bottom: 0;
+  width: 2px; 
+  background-color: #044018; 
+}
+
+
+.content {
+  padding-left: 10px; 
+  display: inline;
+  margin-left:10;
+}
+
+
+
+.li {
+  display: flex;
+  align-items: baseline;
+  margin-top:15px;
+}
+
+
+
+
+
 .compDetail {
   padding-top: 100px;
   padding-left: 200px;
@@ -46,6 +91,8 @@
   font-size: 1.3rem;
   font-family: "NanumGothic";
   line-height: 2;
+  margin-right:55px;
+
 }
 
 .daycount {
@@ -61,9 +108,8 @@
   background-color: var(--Fill-Strong, #70737c29);
 }
 
-.grid {
-  display: grid;
-  gap: 200px;
-  grid-template-columns: minmax(400px, 1fr) 1.5fr;
-  justify-content: space-between;
-}
+
+
+
+
+

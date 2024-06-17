@@ -13,35 +13,49 @@ const CompDetail = ({ image, title, period, daycount, organization, theme, quali
         <img src={image}  alt={title} className={styles.image} />
 
         <ul className={styles.description}>
-          <li>
-            <div> 
-                접수 기간: {period}   
-                <div className={styles.daycount}>
-                    D-{daycount}
-                </div>
-            </div>
+          <li className={styles.li}>
+            <span className={styles.label}>접수 기간 </span> 
+            <span className={styles.content}>
+              {period} 
+              <span className={styles.daycount}>D-{daycount}</span>
+            </span>  
           </li>
-          <li>기관: {organization}</li>
-          <li>공모 주제: {theme}</li>
-          <li>지원 자격: {qualification}</li>
-          <li>지원 방법: {apply}</li>
-          <li>시상:
-            <div>
-                {awards}
-
-
-                {/* {awards.map((award, index) => (
-                    <div key={index}>{award}</div>
-                ))} */}
-            </div>
+          
+          <li className={styles.li}>
+            <span className={styles.label}>기관 </span>
+            <span className={styles.content}>{organization}</span>
           </li>
-          <li>문의 사항: {inquiry}</li>
-          <li>
-            자세히 보기
-            <div>
-                <a href = {link}>{link}</a>
-            </div>
-           </li>
+
+          <li className={styles.li}>
+            <span className={styles.label}>공모 주제 </span>
+            <span className={styles.content}>{theme}</span>
+          </li>
+          
+          <li className={styles.li}>
+            <span className={styles.label}>지원 자격 </span>
+            <span className={styles.content}>{qualification}</span>
+          </li>
+          
+          <li className={styles.li}>
+            <span className={styles.label}>지원 방법 </span>
+            <span className={styles.content}>{apply}</span>
+          </li>
+          
+          <li className={styles.li}>
+            <span className={styles.label}>시상 </span>
+            <span className= {styles.content}>{awards}</span>
+          </li>
+          
+          <li className={styles.li}>
+            <span className={styles.label}>문의 사항 </span>
+            <span className={styles.content}>{inquiry}</span>
+          </li>
+          
+          <li className={styles.li}>
+            <span className={styles.label}>자세히 보기 </span>
+            <span className={styles.content}><a href={link}>{link}</a></span>
+           
+          </li>
 
         </ul>
       </div>
