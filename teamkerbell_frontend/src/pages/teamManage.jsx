@@ -110,6 +110,7 @@ const TeamManage = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [memberInfo, setMemberInfo] = useState([]);
+  const [filterMemberInfo, setFilterMemberInfo] = useState([]);
   const [endAgree, setEndAgree] = useState();
   const [leaderId, setLeaderId] = useState();
   const [isLeader, setIsLeader] = useState();
@@ -126,6 +127,13 @@ const TeamManage = () => {
         const responseGet = await getManage(tid);
         console.log("[Response]: ", responseGet.data);
         setMemberInfo(responseGet.data.memberList);
+        if (responseGet.data) {
+          const filterInfo = responseGet.data.memberList.filter((list) => {
+            return list.id.toString() !== localStorage.userId; // 본인은 제외
+          });
+
+          setFilterMemberInfo(filterInfo);
+        }
         setEndAgree(responseGet.data.endVote);
         setLeaderId(responseGet.data.leader);
         setId(localStorage.userId);
@@ -225,28 +233,44 @@ const TeamManage = () => {
     }
   };
 
-  const plusmatching = () => {
+  const plusmatching = async () => {
     try {
-      console.log("tid: ", tid);
       console.log("inputList: ", inputList);
-
-      console.log("추가매칭!");
       const sendList = inputList.map((content) => ({
         role: content.role,
         recruitNum: content.recruitNum,
       }));
       console.log("[SendList]:", sendList);
-      console.log(sendList);
 
-      const responsePlusMatching = sendPlusMatching(tid, sendList);
-      console.log("[PlusMatching]:", responsePlusMatching);
+      const hasIncompleteFields = sendList.some((content) => {
+        return content.role === "" || content.recruitNum === "";
+      });
+      // 추가 인원의 역할이나 인원 중 채우지 않은 필드 있는지 확인
+
+      if (hasIncompleteFields) alert("모든 필드를 채워주세요");
+      else {
+        const responsePlusMatching = await sendPlusMatching(tid, sendList);
+        console.log("[PlusMatching]:", responsePlusMatching);
+        console.log(
+          "[insufficient]:",
+          responsePlusMatching.data.insufficient_roles
+        );
+        if (responsePlusMatching.data.insufficient_roles != null)
+          alert(
+            "추가 매칭 실패한 분야: " +
+              responsePlusMatching.data.insufficient_roles
+          );
+        else alert("추가 매칭 성공했습니다");
+      }
     } catch (error) {
       console.error("Error sending plusMatching:", error);
     }
   };
 
   const kick = () => {
-    if (!checked) {
+    if (selectedItem.id == null) alert("퇴출 인원을 선택해주세요");
+    else if (reason == "") alert("퇴출 사유를 입력해주세요");
+    else if (!checked) {
       alert("체크박스에 동의해야 퇴출이 가능합니다.");
       return;
     } else {
@@ -273,9 +297,9 @@ const TeamManage = () => {
   };
 
   const run = () => {
-    if (!checked) {
+    if (reason == "") alert("하차 사유를 입력해주세요");
+    else if (!checked) {
       alert("체크박스에 동의해야 하차가 가능합니다");
-
       return;
     } else {
       alert("하차가 완료됐습니다.");
@@ -379,7 +403,7 @@ const TeamManage = () => {
 
                   {view && (
                     <ul className={styles.listt}>
-                      {memberInfo.map((content, index) => (
+                      {filterMemberInfo.map((content, index) => (
                         <li
                           className={styles.text}
                           key={index}

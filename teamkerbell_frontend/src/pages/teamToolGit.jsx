@@ -13,16 +13,15 @@ const TeamTool = () => {
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-          <LeftSide />
+        <LeftSide />
       </div>
-      <div className={styles.main}>
-        {listStateValue === 0 ? <Git /> : null}
-      </div>
+      <div className={styles.main}>{listStateValue === 0 ? <Git /> : null}</div>
     </div>
   );
 };
 
 const Git = () => {
+  const tid = localStorage.tid;
   return (
     <div className={styles.main2}>
       <div className={styles.title}>
@@ -41,7 +40,7 @@ const Git = () => {
         </div>
       </div>
       <div>
-        <Link to={`/team/0/tools`}>
+        <Link to={`/team/${tid}/tools`}>
           <button className={styles.backbutton}>목록</button>
         </Link>
         {/*목록으로 돌아가는 버튼*/}

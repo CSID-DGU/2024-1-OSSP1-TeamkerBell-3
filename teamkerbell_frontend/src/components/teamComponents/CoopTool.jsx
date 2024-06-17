@@ -8,22 +8,31 @@ const GuideDummy = [
   {
     image: "../../w2mImg.png",
     title: "When2Meet",
-    description: ["When2Meet 설명", "용도 사용법"],
+    description: [
+      "회의 시간을 조율하기 위한 스케줄링 도구",
+      "그룹 구성원의 시간을 모두 비교",
+      "그룹 최적의 회의 시간 도출",
+    ],
   },
   {
     image: "../../githubImg.png",
     title: "Github",
-    description: ["깃허브 설명", "용도 사용법"],
+    description: [
+      "협업을 위한 플랫폼",
+      "개발자들의 코드 관리 도구",
+      "변경 사항 추적 기능",
+    ],
   },
   {
     image: "../../slackImg.png",
     title: "Slack",
-    description: ["슬랙 설명", "용도 사용법"],
+    description: ["팀 커뮤니케이션 앱", "실시간 메시징, 파일 공유 등"],
   },
   //가이드 추가 가능
 ];
 
 const CoopTool = () => {
+  const tid = localStorage.tid;
   return (
     <div className={styles.main}>
       <h2 className={styles.title}>협업 툴 가이드라인</h2>
@@ -38,7 +47,7 @@ const CoopTool = () => {
               <div className={styles.boxtop}>
                 <h2 className={styles.boxtitle}>{guide.title}</h2>
                 <Link
-                  to={`/team/0/guidelines${index + 1}`}
+                  to={`/team/${tid}/guidelines${index + 1}`}
                   className={styles.link}
                 >
                   <button className={styles.detailbutton}>자세히보기</button>
