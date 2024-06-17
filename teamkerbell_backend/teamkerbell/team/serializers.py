@@ -66,7 +66,7 @@ class ReasonSerializer(serializers.ModelSerializer):
         fields='__all__'
 
 class ScheduleAndCommitSerializer(serializers.Serializer):
-    schedule = ScheduleSerializer(required=False)
+    oneschedule = ScheduleSerializer(required=False)
     repository = serializers.CharField(required=False)
 
 #팀원 모아모기에서 이력서와 팀원의 role을 합쳐서 전송
