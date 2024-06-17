@@ -123,7 +123,7 @@ const Evaluation = () => {
     console.log(newReview);
   };
   /* 버튼 클릭시 모든 정보 전송 */
-  const send = () => {
+  const send = async () => {
     try {
       const incomplete = scores.some((data) => {
         return (
@@ -144,17 +144,30 @@ const Evaluation = () => {
       } else if (reviews == "") {
         alert("후기 항목을 채워주세요");
       } else {
-        const responseSend = sendEvaluate(tid, scores, improves, reviews);
-        console.log("[Post]:", responseSend);
-        alert("상호평가가 완료되었습니다");
-        navigate(`/team/${localStorage.tid}/tools`); //완료시 팀 기본 화면으로
+        try {
+          const responseSend = await sendEvaluate(
+            tid,
+            scores,
+            improves,
+            reviews
+          );
+          console.log("[Post]:", responseSend);
+          alert("상호평가가 완료되었습니다");
+          navigate(`/team/${tid}/tools`); //완료시 팀 기본 화면으로
+        } catch (responseError) {
+          if (responseError.response && responseError.response.status === 400) {
+            alert("이미 상호평가가 완료되었습니다.");
+            navigate(`/team/${tid}/tools`); // 메인 화면으로 이동
+          } else {
+            console.error("Error sending team evaluate:", responseError);
+          }
+        }
       }
-
       console.log("score_tags: ", scores);
       console.log("improvements: ", improves);
       console.log("review:", reviews);
     } catch (error) {
-      console.error("Error sending team report:", error);
+      console.error("Error in team evaluate:", error);
     }
   };
 
