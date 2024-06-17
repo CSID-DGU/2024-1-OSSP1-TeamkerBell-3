@@ -7,7 +7,7 @@ from user.models import Resume, BasicUser, Rude
 class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
-        fields=['id','startDate', 'endDate','schedule']
+        fields=['id','startDate', 'endDate','schedule','color']
 
 class OneDeleteScheduleSerializer(serializers.Serializer):
     id = serializers.PrimaryKeyRelatedField(queryset=Schedule.objects.all())
