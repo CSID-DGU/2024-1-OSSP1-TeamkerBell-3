@@ -11,6 +11,7 @@ from comp.models import Comp
 from .decorator import login_required
 from team.models import Team, TeamEndVote, TeamMate, TeamRole, Schedule, ChooseTeam
 from comp.serializers import CompSerializer
+from .utils import send_team_matched_email
 """
 @swagger_auto_schema(method="POST", tags=["유저 회원가입"], request_body=UserSerializer, operation_summary="유저 회원가입")
 @api_view(['POST'])
@@ -403,6 +404,8 @@ def resumeAccept(request, user_id, team_id, resume_id):
                 teammate.isTeam=True
                 teammate.save()
                 teamrole=TeamRole.objects.get(team=team, role=teammate.role)
+                userList=[teammate.user]
+                send_team_matched_email(userList, teammate.team.comp.name)
                 return Response({'message': 'Accepted'}, status=status.HTTP_200_OK)
             else:
                 TeamMate.objects.filter(team=team, resume=resume, isTeam=False).delete()
