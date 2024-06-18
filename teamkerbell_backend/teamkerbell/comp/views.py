@@ -15,7 +15,7 @@ from django.http import JsonResponse
 import requests
 import random
 from django.conf import settings
-
+from .utils import send_team_matched_email
 @swagger_auto_schema(method="POST", tags=["공모전 등록하기"], request_body=CompSerializer, operation_summary="공모전 정보 입력")
 @api_view(['POST'])
 def createComp(request):    
@@ -443,13 +443,14 @@ def rmAlgorithms(request, comp_id):
                     for role, count in roles_count.items():
                         if count > 0:
                             TeamRole(role=role, team=newTeam, recruitNum=count, num=count).save()
-
+                    team_members=[]
                     for userR in sorted_data[:n]:
                         dummyresume = Resume(user=userR.user, name=userR.user.nickname, email=userR.user.email, phone=userR.user.phone, tier="없음", userIntro="없음", skill="없음", experience="없음", githubLink="없음", snsLink="없음", city=userR.city, dong=userR.dong)
                         dummyresume.save()
                         TeamMate(team=newTeam, user=userR.user, resume=dummyresume, role=userR.role, isTeam=True).save()
+                        team_members.append(userR)
                         userR.delete()      
- 
+                    send_team_matched_email(team_members, comp.name)
                     return Response(status=status.HTTP_201_CREATED)
 
             return Response({'error': {'code': 404, 'message': "Request is not Valid !!"}}, status=status.HTTP_404_NOT_FOUND)
