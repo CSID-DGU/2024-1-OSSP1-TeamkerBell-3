@@ -17,27 +17,24 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
+          run_install: true # Automatically install dependencies
 
-      - name: install dependencies and build
-        run: pnpm install --frozen-lockfile && pnpm run build
+      - name: Build
+        run: pnpm build
+        working-directory: ./teamkerbell_frontend # Specify project directory
 
-      - name: Configure AWS credentials
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_S3_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_S3_SECRET_ACCESS_KEY_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # Use correct secret names
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
       - name: Upload to S3
-        env:
-          BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME}}
         run: |
-          aws s3 sync \
-            ./dist s3://$BUCKET_NAME
+          aws s3 sync ./teamkerbell_frontend/dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}
+          aws s3 cp ./teamkerbell_frontend/dist/index.html s3://${{ secrets.AWS_S3_BUCKET_NAME }} --metadata-directive REPLACE --cache-control 'max-age=0, no-cache, no-store, must-revalidate'
 
-      - name: CloudFront Invalidation
-        env:
-          CLOUD_FRONT_ID: ${{ secrets.AWS_CLOUDFRONT_ID}}
+      - name: Invalidate CloudFront Distribution
         run: |
-          aws cloudfront create-invalidation \
-            --distribution-id $CLOUD_FRONT_ID --paths /*
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_ID }} --paths "/*"
