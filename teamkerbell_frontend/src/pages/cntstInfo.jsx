@@ -49,6 +49,7 @@ const Cntstinfo = () => {
           <ErrorComponent message={errorMessage} /> // 에러 발생 시 표시
         ) : (
           <CntstInfo compinfo={compinfo} />
+          
         )}
       </div>
     </div>

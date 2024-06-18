@@ -5,13 +5,12 @@
   }
 
 .container{
-    margin:50px;
+
 }
 
-.title{
-    display: inline;
-    font-family:  "PaytoneOne-Regular";
-    font-size: 3rem;
-    color: #006322;
-    margin-right:10px;
+.intro{
+    margin-left: 135px;
+    object-fit: none;
+
 }
+

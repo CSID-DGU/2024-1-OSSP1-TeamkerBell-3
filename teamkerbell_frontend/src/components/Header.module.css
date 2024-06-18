@@ -14,12 +14,19 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "NanumSquareNeo-cBd"; /* Bold */
+  font-weight: normal;
+  src: url("../../public/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
+}
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #ffffff;
   border-bottom: 1px solid #000000;
+  height:75px;
 }
 
 .headerQuote {
@@ -39,23 +46,33 @@
 .welcomeNLogout {
   display: flex;
   flex-flow: row;
+  align-items: center;
 }
 
 .welcomeMessage {
   margin-left: 20px;
   margin: 0px 10px; /* 로그아웃 버튼과의 간격 추가 */
+  font-family: "NanumSquareNeo-cBd";
+  font-size:18px;
 }
 
 .logoutLink {
   padding: 0px;
+  
 }
 
 .logoutButton {
   text-decoration: underline;
+  font-family: "NanumSquareNeo-cBd";
   border: none;
   background-color: transparent;
   cursor: pointer;
   color: red;
+}
+
+.loginButton{
+  font-family: "NanumSquareNeo-cBd";
+
 }
 
 .buttonContainer {
@@ -63,11 +80,14 @@
   justify-content: space-between;
   border-bottom: 2px solid #ffffff;
   background-color: #8abc9b;
+  height:60px;
+  align-items: center;
 }
 
 .headerButton {
   padding: 10px;
-  font-size: 15px;
+  font-size: 17px;
+  font-family: "NanumSquareNeo-cBd";
   border: none;
   background-color: #8abc9b;
   cursor: pointer;
@@ -75,5 +95,8 @@
 }
 
 .toMyTeamButton {
-  font-size: 15px;
+  font-size: 18px;
+  color: #006322;
+  font-family: "NanumSquareNeo-cBd";
+  border: 2px solid #006322;
 }

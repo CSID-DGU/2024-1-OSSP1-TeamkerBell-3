@@ -42,7 +42,7 @@ const ProgressBar = ({ temperature }) => {
       >
         <span role="img" aria-label="arrow" style={{ fontSize: "24px" }}></span>
         <span style={{ marginLeft: "5px", fontSize: "20px", color: "" }}>
-          ☝🏻{temperature} 도
+          ☝🏻{temperature.toFixed(1)} 도
         </span>
       </div>
     </div>
