@@ -8,8 +8,27 @@ import { teamInstance } from "./instance";
  * 2. 사용하기 (useEffect)
  */
 //팀 일정 전달
-export const teamProgress = (teamId) =>
-  sendRequest(teamInstance, "post", `/${teamId}/progress/`);
+export const postTeamProgress = (teamId, schedule, repository) =>
+  sendRequest(teamInstance, "post", `/${teamId}/progress/`, {
+    schedule,
+    repository,
+  });
+
+export const postTeamSchedule = (teamId, startDate, endDate, schedule, color) =>
+  sendRequest(teamInstance, "post", `/${teamId}/progress/`, {
+    oneschedule: {
+      schedule,
+      startDate,
+      endDate,
+      color,
+    },
+  });
+export const deleteTeamSchedule = (teamId, data) =>
+  sendRequest(teamInstance, "delete", `/${teamId}/scheduledelete`, {
+    data,
+  });
+export const getTeamProgress = (teamId) =>
+  sendRequest(teamInstance, "get", `/${teamId}/progress/`);
 
 //공모전 모든 팀 리스트 정보 조회
 export const getAllTeamList = () =>

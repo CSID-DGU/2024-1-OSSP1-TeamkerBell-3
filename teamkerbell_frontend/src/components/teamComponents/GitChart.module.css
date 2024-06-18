@@ -1,3 +1,23 @@
 .githubUrl {
   display: flex;
 }
+.text {
+  font-size: 35px;
+}
+.textInput {
+  width: 50%;
+  height: 35px;
+}
+.buttons {
+  background-color: #006322;
+  color: #ffffff;
+  border: none;
+  width: 120px;
+  height: 35px;
+  border-radius: 4px; /*둥글게*/
+  margin: auto;
+  margin-top: 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  margin-left: auto;
+}
