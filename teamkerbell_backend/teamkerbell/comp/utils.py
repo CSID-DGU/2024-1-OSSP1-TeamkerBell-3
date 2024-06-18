@@ -20,7 +20,7 @@ def send_team_matched_email(team_members, comp_name):
                 <p>{member.nickname} 님이 신청하신 {comp_name}의 매칭이 완료되었습니다.</p>
                 <p>이제 팀원들과 함께 공모전을 준비할 수 있습니다.</p>
                 <p>지금 링크를 클릭해 확인해 보세요!</p>
-                <p> http://teamkerbell.s3-website.ap-northeast-2.amazonaws.com/</p>
+                <p>https://d3lxmx9ope3ebd.cloudfront.net/</p>
                 <p>감사합니다.</p>
                 <img src="data:image/jpeg;base64,{img_base64}" alt="image" width=538 height=126>
             </body>
