@@ -29,7 +29,7 @@ const MemInfo = ({ meminfo }) => {
               {/*역할이 '팀장'이면 왕관사진, 나머지는 null*/}
 
               <h3 className={styles.name}>{content.name}</h3>
-              <div className={styles.info}>{content.score}도</div>
+              <div className={styles.info}>{content.score.toFixed(1)}도</div>
             </div>
           </div>
 

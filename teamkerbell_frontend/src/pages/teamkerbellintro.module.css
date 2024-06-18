@@ -11,6 +11,6 @@
   }
 
 
-.intro {
-  object-fit: none;
+.intro{
+    width:100%;
 }
