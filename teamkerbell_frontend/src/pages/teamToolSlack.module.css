@@ -17,7 +17,6 @@
   display: flex;
   flex-flow: row;
   flex-basis: 20%;
-  display: block; /* 가운데 정렬*/
 }
 .link {
   text-decoration: none;
@@ -28,7 +27,6 @@
   flex-flow: row;
   flex-basis: 80%;
   padding-left: 40px;
-  border-left: 3px solid #858585;
 }
 .main2 {
   width: 100%;
@@ -98,4 +96,17 @@
   background-color: #8abc9b;
   color: #ffffff;
   border-color: #8abc9b;
+}
+.img {
+  height: 150px;
+  margin: auto;
+  margin-left: 5%;
+  margin-right: 1%;
+  flex-basis: 40%;
+}
+.tRight {
+  display: flex;
+  flex-flow: column;
+  flex-basis: 70%;
+  padding-left: 40px;
 }

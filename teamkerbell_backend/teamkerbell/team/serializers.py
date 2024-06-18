@@ -7,7 +7,7 @@ from user.models import Resume, BasicUser, Rude
 class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
-        fields=['id','startDate', 'endDate','schedule']
+        fields=['id','startDate', 'endDate','schedule','color']
 
 class OneDeleteScheduleSerializer(serializers.Serializer):
     id = serializers.PrimaryKeyRelatedField(queryset=Schedule.objects.all())
@@ -66,7 +66,7 @@ class ReasonSerializer(serializers.ModelSerializer):
         fields='__all__'
 
 class ScheduleAndCommitSerializer(serializers.Serializer):
-    schedule = ScheduleSerializer(required=False)
+    oneschedule = ScheduleSerializer(required=False)
     repository = serializers.CharField(required=False)
 
 #팀원 모아모기에서 이력서와 팀원의 role을 합쳐서 전송

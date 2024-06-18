@@ -49,7 +49,6 @@ export const fetchContributors = async (owner, repo) => {
   const contributorUrl = `https://api.github.com/repos/${owner}/${repo}/contributors`;
   try {
     const response = await axiosInstance.get(contributorUrl);
-    console.log("Contributors", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching contributors", error);
@@ -81,36 +80,81 @@ export const fetchCodeFrequency = async (owner, repo) => {
 
 // util.js 또는 유사한 파일에 포함될 수 있습니다.
 
+export const fetchWeeklyData = async (owner, repo, contributors) => {
+  const weeklyData = {};
+
+  const promises = contributors.map(async (contributor) => {
+    const commits = await fetchCommitStats(owner, repo, contributor.login);
+
+    // Fetch detailed stats for each commit
+    const commitStatsPromises = commits.map(async (commitItem) => {
+      const commitUrl = `https://api.github.com/repos/${owner}/${repo}/commits/${commitItem.sha}`;
+      const response = await axiosInstance.get(commitUrl);
+      return response.data; // This will now include the 'stats' property
+    });
+
+    const commitsWithStats = await Promise.all(commitStatsPromises);
+
+    commitsWithStats.forEach((commit) => {
+      const weekStart = new Date(commit.commit.author.date);
+      weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+      const week = weekStart
+        .toLocaleDateString("ko-KR", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+        .replace(/\./g, " ");
+
+      weeklyData[week] = weeklyData[week] || {};
+      weeklyData[week][contributor.login] =
+        (weeklyData[week][contributor.login] || 0) +
+        (commit.stats?.additions || 0) -
+        (commit.stats?.deletions || 0);
+    });
+  });
+
+  await Promise.all(promises);
+
+  return weeklyData;
+};
+
 export const prepareWeeklyGraphData = (weeklyData, contributors) => {
-  const weeklyLabels = Object.keys(weeklyData).sort(
-    (a, b) => new Date(a) - new Date(b)
-  );
+  // Sort dates correctly (considering both string and Date keys)
+  const weeklyLabels = Object.keys(weeklyData).sort((a, b) => {
+    const dateA = new Date(a.replace(/\./g, " "));
+    const dateB = new Date(b.replace(/\./g, " "));
+    return dateA - dateB;
+  });
+
   const weeklyDatasets = contributors.map((contributor) => {
     return {
       label: contributor.login,
-      data: weeklyLabels.map(
-        (week) => weeklyData[week]?.[contributor.login] || 0
-      ),
+      data: weeklyLabels.map((week) => {
+        const value = weeklyData[week]?.[contributor.login] || 0;
+        return Math.max(value, 0); // Ensure values are at least 0
+      }),
       backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
         Math.random() * 255
       )}, ${Math.floor(Math.random() * 255)}, 0.6)`,
     };
   });
+
   return { labels: weeklyLabels, datasets: weeklyDatasets };
 };
 
 export const loadAndPrepareGraphData = async (
-  fetchWeeklyData,
+  fetchWeeklyData, // Pass the fetchWeeklyData function
   owner,
   repo,
   contributors
 ) => {
   try {
-    const weeklyData = await fetchWeeklyData(owner, repo);
+    const weeklyData = await fetchWeeklyData(owner, repo, contributors); // Pass contributors
     const weeklyGraphData = prepareWeeklyGraphData(weeklyData, contributors);
-    // 여기서 weeklyGraphData를 그래프 컴포넌트에 전달합니다.
-    // 예: setWeeklyGraphData(weeklyGraphData);
+    return weeklyGraphData; // Return the prepared graph data
   } catch (error) {
     console.error("Error loading or preparing the graph data:", error);
+    throw error; // Rethrow the error to handle it in your component
   }
 };

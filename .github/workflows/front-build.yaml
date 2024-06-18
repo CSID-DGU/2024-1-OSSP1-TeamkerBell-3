@@ -1,0 +1,55 @@
+name: Front Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: true # Automatically install dependencies
+      - name: Set up environment variables
+        run: |
+          echo "REACT_APP_GITHUB_TOKEN=${{ secrets.REACT_APP_GITHUB_TOKEN }}" >> $GITHUB_ENV
+          echo "REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }}" >> $GITHUB_ENV
+          echo "REACT_APP_REGION=${{ secrets.REACT_APP_REGION }}" >> $GITHUB_ENV
+          echo "REACT_APP_ACCESS_KEY_ID=${{ secrets.REACT_APP_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+          echo "REACT_APP_SECRET_ACCESS_KEY=${{ secrets.REACT_APP_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
+          echo "REACT_APP_BUCKET_NAME=${{ secrets.REACT_APP_BUCKET_NAME }}" >> $GITHUB_ENV
+
+      - name: Build
+        run: CI=false pnpm build
+        working-directory: ./teamkerbell_frontend # Specify project directory
+        env:
+          REACT_APP_GITHUB_TOKEN: ${{ secrets.REACT_APP_GITHUB_TOKEN }}
+          REACT_APP_SERVER_URL: ${{ secrets.REACT_APP_SERVER_URL }}
+          REACT_APP_REGION: ${{ secrets.REACT_APP_REGION }}
+          REACT_APP_ACCESS_KEY_ID: ${{ secrets.REACT_APP_ACCESS_KEY_ID }}
+          REACT_APP_SECRET_ACCESS_KEY: ${{ secrets.REACT_APP_SECRET_ACCESS_KEY }}
+          REACT_APP_BUCKET_NAME: ${{ secrets.REACT_APP_BUCKET_NAME }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # Use correct secret names
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3
+        env:
+          BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME}}
+        run: |
+          aws s3 sync ./teamkerbell_frontend/build s3://$BUCKET_NAME --delete
+      - name: Invalidate CloudFront Distribution
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_ID }} --paths "/*"

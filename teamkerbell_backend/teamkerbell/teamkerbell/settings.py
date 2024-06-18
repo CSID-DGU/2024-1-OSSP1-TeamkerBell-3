@@ -15,7 +15,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from django.core.exceptions import ImproperlyConfigured
 
-
+load_dotenv()
 def get_env_variable(var_name):
   try:
     return os.environ[var_name]

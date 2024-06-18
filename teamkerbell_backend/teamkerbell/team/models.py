@@ -51,6 +51,8 @@ class Schedule(models.Model):
     startDate = models.CharField(null=False, max_length=50, default="default_value")
     endDate = models.CharField(null=False, max_length=50, default="default_value")
     schedule = models.CharField(null=False, max_length=255, default="default_value")
+    color = models.CharField(null=False, max_length=50, default="rgba(245, 4, 72)")
+
 
 class OutReason(models.Model):
     id=models.AutoField(primary_key=True, null=False)
