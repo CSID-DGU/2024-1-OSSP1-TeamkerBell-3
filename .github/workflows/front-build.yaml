@@ -31,9 +31,11 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Upload to S3
+        env:
+          BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME}}
         run: |
-          aws s3 sync ./teamkerbell_frontend/dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}
-          aws s3 cp ./teamkerbell_frontend/dist/index.html s3://${{ secrets.AWS_S3_BUCKET_NAME }} --metadata-directive REPLACE --cache-control 'max-age=0, no-cache, no-store, must-revalidate'
+          aws s3 sync \
+            ./dist s3://$BUCKET_NAME
 
       - name: Invalidate CloudFront Distribution
         run: |
