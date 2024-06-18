@@ -223,7 +223,8 @@ const TeamManage = () => {
   const vote = () => {
     console.log("[user]:", user);
     alert("종료 투표가 완료되었습니다");
-    navigate(`/team/${localStorage.tid}/tools`); //완료시 팀 멤버정보로
+    navigate(`/`); //완료시 메인 화면으로
+    setCategoryState(0);
 
     try {
       const responseVote = sendVote(tid, user);
@@ -270,27 +271,28 @@ const TeamManage = () => {
     }
   };
 
-  const kick = () => {
-    if (selectedItem.id == null) alert("퇴출 인원을 선택해주세요");
-    else if (reason == "") alert("퇴출 사유를 입력해주세요");
-    else if (!checked) {
-      alert("체크박스에 동의해야 퇴출이 가능합니다.");
-      return;
-    } else {
-      alert("퇴출이 완료됐습니다.");
-      navigate(`/team/${localStorage.tid}/members`); //완료시 팀 멤버정보로
-    }
-    console.log("퇴출 대상: ", selectedItem);
-    console.log("퇴출 이유: ", reason);
-
+  const kick = async () => {
     try {
-      const responseKick = sendKick(tid, selectedItem.id, reason);
+      if (selectedItem.id == null) alert("퇴출 인원을 선택해주세요");
+      else if (reason == "") alert("퇴출 사유를 입력해주세요");
+      else if (!checked) {
+        alert("체크박스에 동의해야 퇴출이 가능합니다.");
+        return;
+      } else {
+        alert("퇴출이 완료됐습니다.");
+        navigate(`/`); //완료시 메인 화면으로
+      }
+      console.log("퇴출 대상: ", selectedItem);
+      console.log("퇴출 이유: ", reason);
+
+      const responseKick = await sendKick(tid, selectedItem.id, reason);
       console.log("[kick]:", responseKick);
       console.log("[tid]:", tid);
       console.log("[id]:", selectedItem.id);
       console.log("[reason]:", reason);
-    } catch (error) {
-      console.error("Error sending team kick:", error);
+    } catch (responseError) {
+      if (responseError.response && responseError.response.status === 400) {
+      }
     }
   };
 
@@ -299,24 +301,25 @@ const TeamManage = () => {
     console.log(event.target.value);
   };
 
-  const run = () => {
-    if (reason == "") alert("하차 사유를 입력해주세요");
-    else if (!checked) {
-      alert("체크박스에 동의해야 하차가 가능합니다");
-      return;
-    } else {
-      alert("하차가 완료됐습니다.");
-      navigate("/"); //완료시 메인페이지로
-    }
-    console.log("하차 이유: ", reason);
+  const run = async () => {
     try {
-      const responseRun = sendRun(tid, user, reason);
+      if (reason == "") alert("하차 사유를 입력해주세요");
+      else if (!checked) {
+        alert("체크박스에 동의해야 하차가 가능합니다");
+        return;
+      } else {
+        alert("하차가 완료됐습니다.");
+        navigate("/"); //완료시 메인페이지로
+      }
+      console.log("하차 이유: ", reason);
+      const responseRun = await sendRun(tid, user, reason);
       console.log("[run]:", responseRun);
       console.log("[tid]:", tid);
       console.log("[user]:", user);
       console.log("[reason]:", reason);
-    } catch (error) {
-      console.error("Error sending run:", error);
+    } catch (responseError) {
+      if (responseError.response && responseError.response.status === 400) {
+      }
     }
   };
 
