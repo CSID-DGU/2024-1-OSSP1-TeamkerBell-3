@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ResumeSummary from "../components/matchingComponents/ResumeSummary";
 import styles from "./leaderresume.module.css";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getLeaderResume } from "../api/comp";
 import {
   getTeamRecruitedResumeDetail,
@@ -10,29 +10,20 @@ import {
 
 const ApproveResumeDetailPage = () => {
   const { tid, resumeId } = useParams();
-  const [resumeDetail, setResumeDetail] = useState();
+  const location = useLocation();
+
+  const [resumeDetail, setResumeDetail] = useState(location.state.resume);
+
 
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
-  const DUMMY_MEMBERSUMMARY = {
-    img: "/memImg.png",
-    name: "김동국",
-    age: "10",
-    gender: "남",
-    role: {
-      team: "팀장",
-      department: "프론트엔드",
-    },
-    stack: "React",
-    email: "dongguk.dongguk.edu",
-    tier: "Gold",
-  };
+ 
 
   const DUMMY_RESUME_INFO = {
-    title: "교보생명 대학생 디자인 공모전 팀원 구합니다!",
+    title: "열정적인 공모전 팀원 구합니다!",
     introduce:
       "안녕하세요, 저는 웹 프론트엔드 개발자 김동국이라고 합니다. 30세의 나이로 새로운 기술을 배우고 응용하는 것에 열정적이며, 특히 최신 웹 기술을 활용한 사용자 경험 개선에 관심이 많습니다. React를 주력으로 사용하여 다양한 웹 애플리케이션과 인터랙티브한 UI를 개발해왔습니다. 협업과 팀워크를 중시하는 저는 함께 성장할 수 있는 기회를 항상 찾고 있습니다.",
     stack:
@@ -53,6 +44,9 @@ const ApproveResumeDetailPage = () => {
           resumeId
         );
         setResumeDetail(response.data);
+        console.log(response.data);
+
+        console.log(resumeDetail);
         setIsLoading(false);
       } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -106,27 +100,27 @@ const ApproveResumeDetailPage = () => {
 
       <div className={styles.title}>{DUMMY_RESUME_INFO.title}</div>
 
-      <ResumeSummary content={DUMMY_MEMBERSUMMARY} />
+      <ResumeSummary content={resumeDetail} role={resumeDetail.role} />
 
       <div className={styles.box}>
         <div className={styles.introduction}>
           <div className={styles.text}>자기 소개</div>
-          <div className={styles.content}>{DUMMY_RESUME_INFO.introduce}</div>
+          <div className={styles.content}>{resumeDetail.userIntro}</div>
         </div>
         <br />
         <div className={styles.stack}>
           <div className={styles.text}>기술 스택</div>
-          <div className={styles.content}>{DUMMY_RESUME_INFO.stack}</div>
+          <div className={styles.content}>{resumeDetail.skill}</div>
         </div>
         <br />
         <div className={styles.history}>
           <div className={styles.text}>프로젝트 경험</div>
-          <div className={styles.content}>{DUMMY_RESUME_INFO.history}</div>
+          <div className={styles.content}>{resumeDetail.experience}</div>
         </div>
         <br />
         <div className={styles.github}>
           <div className={styles.text}>Github</div>
-          <div className={styles.content}>{DUMMY_RESUME_INFO.git}</div>
+          <div className={styles.content}>{resumeDetail.githubLink}</div>
         </div>
 
         <div className={styles.sns}>
@@ -135,7 +129,7 @@ const ApproveResumeDetailPage = () => {
             기타 SNS(Instagram, Facebook, T-story 등)
           </div>
 
-          <div className={styles.content}>{DUMMY_RESUME_INFO.sns}</div>
+          <div className={styles.content}>{resumeDetail.snsLink}</div>
         </div>
       </div>
       <div className={styles.buttons}>
