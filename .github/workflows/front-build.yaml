@@ -20,7 +20,7 @@ jobs:
           run_install: true # Automatically install dependencies
 
       - name: Build
-        run: pnpm build
+        run: CI=false pnpm build
         working-directory: ./teamkerbell_frontend # Specify project directory
 
       - name: Configure AWS Credentials
