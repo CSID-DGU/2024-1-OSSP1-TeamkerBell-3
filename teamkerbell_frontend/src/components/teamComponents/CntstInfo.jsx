@@ -9,21 +9,39 @@ const MyCntstInfo = ({ compinfo }) => {
       <h2 className={styles.title2}>{compinfo.name}</h2>
 
       <ul className={styles.infoList}>
-        <li>
-          접수 기간: {compinfo.startDate}~{compinfo.endDate}
+        <li className={styles.li}>
+          <span className={styles.label}>접수 기간 </span>
+          <span className={styles.content}>{compinfo.startDate}~{compinfo.endDate}</span>
         </li>
-        <li>기관: {compinfo.organization}</li>
-        <li>공모 주제: {compinfo.theme}</li>
-        <li>지원 자격: {compinfo.eligibillty}</li>
-        <li>지원 방법: {compinfo.applicationMethod}</li>
-        <li>시상: {compinfo.reward} </li>
-        <li>문의 사항: {compinfo.contact}</li>
-        <li>
-          자세히보기
-          <div>
-            <a href={compinfo.link}>{compinfo.link}</a>
-          </div>
+        <li className={styles.li}>
+          <span className={styles.label}>기관 </span>
+          <span className={styles.content}>{compinfo.organization}</span>
         </li>
+        <li className={styles.li}>
+          <span className={styles.label}>공모 주제 </span>
+          <span className={styles.content}>{compinfo.theme}</span>
+        </li>
+        <li className={styles.li}>
+          <span className={styles.label}>지원 자격 </span>
+          <span className={styles.content}>{compinfo.eligibillty}</span>
+        </li>
+        <li className={styles.li}>
+          <span className={styles.label}>지원 방법 </span>
+          <span className={styles.content}>{compinfo.applicationMethod}</span>
+        </li>
+        <li className={styles.li}>
+          <span className={styles.label}>시상 </span>
+          <span className={styles.content}>{compinfo.reward}</span>
+        </li>
+        <li className={styles.li}>
+          <span className={styles.label}>문의 사항 </span>
+          <span className={styles.content}>{compinfo.contact}</span>
+        </li>
+        <li className={styles.li}>
+          <span className={styles.label}>자세히 보기 </span>
+          <span className={styles.content}><a href={compinfo.link}>{compinfo.link}</a></span>
+        </li>
+
       </ul>
     </div>
   );

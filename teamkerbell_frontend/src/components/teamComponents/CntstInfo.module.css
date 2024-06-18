@@ -13,6 +13,43 @@
   src: url("../../../public/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
 }
 
+.label {
+  flex: 0 0 130px; /* Adjust width as needed */
+  display: inline;
+  align-items: center;
+  position: relative;
+  font-weight: 600;
+
+}
+
+.label::after {
+  content: '';
+  position: absolute;
+  left: 120px; 
+  top: 0;
+  bottom: 0;
+  width: 2px; 
+  background-color: #044018; 
+}
+
+
+.content {
+  padding-left: 10px; 
+  display: inline;
+  margin-left:10;
+}
+
+
+
+.li {
+  display: flex;
+  align-items: baseline;
+  margin-top:15px;
+}
+
+
+
+
 .main {
   width: 100%;
   font-size: 15px;
