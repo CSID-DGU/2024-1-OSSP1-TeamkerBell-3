@@ -19,7 +19,9 @@ const ApplyingResume = ({ resume }) => {
   const { tid } = useParams();
   const userId = localStorage.getItem("userId");
   const handleDoubleClick = () => {
-    navigate(`/user/${userId}/mypage/team/${tid}/resume/${resume.id}`); // 이력서 상세 페이지로 이동
+    navigate(`/user/${userId}/mypage/team/${tid}/resume/${resume.id}`,{
+      state:{resume}
+    }); // 이력서 상세 페이지로 이동
     //path="/user/:userId/mypage/team/:tid/resume/:resumeId"
   };
   return <Resume onDoubleClcik={handleDoubleClick} resume={resume} />;
