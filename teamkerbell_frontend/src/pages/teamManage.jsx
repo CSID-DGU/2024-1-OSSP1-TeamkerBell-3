@@ -222,6 +222,9 @@ const TeamManage = () => {
   /*post api*/
   const vote = () => {
     console.log("[user]:", user);
+    alert("종료 투표가 완료되었습니다");
+    navigate(`/team/${localStorage.tid}/tools`); //완료시 팀 멤버정보로
+
     try {
       const responseVote = sendVote(tid, user);
       console.log("[vote]:", responseVote);

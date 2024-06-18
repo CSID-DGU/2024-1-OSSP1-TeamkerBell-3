@@ -1,4 +1,10 @@
 @font-face {
+  font-family: "PaytoneOne-Regular";
+  src: url("../../public/fonts/PaytoneOne-Regular.ttf") format("truetype");
+  font-style: normal;
+}
+
+.container {
     font-family: "PaytoneOne-Regular";
     src: url("../../public/fonts/PaytoneOne-Regular.ttf") format("truetype");
     font-style: normal;
@@ -8,4 +14,3 @@
 .intro{
     width:100%;
 }
-
