@@ -138,10 +138,9 @@ const Evaluation = () => {
       });
       if (incomplete) {
         alert("모든 평가 항목을 채워주세요");
-      } /*else if (incomplete2) {
+      } else if (incomplete2) {
         alert("개선점 항목을 채워주세요");
-        //window.location.reload();
-      } */ else if (reviews == "") {
+      } else if (reviews == "") {
         alert("후기 항목을 채워주세요");
       } else {
         try {
@@ -153,12 +152,13 @@ const Evaluation = () => {
           );
           console.log("[Post]:", responseSend);
           alert("상호평가가 완료되었습니다");
-          navigate(`/team/${tid}/tools`); //완료시 팀 기본 화면으로
+          navigate(`/`); //완료시 메인 화면으로
         } catch (responseError) {
           if (responseError.response && responseError.response.status === 400) {
             alert("이미 상호평가가 완료되었습니다.");
-            navigate(`/team/${tid}/tools`); // 메인 화면으로 이동
+            navigate(`/`); //완료시 메인 화면으로
           } else {
+            alert("오류가 발생했습니다. 나중에 다시 시도해주세요.");
             console.error("Error sending team evaluate:", responseError);
           }
         }

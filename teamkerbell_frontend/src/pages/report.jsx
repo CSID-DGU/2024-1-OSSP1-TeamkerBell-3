@@ -60,26 +60,43 @@ const RePort = () => {
     setRude(event.target.value);
   };
 
-  const send = () => {
-    setReporter(localStorage.userId);
-    if (selectedItem.id == null) alert("신고 대상을 선택해주세요");
-    else if (rude == "") alert("신고 이유를 적어주세요");
-    else {
-      alert("신고가 접수되었습니다.");
-      navigate(`/team/${localStorage.tid}/tools`); //완료시 팀 기본 화면으로
-    }
-    const responseSend = sendTeamReport(tid, selectedItem.id, rude, reporter);
-    // 로그 출력 및 에러 처리
-
-    console.log("[Post]:", responseSend);
-
+  const send = async () => {
     try {
-      console.log("tid:", tid);
-      console.log("user:", selectedItem.id);
-      console.log("rude:", rude);
-      console.log("reporter:", reporter);
-    } catch (error) {
-      console.error("Error sending team report:", error);
+      setReporter(localStorage.userId);
+
+      if (selectedItem.id == null) {
+        alert("신고 대상을 선택해주세요");
+        return;
+      } else if (rude === "") {
+        alert("신고 이유를 적어주세요");
+        return;
+      }
+
+      const responseSend = await sendTeamReport(
+        tid,
+        selectedItem.id,
+        rude,
+        localStorage.userId
+      );
+
+      // 로그 출력
+      console.log("[Post]:", responseSend);
+
+      // sendTeamReport 함수가 성공적으로 실행된 경우에만 아래 코드 실행
+      alert("신고가 접수되었습니다.");
+      navigate(`/`); // 완료시 메인화면으로
+    } catch (responseError) {
+      if (
+        responseError.response &&
+        responseError.response.status === 400 &&
+        responseError.response.data.message === "report already saved "
+      ) {
+        alert("중복 신고는 불가능합니다");
+        navigate(`/`); // 중복 신고 시도 시 메인화면으로
+      } else {
+        console.error("Error sending team evaluate:", responseError);
+        alert("오류가 발생했습니다. 나중에 다시 시도해주세요.");
+      }
     }
   };
 

@@ -10,7 +10,7 @@ const Header = () => {
   const tid = localStorage.getItem("tid");
   const toMyTeamButtonHandler = () => {
     if (tid) {
-      navigate(`/team/${tid}`);
+      navigate(`/team/${tid}/tools`);
     } else {
       alert("최근에 들어간 팀이 존재하지 않습니다!");
       return;
