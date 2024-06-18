@@ -4,9 +4,8 @@ import GoodListenerManTag from "../../stores/tags/GoodListenerManTag";
 import PlannerManTag from "../../stores/tags/PlannerManTag";
 import styles from "./ApplyResume.module.css";
 import SingleAndDoubleClick from "./SingleAndDoubleClick";
-import React from 'react';
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 
 const tagComponents = {
   0: ComplimentManTag,
@@ -17,27 +16,23 @@ const tagComponents = {
 };
 
 const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
+  const navigate = useNavigate();
 
+  // 한번 클릭 시, 이력서 선택
+  const handleClick = () => {
+    onSelect(resume.id);
+    console.log("선택된 이력서 번호: " + resume.id);
+  };
 
-    const navigate = useNavigate();
+  // 두번 클릭 시, 이력서 수정
+  const handleDoubleClick = () => {
+    console.log("이력서 수정");
+    navigate(`/user/${user}/mypage/resumes/${resume.id}`);
+  };
 
-    // 한번 클릭 시, 이력서 선택
-    const handleClick = () => {
-        onSelect(resume.id);
-        console.log("선택된 이력서 번호: "+resume.id);
+  const resumeItem = isSelected ? styles.selectedResume : styles.resumeItem; //이력서 선택 시 스타일 변경
 
-    };
-
-    // 두번 클릭 시, 이력서 수정
-    const handleDoubleClick = () => {
-        console.log("이력서 수정");
-        navigate(`/user/${user}/mypage/resume/${resume.id}`);
-        
-    }
-
-    const resumeItem = isSelected ? styles.selectedResume : styles.resumeItem; //이력서 선택 시 스타일 변경
-
-    const click = SingleAndDoubleClick(handleClick, handleDoubleClick); //클릭 횟수 처리
+  const click = SingleAndDoubleClick(handleClick, handleDoubleClick); //클릭 횟수 처리
 
   return (
     <div className={resumeItem} onClick={click}>
@@ -47,7 +42,6 @@ const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
           <h1>{resume.name}</h1>
           <p>온도 : {resume.score}</p>
         </div>
-        
       </div>
       <p className={styles.resumeContent}>{resume.userIntro}</p>
       <h3 className={styles.greenColor}>Details:</h3>
@@ -56,7 +50,8 @@ const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
           <span className={styles.label}>이름:</span> <span>{resume.name}</span>
         </li>
         <li>
-          <span className={styles.label}>전화번호:</span> <span>{resume.phone}</span>
+          <span className={styles.label}>전화번호:</span>{" "}
+          <span>{resume.phone}</span>
         </li>
         <li>
           <span className={styles.label}>기술:</span>{" "}
@@ -68,7 +63,8 @@ const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
         </li>
       </ul>
       <div className={styles.tagContainer}>
-        {resume.tags && resume.tags.length > 0 &&
+        {resume.tags &&
+          resume.tags.length > 0 &&
           resume.tags.map((tag, index) => {
             const TagComponent = tagComponents[tag];
             return <TagComponent key={index} />;
@@ -82,7 +78,6 @@ const ApplyResume = ({ key, user, resume, isSelected, onSelect }) => {
           alt="백준 티어 이미지"
         ></img>
       </div>
-        
     </div>
   );
 };

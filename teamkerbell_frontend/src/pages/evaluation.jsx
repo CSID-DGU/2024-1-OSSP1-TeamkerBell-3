@@ -138,10 +138,10 @@ const Evaluation = () => {
       });
       if (incomplete) {
         alert("모든 평가 항목을 채워주세요");
-      } else if (incomplete2) {
+      } /*else if (incomplete2) {
         alert("개선점 항목을 채워주세요");
         //window.location.reload();
-      } else if (reviews == "") {
+      } */ else if (reviews == "") {
         alert("후기 항목을 채워주세요");
       } else {
         try {
