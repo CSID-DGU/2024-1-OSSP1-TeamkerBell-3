@@ -13,9 +13,9 @@ const ProgressingProjcetCard = ({ progressingProjcets }) => {
       <div className={styles.projcets}>
         {progressingProjcets.map((project, index) => (
           <div className={styles.projects}>
-            <h3 key={index}>{project.copmTitle}</h3>
+            <h3 key={index}>{project.compTitle}</h3>
             <ul>
-              <li>매칭유형:{project.matchingType}</li>
+              <li>매칭유형: {project.isRandom ? "랜덤매칭" : "선택매칭"}</li>
               <li>매칭일시:{project.startDate}</li>
               <li>팀원 수:{project.recruitNum}</li>
               <li>

@@ -15,6 +15,20 @@ const Carousel = ({ images }) => {
     setCurrentIndex(newIndex);
   };
 
+  const getCompLink = (index) => {
+    switch (index) {
+      case 0:
+        return `/comp/1`; // index 0 -> /comp/1
+      case 1:
+        return `/comp/2`; // index 1 -> /comp/2
+      case 2:
+        return `/comp/4`; // index 2 -> /comp/4
+      // 필요한 경우 다른 index에 대한 링크 추가
+      default:
+        return `/comp/${index + 1}`; // 기본값
+    }
+  };
+
   return (
     <div className={styles.carousel}>
       <div
@@ -31,7 +45,7 @@ const Carousel = ({ images }) => {
               index === currentIndex ? styles.active : ""
             }`}
           >
-            <Link key={index + 1} to={`/comp/${index + 1}`}>
+            <Link key={index + 1} to={getCompLink(index)}>
               <img
                 src={image}
                 alt={`Slide ${index + 1}`}

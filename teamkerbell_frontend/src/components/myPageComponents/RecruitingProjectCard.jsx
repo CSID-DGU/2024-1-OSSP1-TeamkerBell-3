@@ -33,7 +33,7 @@ const RecruitingProjectCard = ({ recruitingProjects }) => {
       <div className={styles.projcets}>
         {recruitingProjects.map((project, index) => (
           <>
-            <h3 key={index}>{project.projectName}</h3>
+            <h3 key={index}>{project.compTitle}</h3>
             <ul>
               <li>매칭 유형: {project.isRandom ? "랜덤 매칭" : "선택 매칭"}</li>
               <li>매칭일시:{project.startDate}</li>
