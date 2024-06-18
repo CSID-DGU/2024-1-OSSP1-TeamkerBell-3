@@ -448,7 +448,7 @@ def rmAlgorithms(request, comp_id):
                         dummyresume = Resume(user=userR.user, name=userR.user.nickname, email=userR.user.email, phone=userR.user.phone, tier="없음", userIntro="없음", skill="없음", experience="없음", githubLink="없음", snsLink="없음", city=userR.city, dong=userR.dong)
                         dummyresume.save()
                         TeamMate(team=newTeam, user=userR.user, resume=dummyresume, role=userR.role, isTeam=True).save()
-                        team_members.append(userR)
+                        team_members.append(userR.user)
                         userR.delete()      
                     send_team_matched_email(team_members, comp.name)
                     return Response(status=status.HTTP_201_CREATED)
