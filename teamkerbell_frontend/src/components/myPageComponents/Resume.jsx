@@ -19,7 +19,7 @@ const Resume = ({ onDoubleClcik, resume }) => {
         <img src={resume.img} alt="유저 이미지" />
         <div className={styles.nameNTemp}>
           <h1>{resume.name}</h1>
-          <p>온도 : {resume.score}</p>
+          <p>온도 : {resume.score.toFixed(1)}</p>
         </div>
       </div>
       <p className={styles.resumeContent}>{resume.userIntro}</p>
