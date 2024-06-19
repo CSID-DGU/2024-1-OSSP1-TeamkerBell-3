@@ -26,6 +26,13 @@ const MyAchievements = ({ data }) => {
     9: FastWorkerTag,
     // 이런 식으로 필요한 만큼 추가할 수 있습니다.
   };
+  const tagCounts = data.complimentTag.reduce((acc, cur) => {
+    const tag = Object.keys(cur)[0]; // 현재 객체의 key (태그) 추출
+    const count = cur[tag]; // 현재 객체의 value (개수) 추출
+
+    acc[tag] = (acc[tag] || 0) + count;
+    return acc;
+  }, {});
 
   return (
     <div className={styles.container}>
@@ -36,11 +43,19 @@ const MyAchievements = ({ data }) => {
       </div>
       <div className={styles.myComplimentContainer}>
         <h3> 내가 받은 칭찬 코멘트</h3>
-        {DUMMY_TAGS.length > 0 &&
-          DUMMY_TAGS.map((tag, index) => {
-            const TagComponent = tagComponents[tag];
-            return <TagComponent key={index} />;
-          })}
+        {data.complimentTag.map((tagObj, index) => {
+          const tagNumber = Object.keys(tagObj)[0]; // '#2' 형태의 문자열 추출
+          const tag = parseInt(tagNumber.substring(1)); // '#2'에서 숫자 2 추출
+          const count = tagObj[tagNumber]; // 칭찬 개수 추출
+          const TagComponent = tagComponents[tag];
+
+          return (
+            <div key={index} className={styles.tagItem}>
+              {TagComponent && <TagComponent />}
+              <span className={styles.tagCount}>({count})</span>
+            </div>
+          );
+        })}
       </div>
       <div className={styles.myComplimentContainer}>
         <h3>나의 개선점</h3>
